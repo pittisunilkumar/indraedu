@@ -1,0 +1,21 @@
+<div class="org">
+  <h2 class="detail-item-title">{{ org?.title }}</h2>
+  <div class="flex-wrap">
+    <div class="child">
+      <p><strong translate> COMMON.ENTITLEMENTS</strong></p>
+      <div>
+        <span class="tag" *ngFor="let item of getEntitlements()">
+          {{ item.toUpperCase() }}
+        </span>
+      </div>
+    </div>
+    <div class="child">
+      <p><strong translate>COMMON.ADDRESS</strong></p>
+      <p>{{ org?.address.addressLine1 }}</p>
+      <p>{{ org?.address.addressLine2 }}</p>
+      <p>{{ org?.address.district }}</p>
+      <p>{{ org?.address.state }}</p>
+      <p>{{ org?.address.pincode }}</p>
+    </div>
+  </div>
+</div>

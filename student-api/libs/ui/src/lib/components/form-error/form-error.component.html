@@ -1,0 +1,17 @@
+<div class="form-error toast-message" *ngIf="errors?.length">
+  <div class="flex-wrap">
+    <div class="icon-wrapper error">
+      <mat-icon>error_outline</mat-icon>
+    </div>
+    <div class="msg-list error">
+      <ul>
+        <!-- <li *ngFor="let error of errors">
+          {{ error }}
+        </li> -->
+        <li>
+          {{errors}}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,163 @@
+<mat-card>
+  <div class="create-questions">
+    <!-- class="form-wrapper" -->
+    <div>
+      <form class="create" [formGroup]="createQuestionForm">
+        <div class="title form-element">
+          <mat-label translate>Question&nbsp;<sup>*</sup></mat-label>
+          <ckeditor  [config]="config"  [editor]="Editor" formControlName="title"></ckeditor>
+          <!-- <ckeditor name="title" formControlName="title"></ckeditor> -->
+        </div>
+  
+        <div class="child" >
+          <application-upload-image
+            class="child"
+            [url]="question?.imgUrl"
+            (formData)="getImageUrl($event)"
+          ></application-upload-image>
+        </div>
+        <div>
+          <div class="answer form-element">
+            <mat-label>{{ 'COMMON.ANSWER' | translate }}&nbsp;<sup>*</sup></mat-label><br>
+            <mat-form-field appearance="outline" class="full-width">
+                <!-- <mat-label>Input</mat-label> -->
+                <input matInput formControlName="answer">
+              </mat-form-field>
+          </div>
+        </div>
+        <div class="description form-element">
+          <div class="full-width">
+            <mat-label translate>COMMON.DESCRIPTION</mat-label>
+            <ckeditor  [config]="config"  [editor]="Editor" formControlName="description"></ckeditor>
+            <!-- <ckeditor name="description" formControlName="description"></ckeditor> -->
+          </div>
+        </div>
+        <div class="child">
+          <application-upload-image class="child" [url]="question?.descriptionImgUrl" (formData)="getDescriptionImgUrl($event)">
+          </application-upload-image>
+        </div>
+        <div class="flex-wrap">
+          <div class="form-element child w-1-2">
+            <mat-form-field>
+              <mat-label>{{
+                'PAGE.CREATE_QUESTIONS.PREVIOUS_APPERANCES' | translate
+                }}</mat-label>
+              <input matInput type="text" name="previousAppearances" formControlName="previousAppearances"
+                placeholder="Sample text" />
+            </mat-form-field>
+          </div>
+  
+          <div class="form-element child">
+            <!-- <mat-form-field class="full-width">
+             <mat-label>{{ 'COMMON.TAGS' | translate }}</mat-label>
+              <input matInput (keyup)="tagsFilter($event)" formControlName="tags" [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let item of tags" [value]="item.title">
+                  {{item.title}} 
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field> -->
+            <mat-form-field>
+              <mat-label >{{ 'COMMON.TAGS' | translate }}</mat-label>
+              <mat-select formControlName="tags" name="tags" [compareWith]="helper.compareFn">
+                <mat-option *ngFor="let item of tags" [value]="item">
+                  {{item.title}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+  
+          </div>
+        </div>
+  
+        <div class="flex-wrap">
+          <div class="difficulty form-element child">
+            <mat-form-field>
+              <mat-label translate>COMMON.DIFFICULTY&nbsp;<sup>*</sup></mat-label>
+              <mat-select formControlName="difficulty" name="difficulty">
+                <mat-option value="EASY">{{
+                  'COMMON.EASY' | translate
+                  }}</mat-option>
+                <mat-option value="MEDIUM">{{
+                  'COMMON.MEDIUM' | translate
+                  }}</mat-option>
+                <mat-option value="HARD">{{
+                  'COMMON.HARD' | translate
+                  }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+      
+          <div class="form-element syllabus child">
+            <mat-form-field *ngIf = "path === null">
+              <mat-label translate>COMMON.SYLLABUS&nbsp;<sup>*</sup></mat-label>
+              <mat-select formControlName="syllabus" [compareWith]="helper.compareFn" multiple>
+                <mat-option *ngFor="let item of subjects" [value]="item">
+                  <strong>{{ item.title }} [ {{item.shortcut}} ]</strong>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field *ngIf="path === 'test_series'">
+              <mat-label translate>COMMON.SYLLABUS&nbsp;<sup>*</sup></mat-label>
+              <mat-select [value]="testSubjects" [compareWith]="helper.compareFn" multiple disabled>
+                <mat-option *ngFor="let item of subjects" [value]="item">
+                  <strong>{{ item.title }} [ {{item.shortcut}} ])</strong>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field *ngIf = "path === 'Qbank'">
+              <mat-label translate>COMMON.SYLLABUS&nbsp;<sup>*</sup></mat-label>
+              <input matInput type="text" [value]="subjectName" readonly/>
+            </mat-form-field>
+          </div>
+          <div class="answer form-element">
+            <mat-label>Math Type&nbsp;<sup>*</sup></mat-label> &nbsp; &nbsp;
+            <mat-radio-group  formControlName="mathType">
+                <mat-radio-button  value="yes">YES</mat-radio-button>
+                <mat-radio-button  value="no">No</mat-radio-button>
+              </mat-radio-group>
+          </div>
+        </div>
+        <div class="form-element flags last" [formGroup]="createQuestionForm.controls.flags">
+          <strong><span translate>COMMON.FLAGS</span></strong>
+          <label for="pro">
+            <mat-checkbox class="example-margin" name="pro" formControlName="pro">{{
+              'COMMON.PRO' | translate
+              }}</mat-checkbox>
+          </label>
+          <label for="editable">
+            <mat-checkbox class="example-margin" name="editable" formControlName="editable">
+              {{ 'COMMON.EDITABLE' | translate }}</mat-checkbox>
+          </label>
+          <label for="qBank">
+            <mat-checkbox class="example-margin" name="qBank" formControlName="qBank">{{ 'COMMON.QBANK' | translate }}
+            </mat-checkbox>
+          </label>
+          <label for="testSeries">
+            <mat-checkbox class="example-margin" name="testSeries" formControlName="testSeries">
+              {{ 'COMMON.TEST_SERIES' | translate }}</mat-checkbox>
+          </label>
+          <label for="active">
+            <mat-checkbox class="example-margin" name="active" formControlName="active">{{ 'COMMON.ACTIVE' | translate }}
+            </mat-checkbox>
+          </label>
+        </div>
+        <footer class="text-right button-group p-1 form-actions fixed">
+          <button translate mat-stroked-button color="warn" (click)="onReset()">
+           Reset
+          </button>
+          <button translate mat-raised-button color="primary"  (click)="onReview()"  *ngIf = "path === 'bank'" [disabled]="!createQuestionForm?.valid">
+           Review
+          </button>
+          <button translate mat-raised-button color="primary" (click)="onReview()" 
+          [disabled]="createQuestionForm.value?.answer == '' || createQuestionForm.value?.title == '' || createQuestionForm.value?.description == '' || createQuestionForm.value?.difficulty == ''  "
+           *ngIf = "path === 'Qbank'|| path === 'test_series'">
+           Review
+          </button>
+          <button type="submit" mat-raised-button color="primary" (click)="onSubmit()" translate *ngIf="questionsArray?.length">
+           Submit
+          </button>
+        </footer>
+      </form>
+    </div>
+  </div>
+</mat-card>

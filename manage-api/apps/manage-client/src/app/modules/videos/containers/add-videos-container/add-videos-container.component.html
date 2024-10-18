@@ -1,0 +1,33 @@
+<div class="add-videos-container">
+
+  <h2 class="title">
+    <b (click)="backToSubjects()">{{videoSubjectName}}</b>&nbsp;/
+    <b (click)="backToChapters()" *ngIf="mode === 'edit'">{{videoChapterName}}&nbsp;/&nbsp;</b>
+    <span translate *ngIf="mode === 'add'">PAGE.VIDEOS.ADD_TITLE</span>
+    <span translate *ngIf="mode === 'edit'">PAGE.VIDEOS.EDIT_TITLE</span>
+  </h2>
+
+  <application-form-error [errors]="errors"></application-form-error>
+
+  <!-- <div class="flex-wrap">
+    <div class="w-1-4">
+      <button type="button" class="button" mat-raised-button (click)="filePicker.click()">
+        <mat-icon>image</mat-icon> Select Videos File
+      </button>&nbsp;<span>{{fileName}}</span>
+      <input type="file" #filePicker (change)="onFileSelected($event)" accept=".csv,.xlsx,.xls,.json">
+    </div>
+    <div class="w-1-4">
+      <button mat-raised-button color="primary" (click)="FileSubmited()">Save</button>
+    </div>
+  </div>  -->
+
+  <application-add-videos
+    [facultyList]="(faculty$ | async)?.response"
+    (commit)="submit($event)"
+    [mode]="mode"
+    [subject]="(videoSubject$ | async)?.response"
+    [video]="(videoByUuid$ | async)?.response"
+    >
+  </application-add-videos>
+
+</div>

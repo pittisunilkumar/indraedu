@@ -1,0 +1,19 @@
+<div class="assign-subscriptions-container">
+
+  <h2 *ngIf="userName">
+    <span translate>COMMON.ASSIGN </span>
+    <span translate> COMMON.SUBSCRIPTIONS </span>
+    <span >To </span>
+    <b (click)="backToUsers()">{{userName}}</b>
+  </h2>
+  <h2 *ngIf="!userName">
+    <span translate>COMMON.ASSIGN </span>
+    <span translate> COMMON.SUBSCRIPTIONS </span>
+  </h2>
+
+  <application-assign-subscriptions [subscriptions]="(subscriptions$ | async)?.response"
+    [user]="(user$ | async)?.response" (commit)="submit($event)">
+  </application-assign-subscriptions>
+
+
+</div>

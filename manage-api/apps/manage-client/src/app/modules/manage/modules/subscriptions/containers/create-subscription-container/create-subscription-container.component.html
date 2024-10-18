@@ -1,0 +1,30 @@
+<div class="create-subscription-container" >
+
+  <h2>
+    <span translate *ngIf="mode === 'add'">COMMON.CREATE </span>
+    <span translate *ngIf="mode === 'edit'">COMMON.EDIT </span>
+    <span translate>COMMON.SUBSCRIPTIONS</span>
+  </h2>
+
+  <application-form-error [errors]="errors"></application-form-error>
+
+  <application-create-subscription
+    [courses]="(courses$ | async)?.response"
+    [mode]="mode"
+    [coupons]="(coupons$ | async)?.response"
+    [subscription]="(subscription$ | async)?.response[0]"
+    (commit)="submit($event)">
+  </application-create-subscription>
+
+  <!-- <application-create-subscription
+    [courses]="(courses$ | async)?.response"
+    [videos]="videos"
+    [mode]="mode"
+    [tests]="tests"
+    [qbanks]="qbanks"
+    [coupons]="(coupons$ | async)?.response"
+    [subscription]="(subscription$ | async)?.response"
+    (selectedCourses)="getEntitlements($event)"
+    (commit)="submit($event)">
+  </application-create-subscription> -->
+</div>

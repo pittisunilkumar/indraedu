@@ -1,0 +1,22 @@
+<div class="syllabus-list-container">
+  <div class="page-title">
+    <div class="title">
+      <h2 [innerHTML]="'COMMON.SYLLABUS' | translate"></h2>
+    </div>
+    <div class="action-buttons">
+      <button
+        class="primary"
+        [translate]="'COMMON.CREATE_SYLLABUS'"
+        [routerLink]="['../', 'create']"
+      ></button>
+    </div>
+  </div>
+  <application-syllabus-list
+    [syllabus]="(syllabus$ | async)?.response"
+    [allowEdit]="true"
+    (delete)="delete($event)"
+    (edit)="edit($event)"
+  ></application-syllabus-list>
+  <application-spinner *ngIf="!length"></application-spinner>
+
+</div>

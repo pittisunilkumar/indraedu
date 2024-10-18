@@ -1,0 +1,38 @@
+<div class="create-tests-container">
+
+  <h5 *ngIf="mode === 'add'">
+    <b (click)="backToCategories()">{{courseName}}</b>&nbsp;/
+    <b (click)="backToCategories()">{{categoryName}}</b>&nbsp;/
+    <span translate >COMMON.CREATE</span>
+    <span translate> COMMON.TEST_SERIES</span>
+  </h5>
+  <h5 *ngIf="mode === 'edit'">
+    <b (click)="backToCategories()">{{courseName}}</b>&nbsp;/
+    <b (click)="backToCategories()">{{categoryName}}</b>&nbsp;/
+    <span translate>COMMON.EDIT</span>
+    <span translate> COMMON.TEST_SERIES</span>
+  </h5>
+
+  <!-- <div class="flex-wrap">
+    <div class="w-1-4">
+      <button type="button" class="button" mat-raised-button (click)="filePicker.click()">
+        <mat-icon>image</mat-icon> Select Tests File
+      </button>&nbsp;<span>{{fileName}}</span>
+      <input type="file" #filePicker (change)="onFileSelected($event)" accept=".csv,.xlsx,.xls,.json">
+    </div>
+    <div class="w-1-4">
+      <button mat-raised-button color="primary" (click)="FileSubmited()">Save</button>
+    </div>
+  </div> -->
+  
+  <application-form-error [errors]="errors"></application-form-error>
+
+  <application-create-tests
+  [isApiCalling]="isApiCalling"
+    [data]="data"
+    (commit)="submit($event)"
+    [mode]="mode"
+    [test]="(test$ | async)?.response">
+  </application-create-tests>
+
+</div>

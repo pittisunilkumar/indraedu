@@ -1,0 +1,30 @@
+<div class="toast-message" *ngIf="data && data?.payload?.message">
+
+  <div class="flex-wrap">
+
+    <div class="icon-wrapper"
+      [ngClass]="{
+        'error': data?.type === 'ERROR', 
+        'success': data?.type === 'SUCCESS'
+      }">
+      <mat-icon *ngIf="data.type === 'ERROR'">
+        error_outline
+      </mat-icon>
+      <mat-icon *ngIf="data.type !== 'ERROR'">
+        done
+      </mat-icon>
+    </div>
+
+    <div
+      class="msg-list"
+      [ngClass]="{
+        'error': data?.type === 'ERROR', 
+        'success': data?.type === 'SUCCESS'
+      }">
+      <!-- <strong>{{ data?.payload?.statusCode }}</strong> -->
+      <span> {{ data?.payload?.message }} </span>
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,38 @@
+<div class="create-course-container">
+  <h2 *ngIf="mode === 'add'">
+    <span translate >COMMON.CREATE</span>
+    <span translate> COMMON.COURSE</span>
+  </h2>
+  <h2 *ngIf="mode === 'edit'">
+    <span translate>COMMON.EDIT</span>
+    <span translate> COMMON.COURSE</span>
+  </h2>
+
+  <!-- <div class="flex-wrap">
+    <div class="w-1-4">
+      <button type="button" class="button" mat-raised-button (click)="filePicker.click()">
+        <mat-icon>image</mat-icon> Select Course File
+      </button>&nbsp;<span>{{fileName}}</span>
+      <input type="file" #filePicker (change)="onFileSelected($event)" accept=".csv,.xlsx,.xls">
+    </div>
+    <div class="w-1-4">
+      <button mat-raised-button color="primary" (click)="onSubjectubmit()">Save</button>
+    </div>
+   
+  </div> -->
+
+
+  <application-form-error [errors]="errors"></application-form-error>
+  <application-create-course
+    (commit)="submit($event)"
+    [mode]="mode"
+    [course]="(course$ | async)?.response"
+  ></application-create-course>
+
+  <!-- <application-create-course
+    (commit)="submit($event)"
+    [mode]="mode"
+    [course]="(course$ | async)?.response"
+    [syllabus]="(syllabus$ | async)?.response"
+  ></application-create-course> -->
+</div>

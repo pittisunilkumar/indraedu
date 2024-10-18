@@ -1,0 +1,16 @@
+<div class="create-career-container">
+
+  <h2 class="title">
+    <span translate *ngIf="mode === 'add'">COMMON.CREATE </span>
+    <span translate *ngIf="mode === 'edit'">COMMON.EDIT </span>
+    <span translate>PAGE.PORTAL.CAREERS.TITLE</span>
+  </h2>
+
+  <application-form-error [errors]="errors"></application-form-error>
+
+  <application-create-career
+    [career]="(career$ | async)?.response"
+    [mode]="mode"
+    (commit)="submit($event)">
+  </application-create-career>
+</div>

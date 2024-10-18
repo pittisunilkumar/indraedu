@@ -1,0 +1,368 @@
+<mat-sidenav-container class="sidenav-container" *ngIf="access_token">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
+    <mat-toolbar style="box-shadow:0px 0px 0px 0px white;">
+      <img src="" alt="plato online"
+        class="nav-image">
+      <span class="spacer"></span>
+      <button type="button" aria-label="Toggle sidenav" class="view" mat-icon-button (click)="drawer.toggle()"
+        *ngIf="isHandset$">
+        <mat-icon aria-label="Side nav toggle icon">clear</mat-icon>
+      </button>
+    </mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item class="dashboard" [routerLink]="['/dashboard']" routerLinkActive="router-link-active"
+        [routerLinkActiveOptions]="{exact: true}" (click)="getRoutePath('dashboard','dashboard')">
+        &nbsp;&nbsp;<mat-icon>dashboard</mat-icon>
+        <div style="font-size: 18px;">&nbsp;&nbsp; Dashboard</div>
+      </a>
+    </mat-nav-list>
+    <mat-nav-list>
+      <a mat-list-item class="dashboard" [routerLink]="['/dashboard/payments']" routerLinkActive="router-link-active"
+        [routerLinkActiveOptions]="{exact: true}" (click)="getRoutePath('paymentsDashboard','paymentsDashboard')" *ngIf="paymentDashboard">
+        &nbsp;&nbsp;<mat-icon>trending_up</mat-icon>
+        <div style="font-size: 18px;">&nbsp;&nbsp;Payments&nbsp;Dashboard</div>
+      </a>
+    </mat-nav-list>
+
+    <mat-nav-list *ngIf="currentUserType == 'AGENT'">
+      <a mat-list-item class="dashboard" [routerLink]="['agent/coupons']" routerLinkActive="router-link-active"
+        [routerLinkActiveOptions]="{exact: true}" *ngIf="agentCouponsEnable" (click)="getRoutePath('faculty','manage')">
+        &nbsp;&nbsp;<mat-icon>local_offer</mat-icon>
+        <div style="font-size: 18px;">&nbsp;&nbsp; Coupons</div>
+      </a>
+    </mat-nav-list>
+
+    <mat-nav-list *ngIf="currentUserType == 'AGENT'">
+      <a mat-list-item class="dashboard" [routerLink]="['agent',agentId,'payments']"
+        routerLinkActive="router-link-active" [routerLinkActiveOptions]="{exact: true}" *ngIf="agentTransctionsEnable"
+        (click)="getRoutePath('agentTransactions','agentTransactions')">
+        &nbsp;&nbsp;<mat-icon>payments</mat-icon>
+        <div style="font-size: 18px;">&nbsp;&nbsp; Transactions</div>
+      </a>
+    </mat-nav-list>
+
+    <mat-accordion class="app-nav-accordion" *ngIf="bankEnable">
+      <mat-expansion-panel class="mat-elevation-z0" [style.background-color]="baseUrl =='bank'?'#F2F3F4':'transparent'">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>settings</mat-icon>
+            <div>&nbsp;&nbsp;&nbsp;Bank</div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-nav-list>
+          <!-- [style.background-color]="baseUrl=='bank'?'red':'transparent'" -->
+          <a mat-list-item [routerLink]="['bank/banners/list']"
+            [style.background-color]="routePath =='banners'?' #2c4ba7':'transparent'"
+            [style.color]="routePath =='banners'?'white':'black'" *ngIf="bannersEnabled"
+            (click)="getRoutePath('banners','bank')">
+            &nbsp;&nbsp;<mat-icon>view_list</mat-icon>&nbsp;&nbsp; Banners</a>
+
+          <a mat-list-item [routerLink]="['bank/tags/list']"
+            [style.background-color]="routePath =='tags'?' #2c4ba7':'transparent'"
+            [style.color]="routePath =='tags'?'white':'black'" *ngIf="tagsEnabled"
+            (click)="getRoutePath('tags','bank')">
+            &nbsp;&nbsp;<mat-icon>bookmark</mat-icon>&nbsp;&nbsp; Question&nbsp;Tags</a>
+
+          <a mat-list-item [routerLink]="['bank/questions/list']"
+            [style.background-color]="routePath =='questions'?' #2c4ba7':'transparent'"
+            [style.color]="routePath =='questions'?'white':'black'" *ngIf="questionsEnabled"
+            (click)="getRoutePath('questions','bank')">
+            &nbsp;&nbsp;<mat-icon>help_center</mat-icon>&nbsp;&nbsp; Questions</a>
+
+            <a mat-list-item [routerLink]="['bank/questions/mcq-list']"
+            [style.background-color]="routePath =='mcq-list'?' #2c4ba7':'transparent'"
+            [style.color]="routePath =='mcq-list'?'white':'black'" *ngIf="mcqEnabled"
+            (click)="getRoutePath('mcq-list','bank')">
+            &nbsp;&nbsp;<mat-icon>help_center</mat-icon>&nbsp;&nbsp;MCQ&nbsp;Questions</a>
+
+          <a mat-list-item [routerLink]="['bank/syllabus/list']"
+            [style.background-color]="routePath =='syllabus'?' #2c4ba7':'transparent'"
+            [style.color]="routePath =='syllabus'?'white':'black'" *ngIf="syllabusEnabled"
+            (click)="getRoutePath('syllabus','bank')">
+            &nbsp;&nbsp;<mat-icon>subject</mat-icon>&nbsp;&nbsp; Syllabus</a>
+
+          <a mat-list-item [routerLink]="['bank/videoCipher/list']"
+            [style.background-color]="routePath =='videoCipher'?' #2c4ba7':'transparent'"
+            [style.color]="routePath =='videoCipher'?'white':'black'" (click)="getRoutePath('videoCipher','bank')"
+            *ngIf="videoCypherEnabled">
+            &nbsp;&nbsp;<mat-icon>play_circle_outline</mat-icon>&nbsp;&nbsp; Video&nbsp;Cypher</a>
+
+        </mat-nav-list>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <mat-accordion class="app-nav-accordion" *ngIf="manageEnable">
+      <mat-expansion-panel class="mat-elevation-z0"
+        [style.background-color]="baseUrl =='manage'?'#F2F3F4':'transparent'" routerLinkActive="router-link-active">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>manage_accounts</mat-icon>
+            <div>&nbsp;&nbsp;&nbsp;Manage</div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-nav-list>
+          <a mat-list-item [routerLink]="['manage/coupons/list']"
+            [style.background-color]="routePath =='coupons'?' #2c4ba7':'transparent'"
+            [style.color]="routePath =='coupons'?'white':'black'" (click)="getRoutePath('coupons','manage')"
+            *ngIf="couponsEnable">
+            &nbsp;&nbsp;<mat-icon> local_offer</mat-icon>&nbsp;&nbsp; Coupons</a>
+
+            <a mat-list-item [routerLink]="['manage/organizations/list']"
+            [style.background-color]="routePath =='organizations'?' #2c4ba7':'transparent'"
+            [style.color]="routePath =='organizations'?'white':'black'" (click)="getRoutePath('organizations','manage')"
+            *ngIf="organizationEnable">
+            &nbsp;&nbsp;<mat-icon>corporate_fare</mat-icon>&nbsp;&nbsp;Organization</a>
+          <a mat-list-item [routerLink]="['manage/courses/list']"
+            [style.background-color]="routePath =='courses'?' #2c4ba7':'transparent'"
+            [style.color]="routePath =='courses'?'white':'black'" (click)="getRoutePath('courses','manage')"
+            *ngIf="coursesEnable">
+            &nbsp;&nbsp;<mat-icon>library_books</mat-icon>&nbsp;&nbsp; Courses</a>
+
+          <a mat-list-item [routerLink]="['manage/faculty/list']"
+            [style.background-color]="routePath =='faculty'?' #2c4ba7':'transparent'"
+            [style.color]="routePath =='faculty'?'white':'black'" (click)="getRoutePath('faculty','manage')"
+            *ngIf="agentEnable">
+            &nbsp;&nbsp;<mat-icon>person_add</mat-icon>&nbsp;&nbsp; Agents</a>
+
+          <a mat-list-item [routerLink]="['manage/subscriptions/list']"
+            [style.background-color]="routePath =='subscriptions'?' #2c4ba7':'transparent'"
+            [style.color]="routePath =='subscriptions'?'white':'black'" (click)="getRoutePath('subscriptions','manage')"
+            *ngIf="subscriptionsEnable">
+            &nbsp;&nbsp;<mat-icon>subscriptions</mat-icon>&nbsp;&nbsp; Subscriptions</a>
+
+          <a mat-list-item [routerLink]="['manage/employee/list']"
+            [style.background-color]="routePath =='employee'?' #2c4ba7':'transparent'"
+            [style.color]="routePath =='employee'?'white':'black'" (click)="getRoutePath('employee','manage')"
+            *ngIf="employeeEnable">
+            &nbsp;&nbsp;<mat-icon>groups</mat-icon>&nbsp;&nbsp; Employee</a>
+
+          <a mat-list-item [routerLink]="['users']"
+            [style.background-color]="routePath =='users'?' #2c4ba7':'transparent'"
+            [style.color]="routePath =='users'?'white':'black'" (click)="getRoutePath('users','manage')"
+            *ngIf="userEnable">
+            &nbsp;&nbsp;<mat-icon>group_add</mat-icon>&nbsp;&nbsp; Users</a>
+
+            <a mat-list-item [routerLink]="['manage/users/disableuserfortestsubmit']"
+            [style.background-color]="routePath =='disableuserfortestsubmit'?' #2c4ba7':'transparent'"
+            [style.color]="routePath =='disableuserfortestsubmit'?'white':'black'" (click)="getRoutePath('disableuserfortestsubmit','manage')"
+            *ngIf="testSubmitEnable">
+            &nbsp;&nbsp;<mat-icon>group_add</mat-icon>&nbsp;&nbsp;Disable&nbsp;Test&nbsp;Submit</a>
+
+          <a mat-list-item [routerLink]="['manage/user/payments/list']"
+            [style.background-color]="routePath =='user'?' #2c4ba7':'transparent'"
+            [style.color]="routePath =='user'?'white':'black'" (click)="getRoutePath('user','manage')"
+            *ngIf="userPaymentsEnable">
+            &nbsp;&nbsp;<mat-icon>payments</mat-icon>&nbsp;&nbsp; User&nbsp;Payments</a>
+
+            <a mat-list-item [routerLink]="['manage/department/list']"
+            [style.background-color]="routePath =='department'?' #2c4ba7':'transparent'"
+            [style.color]="routePath =='department'?'white':'black'" (click)="getRoutePath('department','manage')"
+            *ngIf="departmentEnable">
+            &nbsp;&nbsp;<mat-icon>local_fire_department</mat-icon>&nbsp;&nbsp;Departments</a>
+
+            <a mat-list-item [routerLink]="['manage/complaints/list']"
+            [style.background-color]="routePath =='complaints'?' #2c4ba7':'transparent'"
+            [style.color]="routePath =='complaints'?'white':'black'" (click)="getRoutePath('complaints','manage')"
+            *ngIf="department">
+            &nbsp;&nbsp;<mat-icon>list_alt</mat-icon>&nbsp;&nbsp;Doubt&nbsp;Portal</a>
+
+          <a mat-list-item [routerLink]="['manage/role-sub-modules/list']"
+            [style.background-color]="routePath =='role-sub-modules'?' #2c4ba7':'transparent'"
+            [style.color]="routePath =='role-sub-modules'?'white':'black'"
+            (click)="getRoutePath('role-sub-modules','manage')" *ngIf="roleSubModuleEnable">
+            &nbsp;&nbsp;<mat-icon>lock</mat-icon>&nbsp;&nbsp; Role&nbsp;Sub&nbsp;Modules</a>
+
+          <a mat-list-item [routerLink]="['manage/role-modules/list']"
+            [style.background-color]="routePath =='role-modules'?' #2c4ba7':'transparent'"
+            [style.color]="routePath =='role-modules'?'white':'black'" (click)="getRoutePath('role-modules','manage')"
+            *ngIf="roleModuleEnable">
+            &nbsp;&nbsp;<mat-icon>lock_clock</mat-icon>&nbsp;&nbsp; Role&nbsp;Modules</a>
+
+          <a mat-list-item [routerLink]="['manage/roles/list']"
+            [style.background-color]="routePath =='roles'?' #2c4ba7':'transparent'"
+            [style.color]="routePath =='roles'?'white':'black'" (click)="getRoutePath('roles','manage')"
+            *ngIf="rolesEnable">
+            &nbsp;&nbsp;<mat-icon>enhanced_encryption</mat-icon>&nbsp;&nbsp; Roles</a>
+
+           
+        </mat-nav-list>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <mat-accordion class="app-nav-accordion" *ngIf="testCategoriesEnable">
+      <mat-expansion-panel class="mat-elevation-z0"
+        [style.background-color]="baseUrl =='test-series'?'#F2F3F4':'transparent'"
+        routerLinkActive="router-link-active">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>wysiwyg</mat-icon>
+            <div>&nbsp;&nbsp;&nbsp;Test&nbsp;Series</div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-nav-list>
+          <a mat-list-item [routerLink]="['test-series/categories/list']"
+            [style.background-color]="routePath =='categories'?' #2c4ba7':'transparent'"
+            [style.color]="routePath =='categories'?'white':'black'"
+            (click)="getRoutePath('categories','test-series')" *ngIf="testCategoriesEnable">
+            &nbsp;&nbsp;<mat-icon>category</mat-icon>&nbsp;&nbsp; Categories</a>
+          <a mat-list-item [routerLink]="['test-series/suggested-tests']"
+            [style.background-color]="routePath =='suggested-tests'?' #2c4ba7':'transparent'"
+            [style.color]="routePath =='suggested-tests'?'white':'black'"
+            (click)="getRoutePath('suggested-tests','test-series')" *ngIf="suggestedTestsEnable">
+            &nbsp;&nbsp;<mat-icon>wysiwyg</mat-icon>&nbsp;&nbsp; Suggested&nbsp;Tests</a>
+        </mat-nav-list>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <mat-accordion class="app-nav-accordion" *ngIf="qbankSubjectEnable">
+      <mat-expansion-panel class="mat-elevation-z0"
+        [style.background-color]="baseUrl =='q-bank'?'#F2F3F4':'transparent'" routerLinkActive="router-link-active">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>local_library</mat-icon>
+            <div>&nbsp;&nbsp;&nbsp;Q&nbsp;Bank</div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-nav-list>
+          <a mat-list-item [routerLink]="['q-bank/subjects/list']"
+            [style.background-color]="routePath =='qbankSubjects'?' #2c4ba7':'transparent'"
+            [style.color]="routePath =='qbankSubjects'?'white':'black'" (click)="getRoutePath('qbankSubjects','q-bank')"
+            *ngIf="qbankSubjectEnable">
+            &nbsp;&nbsp;<mat-icon>subject</mat-icon>&nbsp;&nbsp; Subjects</a>
+          <a mat-list-item [routerLink]="['q-bank/suggested-qbank-topics']"
+            [style.background-color]="routePath =='suggested-qbank-topics'?' #2c4ba7':'transparent'"
+            [style.color]="routePath =='suggested-qbank-topics'?'white':'black'"
+            (click)="getRoutePath('suggested-qbank-topics','q-bank')" *ngIf="suggestedTopics">
+            &nbsp;&nbsp;<mat-icon>local_library</mat-icon>&nbsp;&nbsp; Suggested&nbsp;Topics</a>
+        </mat-nav-list>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <mat-accordion class="app-nav-accordion" *ngIf="videoSubjectEnable">
+      <mat-expansion-panel class="mat-elevation-z0"
+        [style.background-color]="baseUrl =='videos'?'#F2F3F4':'transparent'" routerLinkActive="router-link-active">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>video_library</mat-icon>
+            <div>&nbsp;&nbsp;&nbsp;Videos</div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-nav-list>
+          <a mat-list-item [routerLink]="['videos/subjects/list']"
+            [style.background-color]="routePath =='videoSubjects'?' #2c4ba7':'transparent'"
+            [style.color]="routePath =='videoSubjects'?'white':'black'" (click)="getRoutePath('videoSubjects','videos')"
+            *ngIf="videoSubjectEnable">
+            &nbsp;&nbsp;<mat-icon>subject</mat-icon>&nbsp;&nbsp; Subjects</a>
+          <a mat-list-item [routerLink]="['videos/suggested-videos']"
+            [style.background-color]="routePath =='suggested-videos'?' #2c4ba7':'transparent'"
+            [style.color]="routePath =='suggested-videos'?'white':'black'"
+            (click)="getRoutePath('suggested-videos','videos')" *ngIf="suggestedVideos">
+            &nbsp;&nbsp;<mat-icon>video_library</mat-icon>&nbsp;&nbsp; Suggested&nbsp;Videos</a>
+        </mat-nav-list>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <mat-accordion class="app-nav-accordion"  *ngIf="peralsEnable">
+      <mat-expansion-panel class="mat-elevation-z0"
+        [style.background-color]="baseUrl =='perals'?'#F2F3F4':'transparent'" routerLinkActive="router-link-active">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>local_library</mat-icon>
+            <div>&nbsp;&nbsp;&nbsp;Perals</div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-nav-list>
+          <a mat-list-item [routerLink]="['perals/list']" *ngIf="peralsEnable"
+            [style.background-color]="routePath =='perals'?' #2c4ba7':'transparent'"
+            [style.color]="routePath =='perals'?'white':'black'" (click)="getRoutePath('perals','perals')">
+            &nbsp;&nbsp;<mat-icon>subject</mat-icon>&nbsp;&nbsp; Perals</a>
+        </mat-nav-list>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <mat-accordion class="app-nav-accordion" *ngIf="portalEnable">
+      <mat-expansion-panel class="mat-elevation-z0"
+        [style.background-color]="baseUrl =='portal'?'#F2F3F4':'transparent'" routerLinkActive="router-link-active">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>perm_data_setting</mat-icon>
+            <div>&nbsp;&nbsp;&nbsp;Portals</div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-nav-list>
+         <!-- <a mat-list-item [routerLink]="['portal/careers/list']"
+            [style.background-color]="routePath =='careers'?' #2c4ba7':'transparent'"
+            [style.color]="routePath =='careers'?'white':'black'" (click)="getRoutePath('careers','portal')"
+            *ngIf="careersEnable">
+            &nbsp;&nbsp;<mat-icon>work</mat-icon>&nbsp;&nbsp; Careers</a>
+
+          <a mat-list-item [routerLink]="['portal/aboutUs']"
+            [style.background-color]="routePath =='aboutUs'?' #2c4ba7':'transparent'"
+            [style.color]="routePath =='aboutUs'?'white':'black'" (click)="getRoutePath('aboutUs','portal')"
+            *ngIf="aboutusEnable">
+            &nbsp;&nbsp;<mat-icon>self_improvement</mat-icon>&nbsp;&nbsp; About&nbsp;Us</a>
+
+           <a mat-list-item [routerLink]="['portal/messages']"
+            [style.background-color]="routePath =='messages'?' #2c4ba7':'transparent'"
+            [style.color]="routePath =='messages'?'white':'black'" (click)="getRoutePath('messages','portal')"
+            *ngIf="userMassagesEnable">
+            &nbsp;&nbsp;<mat-icon>message</mat-icon>&nbsp;&nbsp; User&nbsp;Messages</a> -->
+
+            <a mat-list-item [routerLink]="['portal/notifications/list']"
+            [style.background-color]="routePath =='notifications'?' #2c4ba7':'transparent'"
+            [style.color]="routePath =='notifications'?'white':'black'" (click)="getRoutePath('notifications','portal')"
+            *ngIf="notificationEnable">
+
+            &nbsp;&nbsp;<mat-icon>notifications</mat-icon>&nbsp;&nbsp; Notifications</a>
+            <a mat-list-item [routerLink]="['portal/feedback/list']"
+            [style.background-color]="routePath =='feedback'?' #2c4ba7':'transparent'"
+            [style.color]="routePath =='feedback'?'white':'black'" (click)="getRoutePath('feedback','portal')" *ngIf="feedbackEnable">
+            &nbsp;&nbsp;<mat-icon>feedback</mat-icon>&nbsp;&nbsp; Feedbacks</a>
+        </mat-nav-list>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <mat-nav-list>
+      <a mat-list-item class="dashboard" [routerLink]="['/master-advice/payments']" routerLinkActive="router-link-active"
+        [routerLinkActiveOptions]="{exact: true}" (click)="getRoutePath('master-advice','payments')" *ngIf="masterAdvice">
+        &nbsp;&nbsp;<mat-icon>payments</mat-icon>
+        <div style="font-size: 18px;">&nbsp;&nbsp;MasterAdvice&nbsp;Payments</div>
+      </a>
+    </mat-nav-list>
+
+
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar class="mat-elevation-z0">
+      <button type="button" aria-label="Toggle sidenav" class="view" mat-icon-button *ngIf="drawer.opened === false"
+        (click)="drawer.toggle()">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      &nbsp;&nbsp; <span>CMS</span>
+      <span class="spacer"></span>
+      <span class="lastLogin"><span style="font-size: 13px;">{{role}}</span><br>{{userName }}</span>
+      <!-- <img *ngIf="employeeImg" [src]="employeeImg" mat-card-avatar class="example-header-image" class ="img-circle profile_img  img-responsie " [matMenuTriggerFor]="menu">
+      <img *ngIf="!employeeImg" src="../../../assets/profile.png" mat-card-avatar class="example-header-image"
+        [matMenuTriggerFor]="menu">  -->
+      <img *ngIf="employeeImg" [src]="employeeImg" mat-card-avatar class="example-header-image img" [matMenuTriggerFor]="menu">
+      <img *ngIf="!employeeImg" src="../../../assets/profile.png" mat-card-avatar class="example-header-image img" [matMenuTriggerFor]="menu">
+
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="profile()" *ngIf="currentUserType != 'AGENT'">
+          <mat-icon>account_circle</mat-icon>&nbsp;Profile
+        </button>
+        <button mat-menu-item [routerLink]="['resetPassword']" *ngIf="currentUserType != 'AGENT'">
+          <mat-icon>key</mat-icon>&nbsp;Change&nbsp;Password
+        </button>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>&nbsp;Logout
+        </button>
+      </mat-menu>
+    </mat-toolbar>
+    <!-- Add Content Here -->
+    <div style="margin: 2% 2% 2% 2%;">
+      <router-outlet></router-outlet>
+    </div>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>

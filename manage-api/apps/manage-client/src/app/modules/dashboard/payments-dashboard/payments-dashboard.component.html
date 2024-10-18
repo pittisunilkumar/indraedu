@@ -1,0 +1,197 @@
+<!-- <div class="grid-container">
+  <mat-grid-list cols="4" rowHeight="170px" style="cursor: default;">
+    <mat-grid-tile>
+      <mat-card class="dashboard-card  mat-elevation-z1" style="background-color:#607D8B;color: white">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>money</mat-icon>&nbsp;
+            <span>Today</span>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+          <h1 style="text-align: center;font-weight: 500;" *ngIf="payments?.today">{{payments?.today| currency:'INR'}}</h1>
+          <h1 style="text-align: center;font-weight: 500;"  *ngIf="!payments?.today">0.00</h1>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-card class="dashboard-card  mat-elevation-z1" style="background-color:  rgb(245, 101, 130);color: white">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>payments</mat-icon> &nbsp;
+            <span>Current&nbsp;Week</span>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+          <h1 style="text-align: center;font-weight: 500;">{{payments?.this_week | currency:'INR'}}</h1>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-card class="dashboard-card  mat-elevation-z1" style="background-color:  #2196F3;color: white">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>account_balance_wallet</mat-icon> &nbsp;
+            <span>Current&nbsp;Month</span>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+          <h1 style="text-align: center;font-weight: 500;">{{payments?.this_month | currency:'INR'}}</h1>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-card class="dashboard-card  mat-elevation-z1" style="background-color:mediumpurple;color: white">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>local_atm</mat-icon> &nbsp;
+            <span>Current&nbsp;Year</span>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+          <h1 style="text-align: center;font-weight: 500;">{{payments?.this_year | currency:'INR'}}</h1>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+  <mat-card>
+    <mat-grid-list cols="2" rowHeight="400px">
+      <mat-grid-tile>
+        <mat-card class="mat-elevation-z0">
+          <table>
+            <tr>
+              <td style="width: 8%;">
+                <mat-form-field style="font-size: 13px;width: 50%;margin-left: 35px;">
+                  <mat-label>Select Months</mat-label>
+                  <mat-select>
+                    <mat-option *ngFor="let item of months" [value]="item" (click)="selectMonths(item)">
+                      {{item}}&nbsp;Months</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+              <td style="width: 20%;margin-left: -50px;">
+                <h2 style="color: #5D6D7E;">Monthly&nbsp;Payments</h2>
+              </td>
+            </tr>
+          </table>
+          <google-chart [type]="type" [data]="data" [columns]="columnNames" [options]="columnOptions"></google-chart>
+        </mat-card>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-card class="mat-elevation-z0">
+          <h2 style="text-align: center;color: #5D6D7E;">Weekly&nbsp;Payments</h2>
+          <google-chart [type]="type" [data]="weeklyData" [columns]="columnNames" [options]="columnOptions">
+          </google-chart>
+        </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-card>
+</div>
+<br><br> -->
+<div style="overflow: hidden;">
+  <div class="row">
+    <div class="col-sm-3">
+      <mat-card class="dashboard" style="background-color:#607D8B;color: white">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>money</mat-icon>&nbsp;
+            <span>Today</span>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+          <h1 style="text-align: center;font-weight: 500;" *ngIf="payments?.today">{{payments?.today| currency:'INR'}}
+          </h1>
+          <h1 style="text-align: center;font-weight: 500;" *ngIf="!payments?.today">₹0.00</h1>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-sm-3">
+      <mat-card class="dashboard" style="background-color:  rgb(245, 101, 130);color: white">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>payments</mat-icon> &nbsp;
+            <span>Current&nbsp;Week</span>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+          <h1 style="text-align: center;font-weight: 500;" *ngIf="payments?.this_week">{{payments?.this_week | currency:'INR'}}</h1>
+          <h1 style="text-align: center;font-weight: 500;" *ngIf="!payments?.this_week">₹0.00</h1>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-sm-3">
+      <mat-card class="dashboard" style="background-color:  #2196F3;color: white">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>account_balance_wallet</mat-icon> &nbsp;
+            <span>Current&nbsp;Month</span>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+          <h1 style="text-align: center;font-weight: 500;" *ngIf="payments?.this_month">{{payments?.this_month | currency:'INR'}}</h1>
+          <h1 style="text-align: center;font-weight: 500;" *ngIf="!payments?.this_month">₹0.00</h1>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-sm-3">
+      <mat-card class="dashboard" style="background-color:mediumpurple;color: white">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>local_atm</mat-icon> &nbsp;
+            <span>Current&nbsp;Year</span>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+          <h1 style="text-align: center;font-weight: 500;" *ngIf="payments?.this_year">{{payments?.this_year | currency:'INR'}}</h1>
+          <h1 style="text-align: center;font-weight: 500;" *ngIf="!payments?.this_year">₹0.00</h1>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <br><br>
+
+  <mat-card>
+    <div class="row">
+      <div class="col-sm-4">
+        <mat-form-field>
+          <mat-label>Select Months</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let item of months" [value]="item" (click)="selectMonths(item)">
+              {{item}}&nbsp;Months</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-sm-4">
+        <h2 style="color: #5D6D7E;">Monthly&nbsp;Payments</h2>
+
+      </div>
+      <div class="col-sm-4"></div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <google-chart [type]="type" [data]="data" [columns]="columnNames" [options]="columnOptions"></google-chart>
+      </div>
+      <div class="col-sm-6">
+        <google-chart type="PieChart" [data]="data" [columns]="columnNames" [options]="columnOptions"></google-chart>
+      </div>
+    </div>
+    <br><br>
+    <div class="row">
+      <div class="col-sm-4"> </div>
+      <div class="col-sm-4">
+        <h2 style="color: #5D6D7E;">Weekly&nbsp;Payments</h2>
+      </div>
+      <div class="col-sm-4"></div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <google-chart [type]="type" [data]="weeklyData" [columns]="columnNames" [options]="columnOptions">
+        </google-chart>
+      </div>
+      <div class="col-sm-6">
+        <google-chart type="PieChart" [data]="weeklyData" [columns]="columnNames" [options]="columnOptions">
+        </google-chart>
+      </div>
+    </div>
+  </mat-card>
+</div>

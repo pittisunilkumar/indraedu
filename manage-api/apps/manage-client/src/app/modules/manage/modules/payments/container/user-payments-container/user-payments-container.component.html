@@ -1,0 +1,16 @@
+<div class="users-list-container" >
+    <!-- <div class="page-title"> -->
+      <div class="row">
+        <div class="col col-sm-8">
+          <div class="title">
+            <h2 [innerHTML]="'PAGE.USER_LIST.PAYMENTS' | translate"></h2>
+          </div>
+        </div>
+        <div class="col col-sm-4"></div>
+      </div>
+      
+    <!-- </div> -->
+    <application-user-payments [userTransactions]="userTransactions"></application-user-payments>
+
+  </div>
+  

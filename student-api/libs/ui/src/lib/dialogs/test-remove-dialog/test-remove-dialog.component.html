@@ -1,0 +1,22 @@
+<div class="test-remove-dialog">
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+
+    <h1 mat-dialog-title>
+      <span
+        [innerHTML]="'DIALOGS.REMOVE_TEST.TITLE' | translate: { test: test.title }">
+      </span>
+    </h1>
+
+    <div mat-dialog-content>
+      <div [innerHTML]="'DIALOGS.REMOVE_TEST.CONFIRMATION_MESSAGE' | translate: { test: test.title }"></div>
+    </div>
+
+    <div mat-dialog-actions align="end">
+      <button mat-button mat-dialog-close translate>COMMON.CANCEL</button>
+      <button mat-button class="danger" translate type="submit" [disabled]="!form.valid">COMMON.REMOVE</button>
+    </div>
+
+  </form>
+
+</div>

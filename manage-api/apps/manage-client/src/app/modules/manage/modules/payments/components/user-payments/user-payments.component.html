@@ -1,0 +1,263 @@
+<div class="users-list mat-table-wrapper">
+  <!-- <div class="flex-wrap"> -->
+    <div class="row">
+      <div class="col-sm-2">
+        <mat-form-field>
+          <mat-label translate>COMMON.SEARCH</mat-label>
+          <input matInput (keyup)="applyFilter($event)" [placeholder]="'COMMON.FILTER.BY_TITLE' | translate" #input />
+        </mat-form-field>
+      </div>
+      <div class="col-sm-2">
+        <mat-form-field>
+          <mat-label translate>Mode&nbsp;Of&nbsp;Payment</mat-label>
+          <mat-select>
+            <mat-option  *ngFor="let item of modeOfPaymentArray" [value]="item"  (click)="selectModeOfPayment(item)">{{item}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-sm-2">
+        <mat-form-field >
+          <mat-label translate>Payment&nbsp;Status</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let item of paymentStatusArray" [value]="item" (click)="selectPaymentStatus(item)">{{item}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-sm-2" [formGroup]="form">
+        <mat-form-field>
+          <mat-label>From Date</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="fromDate">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-sm-2" [formGroup]="form">
+        <mat-form-field>
+          <mat-label>To Date</mat-label>
+          <input matInput [matDatepicker]="picker1" formControlName="toDate">
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-sm-1">
+        <button mat-stroked-button color="primary" type="button" (click)="searchPayments()">Search</button>&nbsp;
+      </div>
+      <div class="col-sm-1">
+        <button mat-raised-button color="primary" type="button" (click)="exportTable()">Excel</button>
+      </div>
+
+    <!-- <div style="width:55%">
+      <mat-form-field style="width:45%">
+        <mat-label translate>COMMON.SEARCH</mat-label>
+        <input matInput (keyup)="applyFilter($event)" [placeholder]="'COMMON.FILTER.BY_TITLE' | translate" #input />
+      </mat-form-field>&nbsp;
+      <mat-form-field style="width:25%">
+        <mat-label translate>Mode&nbsp;Of&nbsp;Payment</mat-label>
+        <mat-select>
+          <mat-option  *ngFor="let item of modeOfPaymentArray" [value]="item"  (click)="selectModeOfPayment(item)">{{item}}</mat-option>
+        </mat-select>
+      </mat-form-field>&nbsp;
+      <mat-form-field style="width:25%">
+        <mat-label translate>Payment&nbsp;Status</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let item of paymentStatusArray" [value]="item" (click)="selectPaymentStatus(item)">{{item}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div> -->
+    <!-- <form [formGroup]="form">
+      <div class="flex-wrap">
+        <div class="form-element child">
+          <mat-form-field style="width:90%">
+            <mat-label>From Date</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="fromDate">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="form-element child">
+          <mat-form-field style="width:80%">
+            <mat-label>To Date</mat-label>
+            <input matInput [matDatepicker]="picker1" formControlName="toDate">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+        </div>&nbsp;&nbsp;
+      </div>
+    </form> -->
+  </div>
+  <!-- <div style="margin-top:-70px ;margin-left: 87%;">
+    <button mat-stroked-button color="primary" type="button" (click)="searchPayments()">Search</button>&nbsp;
+    <button mat-raised-button color="primary" type="button" (click)="exportTable()">Excel</button>
+
+  </div><br> -->
+  <br>
+  <div class="mat-elevation-z1">
+    <table mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="sno">
+        <th mat-header-cell *matHeaderCellDef>S.No</th>
+        <td mat-cell *matCellDef="let row;let i = index">{{dataSource.filteredData.indexOf(row)+1 }}</td>
+      </ng-container>
+      <!-- <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef  style="width: 120px;">
+          User&nbsp;Name
+        </th>
+        <td mat-cell *matCellDef="let row">{{ row.userId?.name }}</td>
+      </ng-container> -->
+      <ng-container matColumnDef="mobile">
+        <th mat-header-cell *matHeaderCellDef style="width: 100px;">
+          User&nbsp;mobile
+        </th>
+        <td mat-cell *matCellDef="let row">{{ row.userId?.mobile }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="transactionId">
+        <th mat-header-cell *matHeaderCellDef style="width: 120px;">
+          Transaction ID
+        </th>
+        <td mat-cell *matCellDef="let row">
+          {{ row.transactionId }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actualPrice">
+        <th mat-header-cell *matHeaderCellDef>
+          Actual&nbsp;Price
+        </th>
+        <td mat-cell *matCellDef="let row">
+          {{ row?.actualPrice?.toFixed(2) }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="coupon">
+        <th mat-header-cell *matHeaderCellDef style="width: 120px;">
+          Coupon
+        </th>
+        <td mat-cell *matCellDef="let row">
+          {{ row.couponId?.code ?row.couponId.code:'----' }}&nbsp;
+          <span *ngIf="row.couponId?.discountType ==='flat'">[&nbsp;{{row.couponId?.discount |
+            currency:'INR'}}&nbsp;]</span>
+          <span *ngIf="row.couponId?.discountType ==='percentage'">[&nbsp;{{row.couponId?.discount}}%&nbsp;]</span>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="discountPrice">
+        <th mat-header-cell *matHeaderCellDef style="width: 80px;">
+          Discount Price
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <span style="color: red;"> {{ row?.discountPrice?.toFixed(2) }}</span>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="finalPaidAmount">
+        <th mat-header-cell *matHeaderCellDef>
+          Paid Amount
+        </th>
+        <td mat-cell *matCellDef="let row">
+          {{ row?.finalPaidAmount?.toFixed(2) }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="paymentType">
+        <th mat-header-cell *matHeaderCellDef>
+          Payment Type
+        </th>
+        <td mat-cell *matCellDef="let row">{{ row.paymentType }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="modeOfPayment">
+        <th mat-header-cell *matHeaderCellDef>
+          Mode Of Payment
+        </th>
+        <td mat-cell *matCellDef="let row">{{ row.modeOfPayment }}</td>
+      </ng-container>
+      <ng-container matColumnDef="paymentStatus">
+        <th mat-header-cell *matHeaderCellDef>
+          Payment Status
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <span style="color: green;" *ngIf="row.paymentStatus == 'SUCCESS'">{{ row.paymentStatus }}</span>
+          <span style="color: yellowgreen;" *ngIf="row.paymentStatus == 'PENDING'">{{ row.paymentStatus }}</span>
+          <span style="color: red;" *ngIf="row.paymentStatus == 'FAILED'">{{ row.paymentStatus }}</span>
+
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="dateOfPayment">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Date Of Payment
+        </th>
+        <td mat-cell *matCellDef="let row">{{row.dateOfPayment | date:'mediumDate' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>
+          Actions
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-icon class="view" [matMenuTriggerFor]="menu">more_vert</mat-icon>
+          <mat-menu #menu="matMenu">
+            <a [routerLink]="['../', row.uuid, 'transaction']">
+              <button mat-menu-item>
+                <mat-icon color="primary">visibility</mat-icon>
+                <span class="btnSpan">View Payment</span>
+              </button>
+            </a>
+            <a [routerLink]="['../', row.uuid, 'receipt']" *ngIf="row.paymentStatus == 'SUCCESS'">
+              <button mat-menu-item>
+                <mat-icon color="primary">print</mat-icon>
+                <span class="btnSpan">Print Receipt</span>
+              </button>
+            </a>
+          </mat-menu>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="12">
+          <img src="../../../../../../../assets/no_data_found.png" alt="No Data Found"
+            style="height: 150px;width: 150px;">
+          <h2>No Data Found</h2>
+        </td>
+      </tr>
+    </table>
+    <mat-paginator [showFirstLastButtons]="true" [pageSizeOptions]="[10,25,50, 100]"></mat-paginator>
+    <!--  <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
+
+      <ng-container matColumnDef="{{ column }}" *ngFor="let column of displayingColumns">
+        <th mat-header-cell *matHeaderCellDef> {{ column }} </th>
+        <td mat-cell *matCellDef="let element"> {{ element[column] }} </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="displayingColumns?.length">
+          <div class="details" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+            <div class="my-1 full-width">
+              <div class="flex-wrap">
+                <div class="w-1-1 child">
+                  <strong translate> User Name </strong>
+                  <div class="bg-f8"> {{ element.userId?.name }} </div>
+                </div>
+                <div class="w-1-1 child">
+                  <strong translate> Mobile </strong>
+                  <div class="bg-f8"> {{ element.userId?.mobile }} </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+
+
+
+
+      <tr mat-header-row *matHeaderRowDef="displayingColumns"></tr>
+      <tr mat-row *matRowDef="let element; columns: displayingColumns;" class="example-element-row"
+        [class.example-expanded-row]="expandedElement === element"
+        (click)="expandedElement = expandedElement === element ? null : element">
+      </tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+    </table> -->
+  </div>
+</div>

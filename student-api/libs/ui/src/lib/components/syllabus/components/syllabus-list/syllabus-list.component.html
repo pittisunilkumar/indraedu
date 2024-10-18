@@ -1,0 +1,157 @@
+<div class="syllabus-list mat-table-wrapper">
+  <div class="search">
+    <div style="float: right;width: 74%;">
+      <mat-form-field>
+        <mat-label translate>COMMON.SEARCH</mat-label>
+        <input matInput (keyup)="applyFilter($event)" [placeholder]="'COMMON.FILTER.BY_TITLE' | translate" #input />
+      </mat-form-field>
+    </div>
+    <div class="width:1%;"></div>
+    <div style="width: 25%;">
+      <mat-form-field class="full-width" style="margin-top: -26px;">
+        <mat-label>Slelect&nbsp;Type</mat-label>
+        <select matNativeControl (click)="selectType($event)">
+          <option value="ALL" #all (click)="selectType(all)" selected="selected">All</option>
+          <option value="SUBJECT" #subject (click)="selectType(subject)">Subject</option>
+          <option value="CHAPTER" #chapter (click)="selectType(chapter)">Chapter</option>
+        </select>
+      </mat-form-field>
+    </div>
+  </div>
+  
+
+  <!-- <mat-form-field>
+    <mat-label translate>COMMON.SEARCH</mat-label>
+    <input
+      matInput
+      (keyup)="applyFilter($event)"
+      [placeholder]="'COMMON.FILTER.BY_TITLE' | translate"
+      #input
+    />
+  </mat-form-field> -->
+
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="sno">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+         S.No
+        </th>
+        <td mat-cell *matCellDef="let row;">{{dataSource.filteredData.indexOf(row)+1}} </td>
+      </ng-container>
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ 'COMMON.TITLE' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row">{{ row.title }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ 'COMMON.TYPE' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <div class="tag">{{ row.type }}</div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="shortcut">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ 'COMMON.SHORTCUT' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row">{{ row.shortcut }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="courses">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ 'COMMON.COURSES' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <ng-container *ngIf="row.courses?.length">
+            <div class="tag" *ngFor="let course of row.courses">
+              {{ course?.title }}
+            </div>
+          </ng-container>
+          <div class="px-1" *ngIf="row.courses?.length === 0">
+            <strong>-----</strong>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="parents">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ 'COMMON.PARENT' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <ng-container *ngIf="row.parents?.length">
+            <div class="tag" *ngFor="let parent of row.parents">
+              {{ parent?.title }}
+            </div>
+          </ng-container>
+          <div class="px-1" *ngIf="row.parents?.length === 0">
+            <strong>-----</strong>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="children">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ 'COMMON.CHILDREN' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <ng-container *ngIf="row.children?.length">
+            <div class="tag" *ngFor="let child of row.children">
+              {{ child?.title }}
+            </div>
+          </ng-container>
+          <div class="px-1" *ngIf="row.children?.length === 0">
+            <strong>-----</strong>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="createdOn">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ 'COMMON.CREATED_ON' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row">
+          {{ helper.formatDate(row.createdOn) }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+        <td mat-cell *matCellDef="let row">
+          <mat-icon mat-icon-button color="primary" aria-label="Example icon button with a delete icon"
+            [title]="'PAGE.USER_LIST.ACTIONS.DELETE_USER' | translate" (click)="delete.emit(row)">
+            delete
+          </mat-icon>
+          <mat-icon *ngIf="allowEdit" mat-icon-button color="primary" aria-label="Edit Syllabus"
+            [title]="'COMMON.SYLLABUS_LIST' | translate" (click)="editSyllabus(row)">
+            edit
+          </mat-icon>
+          <!-- <mat-icon
+            *ngIf="allowEdit"
+            mat-icon-button
+            color="primary"
+            aria-label="Edit Syllabus"
+            [title]="'COMMON.SYLLABUS_LIST' | translate"
+            (click)="edit.emit(row)">
+            edit
+          </mat-icon> -->
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      <!-- Row shown when there is no matching data. -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">
+          No data matching the filter "{{ input.value }}"
+        </td>
+      </tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[10,25, 50, 100]" [showFirstLastButtons]="true"></mat-paginator>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+@import './_variables';
+
+.pl-btn {
+    width: auto;
+    height: 3rem;
+
+    &.primary {
+        background: @app-primary-blue 0% 0% no-repeat padding-box;
+        box-shadow: 0px 0px 8px #00000008;
+        border-radius: 8px !important;
+        opacity: 1;
+        color: #fff;
+        border: none;
+    }
+
+    &.secondary {
+        background: #FFFFFF 0% 0% no-repeat padding-box;
+        border: 1px solid #3893F8;
+        border-radius: 8px;
+        opacity: 1;
+    }
+
+    &:disabled {
+        background: @grey;
+        opacity: 0.5;
+    }
+
+    &.x-large {
+        width: 30rem;
+    }
+}

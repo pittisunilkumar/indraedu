@@ -1,0 +1,70 @@
+<div class="test-preview">
+  <div class="flex-wrap">
+    <div class="w-1-4">
+      <h3 translate>COMMON.COURSE</h3>
+      <div>
+        <span *ngFor="let cou of test.courses" class="tag">
+          {{ cou?.title }}
+        </span>
+      </div>
+    </div>
+    <div class="w-1-4">
+      <h3 translate>COMMON.SUBJECTS</h3>
+      <div>
+        <span *ngFor="let sub of test.subjects" class="tag">
+          {{ sub?.title }}
+        </span>
+      </div>
+    </div>
+    <div class="w-1-4">
+      <h3 translate>PAGE.TEST_SERIES.CATEGORY</h3>
+      <div>
+        <span *ngFor="let cat of test.categories" class="tag">
+          {{ cat?.title }}
+        </span>
+      </div>
+    </div>
+    <div class="w-1-1">
+      <h3 translate>COMMON.QUESTIONS</h3>
+      <mat-accordion class="example-headers-align" multi>
+        <mat-expansion-panel class="question" *ngFor="let it of test.que">
+
+          <mat-expansion-panel-header>
+
+            <mat-panel-title>
+              <span [innerHTML]="it.que.title | trustHtml"></span>
+            </mat-panel-title>
+
+            <mat-panel-description>
+              <div class="flex-wrap">
+                <div>
+                  <span translate>COMMON.ORDER</span>
+                  <strong class="px-1"> {{ it.order }} </strong>
+                </div>
+                <div>
+                  <span translate>COMMON.POSITIVE</span>
+                  <strong class="px-1">{{ it.positive }}</strong>
+                </div>
+                <div>
+                  <span translate>COMMON.NEGATIVE</span>
+                  <strong class="px-1">{{ it.negative }}</strong>
+                </div>
+              </div>
+            </mat-panel-description>
+
+          </mat-expansion-panel-header>
+
+          <div class="bg-f8">
+            <div class="flex-wrap">
+              <div class="w-1-2" *ngFor="let opt of it.que.options; let i = index;">
+                <strong translate>COMMON.OPTIONS</strong> {{ i + 1 }}
+                <span [innerHTML]="opt.name | trustHtml"></span>
+              </div>
+            </div>
+          </div>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </div>
+</div>

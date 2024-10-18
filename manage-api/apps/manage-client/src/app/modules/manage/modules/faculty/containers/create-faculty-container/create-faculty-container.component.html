@@ -1,0 +1,26 @@
+<div class="create-faculty-container" >
+
+  <h2>
+    <span translate *ngIf="mode === 'add'">COMMON.CREATE </span>
+    <span translate *ngIf="mode === 'edit'">COMMON.EDIT </span>
+    <span translate>COMMON.AGENT</span>
+  </h2>
+
+  <application-form-error [errors]="errors"></application-form-error>
+
+  <application-create-faculty
+    (commit)="submit($event)"
+    [courses]="(courses$ | async)?.response"
+    [syllabus]="(syllabus$ | async)?.response"
+    [faculty]="(faculty$ | async)?.response"
+    [mode]="mode"
+  ></application-create-faculty>
+  
+  <!-- <application-create-faculty
+  (commit)="submit($event)"
+  [courses]="(courses$ | async)?.response"
+  [syllabus]="(syllabus$ | async)?.response"
+  [faculty]="(faculty$ | async)?.response"
+  [mode]="mode"
+></application-create-faculty> -->
+</div>

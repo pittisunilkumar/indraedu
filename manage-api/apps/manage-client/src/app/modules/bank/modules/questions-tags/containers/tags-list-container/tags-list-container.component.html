@@ -1,0 +1,24 @@
+<div class="banners-list-container">
+
+  <div class="page-title">
+    <div class="title">
+      <h2 [innerHTML]="'PAGE.TAGS.TITLE' | translate"></h2>
+    </div>
+    <div class="action-buttons">
+      <button *ngIf="isAddVisible"  mat-raised-button color="primary" [routerLink]="['../', 'create']">Create
+        Tag</button>
+    </div>
+  </div>
+  <application-form-error [errors]="errors"></application-form-error>
+
+  <application-tags-list [isEditVisible]="isEditVisible" [isDeleteVisible]="isDeleteVisible"></application-tags-list>
+
+  <!-- <div *ngIf="length === 0">
+    <h3 class="text-center h3" translate>
+      COMMON.EMPTY
+    </h3>
+  </div>
+  <application-spinner *ngIf="!length"></application-spinner> -->
+
+
+</div>

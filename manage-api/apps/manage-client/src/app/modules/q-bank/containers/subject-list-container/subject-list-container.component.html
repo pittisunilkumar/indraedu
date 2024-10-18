@@ -1,0 +1,30 @@
+<div class="subject-list-container">
+
+  <!-- <div class="page-title"> -->
+    <div class="row">
+      <div class="col col-sm-8">
+        <div class="title">
+          <h2 [innerHTML]="'PAGE.Q_BANK.SUBJECTS' | translate"></h2>
+        </div>
+      </div>
+      <div class="col col-sm-4" style="text-align: right;">
+        <div class="action-buttons">
+          <button mat-raised-button color="primary" *ngIf="createEnable=='true'" [routerLink]="['../', 'add']">
+            <span translate>PAGE.Q_BANK.ADD_SUBJECTS </span>
+          </button>
+        </div>
+      </div>
+    </div>
+   
+   
+  <!-- </div> -->
+  <!-- *ngIf="!list" -->
+  <!-- <div class="spinner-container">
+    <mat-spinner class="spinner" strokeWidth="2.5" diameter='30'></mat-spinner>
+  </div> -->
+  <!-- <application-spinner *ngIf="!list"></application-spinner> -->
+  <application-subject-list *ngIf="list" [list]="list" (delete)="deleteSubject($event)">
+  </application-subject-list>
+
+
+</div>

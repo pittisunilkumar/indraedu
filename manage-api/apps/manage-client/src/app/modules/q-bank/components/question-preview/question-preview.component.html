@@ -1,0 +1,112 @@
+<mat-card >
+  <!-- style="width: 90%;margin-left: -40px;" -->
+  <div class="question-preview ">
+    <div class="flex card-title">
+      <table style="margin-left: -10px;margin-top: -20px;" *ngIf="index">
+        <tr>
+          <th style="width: 100px;">
+          <h5 >{{index}}.&nbsp;{{question?.questionId}} </h5>
+          </th>
+          <td>
+           <p class="title" [innerHTML]="question.title | trustHtml" style="margin-top: -10px;"></p>
+          </td>
+        </tr>
+      </table>
+      <!-- <h2 style="margin-top: 25px;">{{index}}.</h2>&nbsp;
+      <h5 class="title" [innerHTML]="question.title | trustHtml"></h5> -->
+  
+      <div class="text-right actions" title="toggle question">
+  
+        <span (click)="question.toggle = !question.toggle" title="toggle full question">
+          <mat-icon *ngIf="question.toggle">keyboard_arrow_up</mat-icon>
+          <mat-icon *ngIf="!question.toggle">keyboard_arrow_down</mat-icon>
+        </span>
+  
+        <mat-icon *ngIf="showActions" (click)="delete.emit(question)" title="delete question">
+          delete
+        </mat-icon>
+        <mat-icon *ngIf="showActions && editQuestion" [routerLink]="['../', question?.uuid, 'edit']"
+          title="go to edit question">edit</mat-icon>
+        <mat-icon *ngIf="showActions && !editQuestion" (click)="edit.emit(question)" title="edit question">edit</mat-icon>
+        <mat-checkbox *ngIf="canSelect" [disabled]="isDisabled" [checked]="selectedQuestion.isSelected" (change)="toggleQuestion($event,question?.uuid)">
+        </mat-checkbox>
+        <!-- <mat-checkbox *ngIf="canSelect" [checked]="assignQuestion.includes(question.uuid)" (change)="toggleQuestion($event)">
+        </mat-checkbox> -->
+      </div>
+    </div>
+    <div class="flex" *ngIf="question.type !== 'FIB' && question.type !== 'ESSAY'">
+      <div class="option child" *ngFor="let option of question.options; let index = index">
+        <label>{{ 'COMMON.OPTION' | translate: { num: index + 1 } }}</label>
+        <p for="option.name" [innerHTML]="option.name | trustHtml"></p>
+      </div>
+    </div>
+    <div class="bg-f8 details" *ngIf="question.toggle">
+      <div class="flex-wrap">
+        <div *ngIf="question.imgUrl" class="child">
+          <label [translate]="'COMMON.IMAGE'"></label>
+          <img src="{{ question.imgUrl }}" alt="question img url" />
+        </div>
+        <div *ngIf="question.type" class="child">
+          <label [translate]="'COMMON.TYPE'"></label>
+          <p>{{ question.type }}</p>
+        </div>
+        <div *ngIf="question.difficulty" class="child">
+          <label [translate]="'COMMON.DIFFICULTY'"></label>
+          <p>{{ question.difficulty }}</p>
+        </div>
+        <div *ngIf="question.answer" class="child">
+          <label [translate]="'COMMON.ANSWER'"></label>
+          <p>
+            <strong>{{ question.answer.options }}</strong>
+          </p>
+        </div>
+        <div *ngIf="question.description" class="child">
+          <label [translate]="'COMMON.DESCRIPTION'"></label>
+          <div [innerHTML]="question.description | trustHtml"></div>
+        </div>
+        <div *ngIf="question.syllabus" class="child">
+          <label [translate]="'COMMON.SYLLABUS'"></label>
+          <div>
+            <p *ngFor="let item of question.syllabus">
+              {{ item?.title }}
+            </p>
+          </div>
+        </div>
+        <div *ngIf="question?.previousAppearances" class="child">
+          <label [translate]="'COMMON.PREVIOUS_APPEARANCES'"></label>
+          <p>{{ question.previousAppearances }}</p>
+        </div>
+        <div *ngIf="question?.tags" class="child">
+          <label [translate]="'COMMON.TAGS'"></label>
+          <p>{{ question?.tags.title }}</p>
+        </div>
+  
+        <div *ngIf="question.flags" class="w-1-1 child">
+          <label [translate]="'COMMON.FLAGS'"></label>
+          <div>
+            <span *ngFor="let flag of flags" class="tag">{{ flag.toUpperCase() }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="order-marks" *ngIf="selectedQuestion?.isSelected">
+      <h5>Test Block</h5>
+      <div class="flex-wrap">
+        <mat-form-field class="example-form-field">
+          <mat-label>{{ 'COMMON.ORDER' | translate }}</mat-label>
+          <input matInput  oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');" name="order" [value]="selectedQuestion.order ? selectedQuestion.order: 1"
+            (change)="handleChange('order', $event)" [readonly]="isDisabled"/>
+        </mat-form-field>
+  
+        <button mat-raised-button color="primary"  [disabled]="isDisabled" type="submit" (click)="emitSelection()"  translate>
+          Submit
+        </button>
+        <img *ngIf="isEnabled" class="check-icon"
+          src="https://media2.giphy.com/media/tf9jjMcO77YzV4YPwE/giphy.gif?cid=ecf05e470z17q3xy9gqt1gcg0jkp1zrz724ntveralsr1kii&rid=giphy.gif&ct=g"
+          alt="check">
+        <b *ngIf="isEnabled" class="Assigned"> Assigned</b>
+      </div>
+    </div>
+  </div>
+</mat-card><br>

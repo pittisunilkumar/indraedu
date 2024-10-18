@@ -1,0 +1,219 @@
+<div class="create-subscription">
+ <mat-card>
+    <form [formGroup]="form">
+      <div class="flex-wrap">
+        <div class="form-element child">
+          <mat-form-field class="example-form-field">
+            <mat-label>{{ 'COMMON.TITLE' | translate }}</mat-label>
+            <input matInput name="title" formControlName="title" />
+          </mat-form-field>
+        </div>&nbsp;&nbsp;
+        <div class="form-element child">
+          <mat-form-field class="example-form-field">
+            <mat-label>{{ 'COMMON.ORDER' | translate }}</mat-label>
+            <input matInput oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');" name="order" formControlName="order" />
+          </mat-form-field>
+        </div>&nbsp;&nbsp;
+        <div class="form-element child">
+          <mat-form-field>
+            <mat-label translate>COMMON.COURSES</mat-label>
+            <mat-select formControlName="courses" [compareWith]="helper.compareFn">
+              <mat-option *ngFor="let course of courses" [value]="course" (click)="getCourses(course)">
+                {{ course?.title }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="flex-wrap">
+        <!-- <div class="form-element w-1-4">
+          <div class="flex-wrap">
+            <h3 translate>COMMON.COURSES</h3>
+            <div class="text-right">
+              &nbsp;&nbsp;&nbsp;&nbsp;<span translate="COMMON.SELECT"></span>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <button mat-stroked-button color="primary"
+                (click)="toggleSelection('courses', 'all')">All</button>&nbsp;&nbsp;
+              <button mat-stroked-button color="warn" (click)="toggleSelection('courses', 'none')">None</button>
+            </div>
+          </div>
+          <mat-selection-list #courseSelections formControlName="courses" [compareWith]="helper.compareFn"
+            class="select-container">
+            <mat-list-option *ngFor="let course of courses" [value]="course" (click)="getCourses(course)">
+              {{ course?.title }}
+            </mat-list-option>
+          </mat-selection-list>
+        </div> -->
+        <div class="form-element w-1-4" *ngIf="form.value?.courses && videos?.length">
+          <div class="flex-wrap">
+            <h3 translate>COMMON.VIDEOS</h3>
+            <div class="text-right">
+              &nbsp;&nbsp;&nbsp;&nbsp;<span translate="COMMON.SELECT"></span>
+              <button mat-stroked-button color="primary" class="all" type="button"
+                (click)="toggleSelection('videos', 'all')">All</button>&nbsp;&nbsp;
+              <button mat-stroked-button color="warn" type="button"
+                (click)="toggleSelection('videos', 'none')">None</button>
+            </div>
+          </div>
+          <mat-selection-list #videoSelections formControlName="videos" [compareWith]="helper.compareFn"
+            class="select-container">
+            <mat-list-option *ngFor="let video of videos" [value]="video">
+              {{ video?.title }}
+            </mat-list-option>
+          </mat-selection-list>
+        </div>
+
+        <div class="form-element w-1-4" *ngIf="form.value?.courses && qbanks?.length">
+          <div class="flex-wrap">
+            <h3 translate>COMMON.QBANK</h3>
+            <div class="text-right">
+              &nbsp;&nbsp;&nbsp;&nbsp;<span translate="COMMON.SELECT"></span>
+
+              <button mat-stroked-button color="primary" class="all" type="button"
+                (click)="toggleSelection('qbanks', 'all')">All</button>&nbsp;&nbsp;
+              <button mat-stroked-button color="warn" type="button"
+                (click)="toggleSelection('qbanks', 'none')">None</button>
+            </div>
+          </div>
+
+          <mat-selection-list #qbankSelections formControlName="qbanks" [compareWith]="helper.compareFn"
+            class="select-container">
+            <mat-list-option *ngFor="let qbank of qbanks" [value]="qbank">
+              {{ qbank?.title }}
+            </mat-list-option>
+          </mat-selection-list>
+        </div>
+
+        <div class="form-element w-1-4" *ngIf="form.value?.courses && tests?.length">
+          <div class="flex-wrap">
+            <h3 translate>COMMON.TESTS</h3>
+            <div class="text-right">
+              &nbsp;&nbsp;&nbsp;&nbsp;<span translate="COMMON.SELECT"></span>
+              <button mat-stroked-button color="primary" class="all" type="button"
+                (click)="toggleSelection('tests', 'all')">All</button>
+              &nbsp;&nbsp;
+              <button mat-stroked-button color="warn" type="button"
+                (click)="toggleSelection('tests', 'none')">None</button>
+            </div>
+          </div>
+
+          <mat-selection-list #testSelections formControlName="tests" [compareWith]="helper.compareFn"
+            class="select-container">
+            <mat-list-option *ngFor="let test of tests" [value]="test">
+              {{ test?.title }}
+            </mat-list-option>
+          </mat-selection-list>
+        </div>
+
+      </div>
+      <div class="flex-wrap">
+        <div class="form-element child">
+          <mat-form-field>
+            <mat-label translate>Period Type</mat-label>
+            <mat-select formControlName="periodType">
+              <mat-option value="DAYS"  (click)="getmonths('DAYS')">Days</mat-option>
+              <mat-option value="MONTHS"  (click)="getmonths('MONTHS')">Months</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>&nbsp;&nbsp;
+        <div class="form-element child">
+          <mat-form-field>
+            <mat-label translate>COMMON.MONTHS</mat-label>
+            <mat-select formControlName="period" [compareWith]="helper.compareFn">
+              <mat-option *ngFor="let item of months" [value]="item">
+                {{ item?.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>&nbsp;&nbsp;
+        <div class="form-element child">
+          <mat-form-field>
+            <mat-label>Valid From</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="validFrom">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>&nbsp;&nbsp;
+        <div class="form-element child">
+          <mat-form-field>
+            <mat-label>Valid To</mat-label>
+            <input matInput [matDatepicker]="picker1" [min]="minDate" [max]="maxDate" formControlName="validTo">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+        </div>&nbsp;&nbsp;
+        <div class="form-element child">
+          <mat-form-field class="example-form-field">
+            <mat-label translate>Original Price</mat-label>
+            <input matInput name="actual" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');" 
+            formControlName="originalPrice" />
+          </mat-form-field>
+        </div>&nbsp;&nbsp;
+        <div class="form-element child">
+          <mat-form-field class="example-form-field">
+            <mat-label translate>COMMON.ACTUAL_PRICE</mat-label>
+            <input matInput name="actual" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');" formControlName="actual" />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- <div class="flex-wrap">
+         <div class="form-element child">
+          <mat-form-field class="example-form-field">
+            <mat-label translate>COMMON.ACTUAL_PRICE</mat-label>
+            <input matInput name="actual" formControlName="actual" />
+          </mat-form-field>
+        </div>&nbsp;&nbsp; 
+         <div class="form-element child">
+          <mat-form-field>
+            <mat-label translate>COMMON.COUPONS</mat-label>
+            <mat-select formControlName="coupons" [compareWith]="helper.compareFn">
+              <mat-option *ngFor="let item of coupons" [value]="item" (click)="discountAmount(item)">
+                {{ item?.code }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>&nbsp;&nbsp; 
+
+        <div class="form-element child">
+          <mat-form-field class="example-form-field">
+            <mat-label translate>COMMON.DISCOUNT</mat-label>
+            <input matInput name="discounted" formControlName="discounted" />
+          </mat-form-field>
+        </div> 
+
+      </div>-->
+
+      <div class="form-element full-width">
+        <mat-form-field appearance="fill">
+          <mat-label translate>COMMON.DESCRIPTION</mat-label>
+          <textarea matInput formControlName="description"></textarea>
+        </mat-form-field>
+      </div>
+
+      <div class="form-element flags" [formGroup]="form.controls.flags">
+        <strong><span translate>COMMON.FLAGS</span></strong>
+        <div class="flex">
+          <div class="form-element active">
+            <label for="active">
+              <mat-checkbox class="example-margin" name="active" formControlName="active">
+                {{ 'COMMON.ACTIVE' | translate }}
+              </mat-checkbox>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <footer class="text-right button-group p-1 form-actions">
+        <button  mat-stroked-button color="warn" (click)="onReset()" type="button"*ngIf="mode ==='add'">
+        Reset
+        </button>
+        <button mat-raised-button color="warn" translate routerLink="/manage/subscriptions/list">Cancel</button>
+        <button type="submit"  mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!form.valid" translate>
+         Submit
+        </button>
+      </footer>
+    </form>
+ </mat-card>
+</div>

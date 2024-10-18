@@ -1,0 +1,107 @@
+<div id="component1">
+    <div class="receipt mat-elevation-z1">
+        <table style="text-align: center;border-bottom: 1px dashed #909497;">
+            <tr>
+                <td>
+                    <img src="../../../../../../../assets/plato-logo.png" alt="plato-logo" class="plato-img">
+                </td>
+                <td>
+                    <h2>
+                        PLATO DIGI EDUCATIONS PVT LTD
+                    </h2>
+                    <p class="address">H.No. 6-1-102, Padmarao Nagar, Musheerabad, Secunderabad, Telanagana-500025</p>
+                    <!-- <p class="address">Mobile: +91 80999 99956; Website: www.platoonline.com</p> -->
+                </td>
+            </tr>
+        </table>
+        <h3 style="text-align: center;">Pay&nbsp;Receipt</h3>
+        <table style="text-align: left;margin-left: 15px;">
+            <tr style="height:40px;">
+                <th>Transaction&nbsp;Id</th>
+                <th>:&nbsp;&nbsp;</th>
+                <td style="width: 350px;">
+                    <span>{{transactions?.transactionId}}</span>
+                </td>
+                <th>Date&nbsp;Of&nbsp;Payment</th>
+                <th>:&nbsp;&nbsp;</th>
+                <td style="width: 250px;">
+                    <span>{{transactions?.dateOfPayment | date:"mediumDate"}}</span>
+                </td>
+            </tr>
+            <tr style="height:40px;">
+                <th>User&nbsp;Name</th>
+                <th>:&nbsp;&nbsp;</th>
+                <td style="width: 350px;">
+                    <span>{{ transactions?.userId ?transactions?.userId.name:'---' }}</span>
+                </td>
+                <th>Mobile&nbsp;Number</th>
+                <th>:&nbsp;&nbsp;</th>
+                <td style="width: 250px;">
+                    <span>{{transactions?.userId?.mobile}}</span>
+                </td>
+            </tr>
+            <tr style="height:40px;">
+                <th>Subscription</th>
+                <th>:&nbsp;&nbsp;</th>
+                <td style="width: 350px;">
+                    <span>{{transactions?.subscriptionId?.title}}</span>
+                </td>
+                <th>Mode&nbsp;Of&nbsp;Payment</th>
+                <th>:&nbsp;&nbsp;</th>
+                <td style="width: 250px;">
+                    <span>{{transactions?.modeOfPayment}}</span>
+                </td>
+            </tr>
+            <tr style="height:40px;" *ngIf="transactions?.modeOfPayment === 'cheque'">
+                <th>Cheque&nbsp;Number</th>
+                <th>:&nbsp;&nbsp;</th>
+                <td style="width: 350px;">
+                    <span>{{ transactions?.chequeNumber }}</span>&nbsp;
+                </td>
+                <th>Cheque&nbsp;Date</th>
+                <th>:&nbsp;&nbsp;</th>
+                <td style="width: 250px;">
+                    <span *ngIf="transactions?.chequeDate">{{ transactions?.chequeDate | date:"mediumDate" }}</span>&nbsp;
+                </td>
+            </tr>
+        </table>
+        <table border="1" cellpadding="10"
+            style="border-collapse: collapse;text-align: center;width: 96%;margin-left: 15px;">
+            <tr>
+                <th>Actual&nbsp;Amount</th>
+                <th>Coupon&nbsp;Code</th>
+                <th>Discount&nbsp;Amount</th>
+                <th>Paid&nbsp;Amount</th>
+            </tr>
+            <tr>
+                <td>
+                    <span>{{transactions?.actualPrice.toFixed(2)}}</span>
+                </td>
+                <td>
+                    <span>{{transactions?.couponId == null ?'---':transactions?.couponId.code }}</span>&nbsp;
+                    <!-- <span *ngIf="transactions?.couponId != null">
+                        <span *ngIf="transactions?.couponId.discountType ==='flat'">[&nbsp;{{transactions?.couponId.discount
+                            | currency:'INR'}}&nbsp;]</span>
+                        <span
+                            *ngIf="transactions?.couponId.discountType ==='percentage'">[&nbsp;{{transactions?.couponId.discount}}%&nbsp;]</span>
+                    </span> -->
+                </td>
+                <td>
+                    <span>{{transactions?.discountPrice.toFixed(2)}}</span>
+                </td>
+                <td>
+                    <span>{{transactions?.finalPaidAmount.toFixed(2)  }}</span>
+                </td>
+            </tr>
+        </table><br>
+        <h5 style="margin-left: 80%;">Cashier&nbsp;/&nbsp;Manager</h5>
+        <div style="border-top: 1px dashed #909497;width: 95%;margin-left: 15px;">
+            <p style="font-weight: bold;">
+                Note : We are requesting you to keep this receipt with you for future clarifications in respect of fee paid
+                by you. Fee once paid will not be refunded or transferred.
+            </p>
+        </div>
+    </div>
+</div>
+<button mat-stroked-button color="warn" class="paymentsButton" (click)="backToPaymentsList()">Back</button>&nbsp;
+<button  mat-raised-button color="primary" (click)="printComponent('component1')" class="primary printBtn">Print</button>&nbsp;

@@ -1,0 +1,44 @@
+<aside class="side-menu">
+  <a
+    routerLink="/bank/banners"
+    routerLinkActive="active"
+    [title]=""
+    translate
+    *ngIf="isBannersVisible"
+    >COMMON.BANNERS</a
+  >
+ 
+  <a
+    routerLink="/bank/questions"
+    routerLinkActive="active"
+    [title]=""
+    translate
+    *ngIf="isQuestionsVisible"
+    >COMMON.QUESTIONS</a
+  >
+  <a
+  routerLink="/bank/tags"
+  routerLinkActive="active"
+  [title]=""
+  translate
+  *ngIf="isTagsVisible"
+  >COMMON.QUESTION_TAGS</a
+>
+  <a
+    routerLink="/bank/syllabus"
+    routerLinkActive="active"
+    [title]=""
+    translate
+    *ngIf="isSyllabusVisible"
+    >COMMON.SYLLABUS</a
+  >
+  <a
+    routerLink="/bank/videoCipher"
+    routerLinkActive="active"
+    [title]=""
+    *ngIf="isVideoChypherVisible"
+    translate>
+    Video Cypher
+  </a>
+
+</aside>

@@ -1,0 +1,37 @@
+<div class="application-title" *ngIf="userName">
+  <header [ngClass]="{'p-1': !userName}">
+    <div class="flex-wrap">
+      <div class="title child">
+        <img src="" alt="plato online"
+          class="logoImg">
+        <!-- <h1 translate>COMMON.PLATO</h1> -->
+      </div>
+      <div class="child" *ngIf="userName">
+        <nav class="primary-nav">
+          <ng-container *ngFor="let item of navItems">
+            <a *ngIf="item.access" [routerLink]="item.link" routerLinkActive="active" translate>
+              <span translate>{{ item.name }}</span>
+            </a>
+          </ng-container>
+        </nav>
+      </div>
+      <div class="child text-right" *ngIf="userName">
+        <strong class="px-1">Hola {{ userName }} !</strong>
+        <span class="user-name" [matMenuTriggerFor]="menu">{{ initials }}</span>
+        <!-- <span class="uName">Hola {{ userName }} !</span>
+        <img [src]="employeeImg" [alt]="userName" [matMenuTriggerFor]="menu" mat-card-avatar
+          class="example-header-image"> -->
+      </div>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item [routerLink]="['resetPassword']">
+          <mat-icon>create</mat-icon>
+          <span translate>{{ 'COMMON.CHANGE_PASSWORD' }}</span>
+        </button>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>exit_to_app</mat-icon>
+          <span translate>{{ 'COMMON.LOGOUT' }}</span>
+        </button>
+      </mat-menu>
+    </div>
+  </header>
+</div>

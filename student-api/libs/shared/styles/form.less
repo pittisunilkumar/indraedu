@@ -1,0 +1,88 @@
+.form-element {
+  margin: 1rem 0;
+}
+
+textarea {
+  width: 90%;
+  height: 5rem;
+}
+
+input[type='file'],
+textarea,
+input[type='text'],
+input[type='number'],
+select {
+  display: block;
+  margin: 0.5rem 0;
+}
+
+input[type='text'],
+input[type='number'],
+select {
+  width: 90%;
+  padding: 0.5rem;
+  // height: 40px;
+}
+
+select {
+  height: 60px;
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+  &+span {
+    font-size: 1rem;
+  }
+}
+
+.mat-radio-button,
+.mat-checkbox {
+  padding-right: 0.5rem;
+}
+
+.flex-wrap{
+  &.flags {
+    .child {
+      width: 10% !important;
+      flex-grow: 0;
+    }
+  }
+  .flex-grow {
+    &-2 {
+      flex-grow: 20 !important;
+    }
+    &-4 {
+      flex-grow: 40 !important;
+    }
+  }
+}
+
+mat-label {
+  & > sup {
+    font-size: 1.2rem;
+    color: red;
+    top: unset;
+  }
+}
+
+.error {
+  color: red;
+}
+
+form {
+  &.submitted{
+    input{
+      &.ng-invalid, &.ng-dirty.ng-invalid {
+        border: 1px solid red;
+      }
+    }
+  }
+}
+
+// .form-wrapper {
+  &.full-width {
+    .mat-form-field {
+      display: block;
+    }
+  }
+// }

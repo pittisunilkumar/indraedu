@@ -1,0 +1,79 @@
+<div class="command-remove-dialog"><br>
+    <h1 style="text-align: center;">{{type}}&nbsp;{{mode}}</h1>
+    <mat-button-toggle-group value="qbank">
+        <mat-button-toggle value="qbank" #qbank selected="selected" (click)="getType(qbank)">QBank</mat-button-toggle>
+        <mat-button-toggle value="test_series" #test_series (click)="getType(test_series)" *ngIf="mode == 'questions' && type =='copy'">
+            Test Series</mat-button-toggle>
+    </mat-button-toggle-group>
+    <div *ngIf="copyPath =='qbank'">
+        <form [formGroup]="form" (ngSubmit)="submit()">
+
+            <mat-form-field>
+                <mat-label translate>COMMON.TO_SUBJECT</mat-label>
+                <input matInput (keyup)="syllabusFilter($event)" formControlName="toSubject" [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let subject of subjects" [value]="subject.syllabus.title"
+                        (click)="getChapters(subject)">
+                        {{subject.syllabus.title}} ({{subject.courses.title}})
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+            <mat-form-field *ngIf="mode == 'questions' || mode == 'topics' ">
+                <mat-label translate>COMMON.TO_CHAPTER</mat-label>
+                <mat-select formControlName="toChapter">
+                    <mat-option *ngFor="let chapter of chaptersList" (click)="getTopics(chapter)" [value]="chapter">
+                        {{chapter.title}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field *ngIf="mode == 'questions' ">
+                <mat-label translate>COMMON.TO_TOPIC</mat-label>
+                <mat-select formControlName="toTopic">
+                    <mat-option *ngFor="let topic of topicList" [value]="topic" (click)="getQuestions(topic)">
+                        {{topic.title}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <!-- <div mat-dialog-actions align="end"> -->
+                <button mat-raised-button color="warn" mat-dialog-close translate>Cancel</button>&nbsp;
+                <button mat-raised-button color="primary" class="primary" type="submit" translate
+                    [mat-dialog-close]="'confirm'">Submit</button>
+            <!-- </div> -->
+        </form>
+    </div>
+    <div *ngIf="copyPath =='test_series'" style="text-align: center;">
+
+        <!-- <mat-form-field>
+            <mat-label translate>COMMON.TO_TEST</mat-label>
+            <input  matInput (keyup)="testFilter($event)" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let test of tests" [value]="test.title" (click)="getTest(test)">
+                    {{test.title}} 
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field> -->
+
+        <mat-form-field>
+            <mat-label translate>COMMON.TO_CATEGORY</mat-label>
+            <input matInput (keyup)="categoryFilter($event)" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let cat of categories" [value]="cat.categories.title" (click)="getTests(cat)">
+                    {{cat.categories.title}} ({{cat.courses.title}})
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="mode == 'questions' ">
+            <mat-label translate>COMMON.TO_TEST</mat-label>
+            <mat-select>
+                <mat-option *ngFor="let test of testList" [value]="test" (click)="getTSQuestions(test)">
+                    {{test.title}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <!-- <div mat-dialog-actions align="end"> -->
+            <button class="closeButton" mat-raised-button color="warn" mat-dialog-close translate>Cancel</button>&nbsp;
+            <button mat-raised-button color="primary" type="button" translate [mat-dialog-close]="'confirm'"
+                (click)="submitToTestSeries()">Submit</button>
+        <!-- </div> -->
+    </div>
+
+
+</div>

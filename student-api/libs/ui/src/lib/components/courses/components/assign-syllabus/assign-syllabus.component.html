@@ -1,0 +1,75 @@
+<div class="assign-users">
+  <h1 mat-dialog-title translate>PAGE.COURSE_LIST.ACTIONS.ASSIGN_SYLLABUS</h1>
+
+  <div mat-dialog-content>
+    <div class="syllabus-list">
+      <table
+        *ngIf="dataSource.data.length"
+        mat-table
+        [dataSource]="dataSource"
+        class="mat-elevation-z8"
+      >
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox
+              (change)="$event ? masterToggle() : null"
+              [checked]="selection.hasValue() && isAllSelected()"
+              [indeterminate]="selection.hasValue() && !isAllSelected()"
+              [aria-label]="checkboxLabel()"
+            >
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox
+              (click)="$event.stopPropagation()"
+              (change)="$event ? selection.toggle(row) : null"
+              [checked]="selection.isSelected(row)"
+              [aria-label]="checkboxLabel(row)"
+            >
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef translate>COMMON.TITLE</th>
+          <td mat-cell *matCellDef="let element">{{ element.title }}</td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef translate>COMMON.TYPE</th>
+          <td mat-cell *matCellDef="let element">{{ element.type }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns"
+          (click)="selection.toggle(row)"
+        ></tr>
+      </table>
+      <div class="empty-msg" *ngIf="!dataSource.data.length">
+        <p
+          [innerHTML]="
+            'PAGE.COURSE_LIST.EMPTY_ASSIGN_SYLLABUS_DATA'
+              | translate: { courseName: data.course.title }
+          "
+        ></p>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close translate>COMMON.CANCEL</button>
+    <button
+      mat-button
+      type="submit"
+      class="primary"
+      (click)="submit()"
+      translate
+    >
+      COMMON.SUBMIT
+    </button>
+  </div>
+</div>

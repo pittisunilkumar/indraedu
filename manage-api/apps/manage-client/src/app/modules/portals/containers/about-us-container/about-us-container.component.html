@@ -1,0 +1,14 @@
+<div class="about-us-container">
+
+  <div class="page-title">
+      <div class="title">
+        <h2 [innerHTML]="'COMMON.ABOUT_US_CONTENT' | translate"></h2>
+      </div>
+      <div class="action-buttons">
+      </div>
+    </div>
+
+  <application-form-error [errors]="errors"></application-form-error>
+  <application-about-us [aboutUs]="aboutUsPage$ | async" (commit)="submit($event)"></application-about-us>
+
+</div>

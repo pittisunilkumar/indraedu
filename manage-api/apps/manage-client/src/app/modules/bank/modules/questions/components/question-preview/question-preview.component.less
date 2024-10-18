@@ -1,0 +1,70 @@
+@import 'libs/shared/styles/variables.less';
+mat-card{
+  margin: 5px;
+}
+
+.question-preview {
+
+  .delete-question {
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 1rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    width: 80%;
+    margin: 0;
+  }
+
+  .actions {
+    font-size: 2rem;
+    width: 30%;
+    text-align: right;
+    .mat-icon {
+      cursor: pointer;
+      // color: @primary;
+      padding: 0 1rem;
+    }
+  }
+
+  .flex {
+    border-radius: 20px;
+    .child {
+      flex: 1 1;
+
+      label {
+        font-weight: 600;
+        font-size: 1rem;
+        color: #777;
+        display: block;
+      }
+
+      img {
+        width: 50px;
+        height: 50px;
+      }
+    }
+  }
+
+  .mat-form-field {
+    margin-right: 1rem;
+    & + button {
+      height: 50px;
+    }
+  }
+
+  .titleImage{
+    height: 250px;
+    width: 300px;
+  }
+
+}
+
+.material-icons{  
+  cursor: pointer;
+  margin: 2px;
+  border: 1px solid rgb(231, 230, 230);
+  border-radius: 7px;
+  padding: 3px;
+}

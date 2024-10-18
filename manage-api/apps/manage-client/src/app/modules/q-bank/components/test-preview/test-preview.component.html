@@ -1,0 +1,181 @@
+<div class="test-preview" *ngIf="list?.length > 0">
+  <div class="flex-wrap">
+
+    <div class="w-1-1">
+
+      <h3 translate>COMMON.TOPICS</h3>
+      <table>
+        <tr>
+          <td style="width: 85%;">
+            <mat-form-field class="full-width">
+              <mat-label translate>COMMON.SEARCH</mat-label>
+              <input type="search" matInput name="search" [placeholder]="'COMMON.FILTER.BY_TITLE' | translate"
+                (keyup)="filterList($event)" />
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field style="margin-top: -3px;">
+              <mat-label>Select&nbsp;Order&nbsp;Type</mat-label>
+              <mat-select>
+                <mat-option value="dragAndDrop" #dragAndDrop (click)="selectOrderType(dragAndDrop)">Drag And Drop
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+        </tr>
+      </table>
+
+      <!-- <div class="selectAll">
+          <mat-checkbox class="example-margin" [checked]="allComplete" [indeterminate]="Indeterminate"
+            (change)="setAll($event.checked)">Select&nbsp;All&nbsp;Topics&nbsp;&nbsp;&nbsp;&nbsp;</mat-checkbox>
+        </div> -->
+
+      <div class="example-container">
+        <div class="exampleBox">
+          <table style="text-align: left;">
+            <tr>
+              <th style="width: 30px;">S.No</th>
+              <th style="width: 350px;">Title</th>
+              <th style="width: 50px;text-align: center;">Order</th>
+              <th style="width: 150px;text-align: center;">Question&nbsp;Count</th>
+              <th style="width: 250px;text-align: center;">Actions</th>
+              <th style="width:250px">Questions&nbsp;Upload</th>
+              <th></th>
+              <th style="width:80px;text-align: left;">Status</th>
+              <th style="text-align: right;">
+                <mat-checkbox class="example-margin" [checked]="allComplete" [indeterminate]="Indeterminate"
+                  (change)="setAll($event.checked)"></mat-checkbox>
+              </th>
+            </tr>
+          </table>
+        </div>
+        <div cdkDropList [cdkDropListData]="topics" class="example-list" (cdkDropListDropped)="drop($event)">
+
+          <div class="example-box" *ngFor="let topic of topics;let i = index" cdkDrag [cdkDragDisabled]="topic.disabled" (mouseover)="getTopicUUid(topic)">
+            <table>
+              <tr>
+                <td style="width: 30px;">{{i+1}}</td>
+                <td style="width: 350px;">{{ topic.title }}</td>
+                <td style="width: 50px;text-align: center;">{{ topic.order }}</td>
+                <td style="width: 150px;text-align: center;">{{ topic?.que?.length }}</td>
+                <td style="width: 250px;text-align: center;">
+                  <!-- <mat-icon class="view" color="primary" *ngIf="viewTopicQueEnable" matTooltip="View Questions"
+                    (click)="viewQuestions.emit(topic)">
+                    visibility </mat-icon> -->
+
+                    <i class="material-icons" style="color: #102f95;" *ngIf="viewTopicQueEnable" matTooltip="View Questions"
+                    (click)="viewQuestions.emit(topic)">
+                    visibility </i>
+
+                  <a *ngIf="editTopicEnable"
+                    routerLink="/q-bank/subjects/{{qBankSubjectUuid}}/{{subject_id}}/topics/{{topic.uuid}}/edit">
+                    <!-- <mat-icon class="view" color="primary" matTooltip="Edit"> mode </mat-icon> -->
+
+                    <i class="material-icons" style="color: #102f95;" matTooltip="Edit"> mode </i>
+
+                  </a>
+                  <!-- <mat-icon class="view" color="warn" *ngIf="deleteTopivEnabled" matTooltip="Delete"
+                    (click)="delete.emit(topic)"> delete </mat-icon> -->
+
+                    <i class="material-icons" style="color:#f22424;" *ngIf="deleteTopivEnabled" matTooltip="Delete"
+                    (click)="delete.emit(topic)"> delete </i>
+
+                </td>
+                <td style="width:250px;">
+                  <button type="button" class="button" (click)="filePicker.click()" style="padding: 6px 5px;">
+                    Questions File
+                  </button>
+                  &nbsp;<button style="padding: 6px 5px;" class="primary"
+                    (click)="FileTopicQueSubmited(topic)">Upload</button>
+                  <br><span>{{fileName[i]}}</span>
+                </td>
+                <td>
+                  <input type="file" #filePicker (change)="onFileSelected($event,i)" accept=".csv,.xlsx,.xls,.json"
+                    style="width: 20px;">
+                </td>
+                <td style="width:80px;text-align: left;">
+                  <span *ngIf="!topic.flags?.active">
+                    <b style="color: red;">{{topic.flags?.active}}</b>
+                  </span>
+                  <span *ngIf="topic.flags?.active">
+                    <b style="color: green;">{{topic.flags?.active}}</b>
+                  </span>
+                </td>
+                <td style="text-align: right;">
+                  <mat-checkbox class="mat-checkbox" (change)="toggleQuestion($event,topic)" [checked]="allSelected">
+                  </mat-checkbox>
+                </td>
+
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- <div cdkDropListGroup>
+        <div class="example-container">
+          <div cdkDropList [cdkDropListData]="topics" class="example-list" (cdkDropListDropped)="drop($event)">
+            <div class="topics bg-f8 my-1" *ngFor="let topic of topics;let i = index" cdkDrag>
+              <div class="flex-wrap" (mouseover)="getTopicUUid(topic)">
+                <div class="w-1-4">
+
+                  &nbsp;&nbsp;&nbsp;&nbsp;<strong translate>COMMON.TITLE</strong>
+                  <br>
+                  <label>{{i+1}}</label>.&nbsp;<span>{{ topic.title }}</span>
+                </div>
+                <div class="w-1-4">
+                  <strong translate>COMMON.ORDER</strong>
+                  <br>
+                  <span>{{ topic.order }}</span>
+                </div>
+                <div class="w-1-4">
+                  <span translate>COMMON.QUESTIONS </span>
+                  <span translate>COMMON.COUNT</span>
+                  <br>
+                  <strong class="px-1">{{ topic?.que?.length }}</strong>
+                </div>
+                <div class="w-1-4">
+                  <mat-icon class="view" color="primary" *ngIf="viewTopicQueEnable" matTooltip="View Questions"
+                    (click)="viewQuestions.emit(topic)">
+                    visibility </mat-icon>
+                    <a *ngIf="editTopicEnable"  routerLink="/q-bank/subjects/{{qBankSubjectUuid}}/{{subject_id}}/topics/{{topic.uuid}}/edit">
+                      <mat-icon class="view" color="primary"  matTooltip="Edit"> mode </mat-icon>
+                    </a>
+                                  <mat-icon class="view" color="warn" *ngIf="deleteTopivEnabled" matTooltip="Delete"
+                    (click)="delete.emit(topic)"> delete </mat-icon>
+
+                  <mat-checkbox class="mat-checkbox" (change)="toggleQuestion($event,topic)" [checked]="allSelected">
+                  </mat-checkbox>
+                </div>
+
+                <div class="flex-wrap">
+                  <div class="w-1-1">
+                    <button type="button" class="button" mat-raised-button (click)="filePicker.click()">
+                      <mat-icon>image</mat-icon> Select Topic Questions File
+                    </button>&nbsp;<span>{{fileName}}</span>
+                    <input type="file" #filePicker (change)="onFileSelected($event)" accept=".csv,.xlsx,.xls,.json">
+                  </div>
+                  <div class="w-1-4">
+                    <button mat-raised-button color="primary" (click)="FileTopicQueSubmited(topic)">Save</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div> -->
+      <div class="copyAndMovebuttons" *ngIf="isChangeBtnEnabled">
+        <button mat-raised-button color="primary" translate (click)="updateQuestionOrder()">Change Order</button>
+      </div>
+      <div class="copyAndMovebuttons" *ngIf="isBtnEnabled">
+        <span style="font-size: 20px;">Selected Topics : {{selectedTopicCount}}</span>&nbsp;&nbsp;
+        <button mat-raised-button color="primary" translate (click)="onCopy()">Copy</button>
+        <button mat-raised-button color="primary" translate (click)=" onMove()">Move</button>
+        <button mat-raised-button color="warn" (click)=" multipletDeleteTopics()">Delete</button>
+      </div>
+
+    </div>
+  </div>
+</div>

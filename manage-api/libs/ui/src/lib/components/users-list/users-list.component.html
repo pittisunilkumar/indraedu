@@ -1,0 +1,251 @@
+<br><div class="users-list mat-table-wrapper">
+  <div class="row">
+    <div class="col-sm-4">
+      <mat-form-field >
+        <mat-label translate>COMMON.SEARCH</mat-label>
+        <input matInput [placeholder]="'COMMON.FILTER.BY_TITLE' | translate" #input />
+        <button matSuffix mat-stroked-button color="primary" [disabled]="!input.value"
+          (click)="applyFilter(input.value)">Search</button>
+      </mat-form-field>
+    </div>
+    <div class="col-sm-2">
+      <mat-form-field>
+        <mat-label translate>Status</mat-label>
+        <mat-select>
+          <mat-option (click)="inActiveUsersList()" value="inActive">inActive</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-sm-2"  [formGroup]="form">
+      <mat-form-field>
+        <mat-label>From Date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="fromDate">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="col-sm-2"  [formGroup]="form">
+      <mat-form-field >
+        <mat-label>To Date</mat-label>
+        <input matInput [matDatepicker]="picker1" formControlName="toDate">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="col-sm-1">
+      <button mat-stroked-button color="primary" type="button" (click)="searchPayments()">Search</button>
+    </div>
+    <div class="col-sm-1">
+      <button mat-raised-button  color="primary" type="button" (click)="exportTable()">Excel</button>
+    </div>
+  </div>
+  <!-- <table>
+    <tr>
+      <td style="width: 40%;">
+        <mat-form-field style="margin-top: -5px;">
+          <mat-label translate>COMMON.SEARCH</mat-label>
+          <input matInput [placeholder]="'COMMON.FILTER.BY_TITLE' | translate" #input />
+          <button matSuffix mat-stroked-button color="primary" [disabled]="!input.value"
+            (click)="applyFilter(input.value)">Search</button>
+        </mat-form-field>
+      </td>
+      <td style="width: 5%;">
+         <mat-form-field style="margin-top: 3px;">
+              <mat-label translate>Status</mat-label>
+              <mat-select>
+                <mat-option (click)="inActiveUsersList()" value="inActive">inActive</mat-option>
+              </mat-select>
+            </mat-form-field>
+      </td>
+      <td style="width: 30%;">
+        <form [formGroup]="form">
+          <div class="flex-wrap">
+            <div class="form-element child">
+              <mat-form-field style="width: 160px;">
+                <mat-label>From Date</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="fromDate">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>&nbsp;&nbsp;
+            <div class="form-element child">
+              <mat-form-field  style="width: 160px;">
+                <mat-label>To Date</mat-label>
+                <input matInput [matDatepicker]="picker1" formControlName="toDate">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+              </mat-form-field>
+            </div>&nbsp;&nbsp;
+          </div>
+        </form>
+      </td>
+      <td style="width: 5%;">
+        <button mat-stroked-button color="primary" type="button" (click)="searchPayments()">Search</button>
+      </td>
+      <td style="width: 5%;">
+        <button mat-raised-button  color="primary" type="button" (click)="exportTable()">Excel</button>
+      </td>
+    </tr>
+  </table> -->
+  <!-- <div class="flex-wrap">
+    <div style="width:50%;margin-top: 13px;">
+      <mat-form-field>
+        <mat-label translate>COMMON.SEARCH</mat-label>
+        <input matInput [placeholder]="'COMMON.FILTER.BY_TITLE' | translate" #input />
+        <button matSuffix mat-stroked-button color="primary" [disabled]="!input.value"
+          (click)="applyFilter(input.value)">Search</button>
+      </mat-form-field>
+    </div>&nbsp;
+    <form [formGroup]="form">
+      <div class="flex-wrap">
+        <div class="form-element child">
+          <mat-form-field>
+            <mat-label>From Date</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="fromDate">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>&nbsp;&nbsp;
+        <div class="form-element child">
+          <mat-form-field>
+            <mat-label>To Date</mat-label>
+            <input matInput [matDatepicker]="picker1" formControlName="toDate">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+        </div>&nbsp;&nbsp;
+      </div>
+    </form>
+  </div> 
+  <div style="margin-top:-70px ;margin-left: 87%;">
+    <button mat-raised-button color="primary" type="button" (click)="searchPayments()">Search</button>&nbsp;
+    <button mat-raised-button color="primary" type="button" (click)="exportTable()">Excel</button>
+
+  </div><br>-->
+
+
+
+  <div class="mat-elevation-z1">
+    <table mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="sno">
+        <th mat-header-cell *matHeaderCellDef>S.No</th>
+        <td mat-cell *matCellDef="let row;let i = index">{{dataSource.filteredData.indexOf(row)+1 }}</td>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ 'COMMON.NAME' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row">{{ row?.name ? row?.name : '---' }}</td>
+      </ng-container>
+
+      <!-- <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef>
+          Role
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <strong> {{ row.type }} </strong>
+        </td>
+      </ng-container> -->
+
+      <ng-container matColumnDef="active">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ 'COMMON.ACTIVE' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <strong [style.color]="row?.flags?.isActive?'green':'red'"> {{ row?.flags?.isActive }} </strong>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="mobile">
+        <th mat-header-cell *matHeaderCellDef style="text-align: center;">
+          {{ 'COMMON.MOBILE' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row">{{ row?.mobile }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ 'COMMON.EMAIL' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row">{{ row?.email ? row?.email : '---' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="subscription">
+        <th mat-header-cell *matHeaderCellDef>Subscription Count</th>
+        <td mat-cell *matCellDef="let row">
+          <span>{{ row?.subscriptions ? row?.subscriptions?.length : 0 }}</span>
+          <!-- <span *ngIf="!subscriptionEnable">{{ row.subscriptions?.length }}</span>
+          <span *ngIf="subscriptionEnable">{{row?.subscriptions?row.subscriptions[0]?.title?.length ?row.subscriptions?.length:0:'' }}</span> -->
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="createdOn">
+        <th mat-header-cell *matHeaderCellDef >
+          {{ 'COMMON.CREATED_ON' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row">{{row?.createdOn | date:'mediumDate' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>
+          Actions
+          <!-- {{ 'COMMON.ACTIONS' | translate }} -->
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <!-- <mat-icon class="view" [matMenuTriggerFor]="menu">more_vert</mat-icon> -->
+          <i class="material-icons"  [matMenuTriggerFor]="menu">more_vert</i>
+          <mat-menu #menu="matMenu">
+            <a [routerLink]="['../', row.uuid, 'edit']" *ngIf="editEnabled=='true'" style="text-decoration: none;">
+              <button mat-menu-item color="primary">
+                Edit&nbsp;User
+              </button>
+            </a>
+            <button mat-menu-item (click)="delete.emit(row)" *ngIf="deleteEnabled =='true'">
+              Delete&nbsp;User
+            </button>
+            <button mat-menu-item (click)="goToSubscriptions(row)" *ngIf="isAssignSubVisible">
+             Subscriptions
+            </button>
+            <a [routerLink]="['../', row._id, 'tests']" *ngIf="testReset" style="text-decoration: none;">
+              <button mat-menu-item color="primary" (click)="userTests(row)">
+                Test&nbsp;Reset
+              </button>
+            </a>
+          </mat-menu>
+
+
+          <!-- <mat-icon *ngIf="deleteEnabled =='true'" mat-icon-button color="warn" class="view"
+            aria-label="Example icon button with a delete icon" matTooltip="Delete" (click)="delete.emit(row)">
+            delete
+          </mat-icon>
+          <a [routerLink]="['../', row.uuid, 'edit']" *ngIf="editEnabled=='true'">
+            <mat-icon color="primary" class="view" matTooltip="Edit">edit</mat-icon>
+          </a>
+
+          <mat-icon *ngIf="isAssignSubVisible" mat-icon-button color="primary" class="view"
+            aria-label="Example icon button with a delete icon" matTooltip="Subscriptions"
+            (click)="goToSubscriptions(row)">
+            account_tree
+          </mat-icon> -->
+
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      <!-- Row shown when there is no matching data. -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="10">
+          No data matching the filter "{{ input.value }}"
+        </td>
+      </tr>
+    </table>
+
+    <!-- <mat-paginator   #paginator  (page)="pageEvent = $event" (click)="lengthNumber()" [showFirstLastButtons]="true"
+      [pageSizeOptions]="[10,25,50, 100]" [pageSize]="10" [length]="total"></mat-paginator> -->
+      <mat-paginator  #paginator (click)="lengthNumber(paginator)"  [showFirstLastButtons]="true" [pageSizeOptions]="[10,50, 100,250,500]"
+      [pageSize]="10" [length]="total"></mat-paginator>
+
+  </div>
+</div>

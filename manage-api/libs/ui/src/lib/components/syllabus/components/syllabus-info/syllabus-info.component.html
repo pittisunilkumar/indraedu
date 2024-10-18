@@ -1,0 +1,28 @@
+<div style="margin: 2%;">
+    <h2 style="text-align: center;">{{payload?.type}}&nbsp;-&nbsp;{{payload?.title}}&nbsp;[ {{payload?.shortcut}}]</h2>
+    <div >
+        <div class="mb-1">
+            <div class="flex-wrap">
+                <div class="w-1-1">
+                    <h3 translate>{{payload?.type}}S List</h3>
+                    <div *ngIf="payload?.type =='SUBJECT'">
+                        <span *ngFor="let sub of payload.children" class="tag">
+                            {{ sub?.title }}&nbsp;<span style="color:  #CB4335;">[ {{sub.shortcut}} ]</span>
+                        </span>
+                    </div>
+                    <div *ngIf="payload?.type =='CHAPTER'">
+                        <span *ngFor="let sub of payload.parents" class="tag">
+                            {{ sub?.title }}&nbsp;<span style="color:  #CB4335;">[ {{sub.shortcut}} ]</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <div mat-dialog-actions align="end" >
+        <button class="closeButton" style="padding: 5px 2px;" mat-raised-button color="primary" mat-dialog-close translate>Back</button>&nbsp;
+      
+    </div>
+    <!-- <application-spinner *ngIf="!subscriptionData"></application-spinner> -->
+
+</div>

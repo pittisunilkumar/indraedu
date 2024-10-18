@@ -1,0 +1,130 @@
+@import './app.less';
+
+@font-face {
+  src: url('../fonts/MerriweatherSans-Regular.ttf');
+  font-family: 'Merriweather+Sans';
+}
+@font-face {
+  font-family: Acre-Bold;
+  src: url('../fonts/Acre-Bold.ttf');
+}
+@font-face {
+  font-family: Acre-Semibold;
+  src: url('../fonts/Acre-Semibold.ttf');
+}
+@font-face {
+  font-family: Acre-Regular;
+  src: url('../fonts/Acre-Regular.ttf');
+}
+@font-face {
+  font-family: Acre-Medium;
+  src: url('../fonts/Acre-Medium.ttf');
+}
+@font-face {
+  font-family: Acre-Light;
+  src: url('../fonts/Acre-Light.ttf');
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Merriweather+Sans';
+}
+
+.container {
+  width: 90%;
+  margin: 1rem auto;
+  padding: 1rem;
+}
+
+header {
+  border-bottom: 1px dashed #bbb;
+}
+
+application-aside-menu {
+  width: 15%;
+  border-right: 1px dashed #bbb;
+  min-height: 100vh;
+  background-color: #eee;
+
+  a {
+    display: block;
+    padding: 1rem;
+    font-size: 1.3rem;
+    text-decoration: none;
+    margin: 0 0 0.5rem 0;
+
+    &.active {
+      background-color: #555;
+      color: #fff;
+    }
+  }
+}
+
+.content {
+  width: 90%;
+  padding: 2rem;
+  background-color: #f8f8f8;
+}
+
+.bg-f8 {
+  margin: 1rem 0;
+  padding: 1rem;
+  background-color: #f8f8f8;
+}
+
+.mat-tab-label, .mat-tab-link {
+  font-size: 1.5rem;
+  color: @primary;
+}
+
+.full-height {
+  height: 100vh;
+}
+
+.mat-expansion-panel-header-title {
+  font-size: 1.2rem;
+}
+
+.mat-expansion-panel-header-title,
+.mat-expansion-panel-header-description {
+  flex-grow: 0 !important;
+  width: 50%;
+  align-self: center;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-dialog-container {
+
+  padding: 0 !important;
+  min-width: 300px;
+
+  .mat-dialog-title {
+    margin: 0 0 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+  }
+
+  .mat-dialog-content {
+    padding: 1rem;
+    margin: 1rem;
+    min-height: 3rem;
+  }
+
+  .mat-dialog-actions {
+    padding: 1rem;
+    border-top: 1px solid #eee;
+    min-height: 0;
+    button {
+      padding: 0.75rem 2rem;
+      margin-left: 1rem;
+    }
+  }
+
+}

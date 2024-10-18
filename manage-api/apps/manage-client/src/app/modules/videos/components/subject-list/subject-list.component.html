@@ -1,0 +1,141 @@
+<div class="subject-list">
+  <table>
+    <tr>
+      <td style="width: 85%;">
+        <mat-form-field class="full-width">
+          <mat-label translate>COMMON.SEARCH</mat-label>
+          <input matInput (keyup)="applyFilter($event)" [placeholder]="'COMMON.FILTER.BY_TITLE' | translate" #input />
+        </mat-form-field>
+      </td>
+      <td>
+        <mat-form-field style="margin-top: -4px;">
+          <mat-label>Select&nbsp;Order&nbsp;Type</mat-label>
+          <mat-select>
+            <mat-option value="dragAndDrop" #dragAndDrop (click)="selectOrderType(dragAndDrop)">Drag And Drop
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </td>
+    </tr>
+  </table>
+  <!-- <div class="example-action-buttons">
+    <button mat-stroked-button color="primary" (click)="accordion.openAll()">Expand All</button>&nbsp;&nbsp;
+    <button mat-stroked-button color="warn" (click)="accordion.closeAll()">Collapse All</button>
+  </div> -->
+
+
+  <div class="example-container">
+    <div class="exampleBox">
+      <table style="text-align: left;">
+        <tr>
+          <th style="width: 30px;">S.No</th>
+          <th style="width: 200px;">Title</th>
+          <th style="width: 100px;text-align: center;">Course</th>
+          <th style="width: 50px;text-align: center;">Order</th>
+          <th style="width: 50px;text-align: center;">Video&nbsp;Count</th>
+          <th style="width: 100px;text-align: center;">Created&nbsp;On</th>
+          <th style="width: 50px;text-align: center;">Status</th>
+          <th style="width: 20px;text-align: center;">Actions</th>
+        </tr>
+      </table>
+    </div>
+    <div cdkDropList [cdkDropListData]="filteredList" class="example-list" (cdkDropListDropped)="drop($event)">
+      <div class="example-box" *ngFor="let sub of filteredList;let i = index" cdkDrag [cdkDragDisabled]="sub.disabled" (click)="getSubject(sub)">
+        <table>
+          <tr>
+            <td style="width: 30px;">{{i+1}}</td>
+            <td style="width: 200px;"> {{ sub.syllabus?.title }}</td>
+            <td style="width: 100px;text-align: left;">{{ sub.courses?.title }}</td>
+            <td style="width: 50px;text-align: left;">{{sub?.order }}</td>
+            <td style="width: 50px;text-align: left;">{{sub?.count }}</td>
+            <td style="width: 100px;text-align: center;">{{sub?.createdOn | date:'mediumDate'}}</td>
+            <td style="width: 50px;text-align: left;">
+              <span *ngIf="!sub.flags?.active">
+                <b style="color: red;">{{sub.flags?.active}}</b>
+              </span>
+              <span *ngIf="sub.flags?.active">
+                <b style="color: green;">{{sub.flags?.active}}</b>
+              </span>
+            </td>
+            <td style="width:20px;text-align: center;">
+              <i class="material-icons" [matMenuTriggerFor]="menu">more_vert</i>
+              <mat-menu #menu="matMenu">
+                <button *ngIf="isChapterVisible" mat-menu-item color="primary" (click)="getSubject(sub)"
+                  [routerLink]="['../', sub.uuid, 'videos', 'list']">
+                  Get&nbsp;Chapters
+                </button>
+                <button mat-menu-item color="primary" [routerLink]="['../', sub.uuid, 'videos', 'add']"
+                  *ngIf="addVideoVisible">
+                  Add&nbsp;Video
+                </button>
+                <button mat-menu-item color="warn" (click)="delete.emit(sub)" *ngIf="deleteEnabled=='true'">
+                  Delete&nbsp;V-Subject
+                </button>
+                <a [routerLink]="['../', sub.uuid, 'edit']" style="text-decoration: none;margin-top:2px"
+                  *ngIf="editEnabled=='true'">
+                  <button mat-menu-item>
+                    Edit&nbsp;V-Subject
+                  </button>
+                </a>
+              </mat-menu>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- <div cdkDropListGroup>
+    <div cdkDropList [cdkDropListData]="filteredList" class="example-list" (cdkDropListDropped)="drop($event)">
+      <mat-accordion class="example-headers-align" multi>
+        <mat-expansion-panel *ngFor="let sub of filteredList;let i = index" cdkDrag>
+          <mat-expansion-panel-header (click)="getSubject(sub)">
+            <mat-panel-title>
+              <label>{{i+1}}</label>.&nbsp; {{ sub.syllabus?.title }}&nbsp;<span style="color: #CB4335;">[ {{
+                sub.courses?.title }} ]</span>
+            </mat-panel-title>
+            <mat-panel-description>
+              <table style="text-align: left;">
+                <td> <span translate>COMMON.ORDER</span></td>&nbsp;&nbsp;
+                <th style="width: 80px;">{{ sub.order }}</th>
+                <td> <span translate>Video&nbsp;Count</span></td>&nbsp;&nbsp;
+                <th style="width: 80px;">{{sub.count}}</th>
+                <td> <span translate>Created&nbsp;On</span></td>&nbsp;&nbsp;
+                <th style="width: 400px;">{{ sub.createdOn | date:'mediumDate' }}</th>
+                <th style="width: 20px;" *ngIf="!sub.flags?.active">
+                  <div style="background-color: red;width: 10px;height: 10px;border-radius: 10px;"></div>
+                </th>
+                <th style="width: 20px;" *ngIf="sub.flags?.active">
+                  <div style="background-color: green;width: 10px;height: 10px;border-radius: 10px;"></div>
+                </th>
+              </table> </mat-panel-description>
+          </mat-expansion-panel-header>  <mat-action-row *ngIf="actionsVisible">
+            <button *ngIf="isChapterVisible" class="mx-1" mat-raised-button color="primary"
+              [routerLink]="['../', sub.uuid, 'videos', 'list']" translate="PAGE.VIDEOS.GET_CHAPTERS"
+              (click)="getSubject(sub)">
+            </button>
+            <button mat-raised-button color="primary" *ngIf="addVideoVisible"
+              [routerLink]="['../', sub.uuid, 'videos', 'add']" translate="PAGE.VIDEOS.ADD_TITLE"></button>
+            <mat-icon color="warn" class="view" (click)="delete.emit(sub)" *ngIf="deleteEnabled=='true'"> delete
+            </mat-icon>
+            <a [routerLink]="['../', sub.uuid, 'edit']" style="text-decoration: none;margin-top:2px"
+              *ngIf="editEnabled=='true'">
+              <mat-icon color="primary" class="view"> edit </mat-icon>
+            </a>
+          </mat-action-row>
+
+        </mat-expansion-panel>
+
+      </mat-accordion>
+    </div>
+  </div> -->
+  <div class="copyAndMovebuttons">
+    <button mat-raised-button color="primary" *ngIf="isChangeBtnEnabled" translate (click)="updateSubjectOrder()">Change
+      Order</button>
+  </div>
+
+
+
+</div>

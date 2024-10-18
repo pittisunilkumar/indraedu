@@ -1,0 +1,30 @@
+<div class="course-list-container">
+  <div class="page-title">
+    <div class="title">
+      <h2 [innerHTML]="'PAGE.COURSE_LIST.TITLE' | translate"></h2>
+    </div>
+    <div class="action-buttons">
+      <button
+        class="primary"
+        [translate]="'PAGE.COURSE_LIST.ACTIONS.CREATE_COURSE'"
+        [routerLink]="['../', 'create']"
+      ></button>
+    </div>
+  </div>
+  <application-form-error [errors]="errors"></application-form-error>
+
+  
+  <application-course-list
+    *ngIf="courses?.length"
+    [courses]="courses"
+    (delete)="delete($event)"
+    (assignSyllabus)="assignSyllabus($event)"
+  ></application-course-list>
+
+  <div *ngIf="length === 0">
+    <h3 class="text-center h3" translate>
+      PAGE.COURSE_LIST.EMPTY
+    </h3>
+  </div>
+
+</div>

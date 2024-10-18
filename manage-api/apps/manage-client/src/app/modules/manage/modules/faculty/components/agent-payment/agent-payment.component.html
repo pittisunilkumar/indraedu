@@ -1,0 +1,149 @@
+<mat-card>
+    <form [formGroup]="paymentsForm">
+        <div class="flex-wrap">
+            <div class="form-element child">
+                <mat-form-field class="example-form-field" appearance="outline">
+                    <mat-label>Agent Total Amount</mat-label>
+                    <input matInput name="subscriptionAmount" [value]="amount" readonly />
+                </mat-form-field>
+            </div>&nbsp;&nbsp;
+            <div class="form-element child">
+                <mat-form-field class="example-form-field" appearance="outline">
+                    <mat-label>Agent Due Amount</mat-label>
+                    <input matInput name="subscriptionAmount" [value]="agentDueAmount" readonly />
+                </mat-form-field>
+            </div>&nbsp;&nbsp;
+            <div class="form-element child">
+                <mat-form-field appearance="outline">
+                    <mat-label>Date Of Payment</mat-label>
+                    <input matInput [matDatepicker]="picker" [value]="today" placeholder="MM/DD/YYYY">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
+        <label>Mode Of Payment</label>
+        <mat-button-toggle-group formControlName="modeOfPayment">
+            <mat-button-toggle value="cash" #cash (click)="getPaymentMode(cash)">Cash</mat-button-toggle>
+            <mat-button-toggle value="cheque" #cheque (click)="getPaymentMode(cheque)">Cheque</mat-button-toggle>
+            <mat-button-toggle value="bank" #bank (click)="getPaymentMode(bank)">Bank</mat-button-toggle>
+            <mat-button-toggle value="online" #online (click)="getPaymentMode(online)">Online</mat-button-toggle>
+            <mat-button-toggle value="upi" #upi (click)="getPaymentMode(upi)">UPI</mat-button-toggle>
+        </mat-button-toggle-group>
+        <br>
+    
+        <mat-card *ngIf="paymentMode" class="mat-elevation-z0">
+            <!-- //////////////////////// CASH /////////////////////////////// -->
+            <div class="form-element child" *ngIf="paymentMode">
+                    <mat-form-field class="example-form-field">
+                        <mat-label>Payable Amount</mat-label>
+                        <input matInput name="amount" 
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                         formControlName="paidAmount"/>
+                    </mat-form-field>
+                </div>
+                <div class="form-element child" *ngIf="paymentMode  == 'cash'">
+                    <mat-form-field class="example-form-field">
+                        <mat-label>Bill Number</mat-label>
+                        <input matInput name="billNumber" formControlName="billNumber" />
+                    </mat-form-field>
+                </div>
+    
+            <!-- //////////////////////// CHEQUE /////////////////////////////// -->
+            <div *ngIf="paymentMode == 'cheque'">
+                <div class="form-element child">
+                    <mat-form-field class="example-form-field">
+                        <mat-label> Cheque Number</mat-label>
+                        <input matInput name="chequeNumber" formControlName="chequeNumber" />
+                    </mat-form-field>
+                </div>
+                <div class="form-element child">
+                    <mat-form-field>
+                        <mat-label>Cheque Date</mat-label>
+                        <input matInput [matDatepicker]="picker1" formControlName="chequeDate" placeholder="MM/DD/YYYY">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="form-element child">
+                    <mat-form-field class="example-form-field">
+                        <mat-label> Bank Name</mat-label>
+                        <input matInput name="bankName" formControlName="bankName" />
+                    </mat-form-field>
+                </div>
+            </div>
+    
+            <!-- ////////////////////// ONLINE ////////////////////////// -->
+    
+            <div *ngIf="paymentMode == 'online'">
+                <div class="form-element child">
+                    <mat-form-field class="example-form-field">
+                        <mat-label>Transaction Number</mat-label>
+                        <input matInput name="transactionNumber" formControlName="transactionNumber" />
+                    </mat-form-field>
+                </div>
+            </div>
+    
+            <!-- ///////////////////////////// UPI ////////////////////////////////// -->
+    
+            <div *ngIf="paymentMode == 'upi'">
+                <div class="form-element child">
+                    <mat-form-field class="example-form-field">
+                        <mat-label>UPI Id</mat-label>
+                        <input matInput name="upiId" formControlName="upiId" />
+                    </mat-form-field>
+                </div>
+                <div class="form-element child">
+                    <mat-form-field class="example-form-field">
+                        <mat-label>Transaction Number</mat-label>
+                        <input matInput name="upiTransactionNumber" formControlName="upiTransactionNumber" />
+                    </mat-form-field>
+                </div>
+            </div>
+    
+    
+            <!-- ///////////////////////////// BANK ////////////////////////////////// -->
+    
+            <div *ngIf="paymentMode == 'bank'" [formGroup]="paymentsForm.controls.bank">
+                <div class="form-element child">
+                    <mat-form-field class="example-form-field">
+                        <mat-label>Account Number</mat-label>
+                        <input matInput name="accountNumber"  formControlName="accountNumber"  readonly />
+                    </mat-form-field>
+                </div>
+                <div class="form-element child">
+                    <mat-form-field class="example-form-field">
+                        <mat-label>Brach Name</mat-label>
+                        <input matInput name="branchName"  formControlName="branchName" readonly/>
+                    </mat-form-field>
+                </div>
+                <div class="form-element child">
+                    <mat-form-field class="example-form-field">
+                        <mat-label>IFSC Code</mat-label>
+                        <input matInput name="ifscCode"  formControlName="ifscCode"  readonly />
+                    </mat-form-field>
+                </div>
+            </div>
+    
+            <div *ngIf="paymentMode">
+                <!-- <application-upload-image class="child" [url]="imgUrl" (formData)="getImageUrl($event)">
+                </application-upload-image> -->
+                <application-upload-image class="child" [url]="paymentsForm.value.imgUrl.imgUrl"
+                    (formData)="getImageUrl($event)">
+                </application-upload-image>
+            </div>
+        </mat-card>
+    
+    </form>
+    
+    <div class="text-right my-1">
+        <button  mat-stroked-button color="warn" class="mx-1" translate (click)="backToCoupons()">
+            Cancel
+        </button>&nbsp;
+        <button mat-raised-button color="primary" type="submit" translate (click)="submit()"
+         [disabled]="paymentsForm?.value.paidAmount == '' || agentDueAmount < paymentsForm?.value.paidAmount">
+           Submit
+        </button>
+    </div>
+
+</mat-card>

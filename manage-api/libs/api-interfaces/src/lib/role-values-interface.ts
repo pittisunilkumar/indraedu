@@ -1,0 +1,89 @@
+import { FlagsInterface, UserKeyInterface } from '@application/api-interfaces';
+import * as mongoose from 'mongoose';
+
+export interface RoleValueInterface {
+  uuid: string;
+  _id?: mongoose.Types.ObjectId;
+  title: string;
+  subModules: any;
+  createdOn: Date;
+  modifiedOn?: Date;
+  createdBy: UserKeyInterface;
+  modifiedBy?: UserKeyInterface;
+  flags: FlagsInterface;
+}
+
+export enum RoleSubModulesEnum {
+  ADD = 'ADD',
+  DELETE = 'DELETE',
+  EDIT = 'EDIT',
+  VIEW = 'VIEW',
+  RESET_PASSWORD = 'RESET_PASSWORD',
+  ASSIGN_SUBSCRIPTIONS = 'ASSIGN_SUBSCRIPTIONS',
+  VIEW_QUESTIONS = 'VIEW_QUESTIONS',
+  AGENT_TRANSACTIONS = 'AGENT_TRANSACTIONS',
+  AGENT_COUPONS = 'AGENT_COUPONS',
+  AGENT_AMOUNT_PAY = 'AGENT_AMOUNT_PAY',
+  TEST_RESET = 'TEST_RESET',
+}
+
+export enum RoleModulesEnum {
+  PAYMENTS_DASHBOARD = 'PAYMENTS_DASHBOARD',
+
+  //////////  BANK   /////
+  BANK = 'BANK',
+  BANNERS = 'BANNERS',
+  QUESTIONS = 'QUESTIONS',
+  QUESTION_TAGS = 'QUESTION_TAGS',
+  SYLLABUS = 'SYLLABUS',
+  VIDEO_CYPHER = 'VIDEO_CYPHER',
+  MCQ_OF_THE_DAY = 'MCQ_OF_THE_DAY',
+
+  //////////  MANAGE   /////
+  MANAGE = 'MANAGE',
+  COUPONS = 'COUPONS',
+  COURSES = 'COURSES',
+  AGENTS = 'AGENTS',
+  SUBSCRIPTIONS = 'SUBSCRIPTIONS',
+  EMPLOYEE = 'EMPLOYEE',
+  USERS = 'USERS',
+  USER_TRANSACTIONS = 'USER_TRANSACTIONS',
+  ROLE_SUB_MODULES = 'ROLE_SUB_MODULES',
+  ROLE_MODULES = 'ROLE_MODULES',
+  ROLES = 'ROLES',
+  ORGANIZATIONS = 'ORGANIZATIONS',
+  DISABLEUSERFORTESTSUBMIT = 'DISABLEUSERFORTESTSUBMIT',
+
+  DEPARTMENT='DEPARTMENT',
+
+  //////////  TEST_SERIES   /////
+  TEST_SERIES = 'TEST_SERIES',
+  TEST_CATEGORIES = 'TEST_CATEGORIES',
+  TESTS = 'TESTS',
+  SUGGESTED_TESTS = 'SUGGESTED_TESTS',
+
+  //////////  QBANK   /////
+  QBANK = 'QBANK',
+  QBANK_SUBJECT = 'QBANK_SUBJECT',
+  QBANK_CHAPTERS = 'QBANK_CHAPTERS',
+  QBANK_TOPICS = 'QBANK_TOPICS',
+  SUGGESTED_TOPICS = 'SUGGESTED_TOPICS',
+
+  //////////  VIDEOS   /////
+  VIDEOS = 'VIDEOS',
+  VIDEO_SUBJECT = 'VIDEO_SUBJECT',
+  VIDEO_CHAPTERS = 'VIDEO_CHAPTERS',
+  SUGGESTED_VIDEOS = 'SUGGESTED_VIDEOS',
+
+  /////   PORTAlS   //////
+  PORTALS = 'PORTALS',
+  CAREERS = 'CAREERS',
+  USER_MESSAGES = 'USER_MESSAGES',
+  ABOUT_US = 'ABOUT_US',
+  NOTIFICATION = 'NOTIFICATION',
+  FEEDBACK = 'FEEDBACK',
+
+  ///// PERALS  /////////
+  PERALS = 'PERALS',
+  MASTER_ADVICE = 'MASTER_ADVICE',
+}

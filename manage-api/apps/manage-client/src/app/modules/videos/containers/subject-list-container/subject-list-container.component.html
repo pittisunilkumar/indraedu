@@ -1,0 +1,28 @@
+<div class="subject-list-container">
+
+  <div class="page-title">
+    <div class="title">
+      <h2 [innerHTML]="'PAGE.VIDEOS.SUBJECTS' | translate"></h2>
+    </div>
+    <div class="action-buttons">
+      <button
+      *ngIf="createEnable"
+      mat-raised-button color="primary"
+        [routerLink]="['../', 'add']">
+        <span translate>PAGE.VIDEOS.ADD_SUBJECTS </span>
+      </button>
+    </div>
+  </div>
+  <!-- <application-spinner *ngIf="!list"></application-spinner> -->
+
+  <application-subject-list
+  *ngIf="list"
+    [list]="list"
+    (delete)="deleteSubject($event)">
+  </application-subject-list>
+
+  <div *ngIf="length == 0" style="text-align: center;">
+    <h1 translate>COMMON.NO_DATA</h1>
+  </div>
+
+</div>

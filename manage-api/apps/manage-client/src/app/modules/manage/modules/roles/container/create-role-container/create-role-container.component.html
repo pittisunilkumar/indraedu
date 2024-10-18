@@ -1,0 +1,14 @@
+<div class="create-user-container">
+
+    <h2 *ngIf="mode === 'add'">
+        <span translate>COMMON.CREATE</span>
+        <span translate> COMMON.ROLE</span>
+    </h2>
+    <h2 *ngIf="mode === 'edit'">
+        <span translate>COMMON.EDIT</span>
+        <span translate> COMMON.ROLE</span>
+    </h2>
+
+    <application-form-error [errors]="errors"></application-form-error>
+    <application-create-role [mode]="mode" [roleValues]="roleValues" [role]="(role$ | async)?.response[0]" (commit)="submit($event)"></application-create-role>
+</div>

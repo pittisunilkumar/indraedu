@@ -1,0 +1,87 @@
+<div class="tag-list">
+    <div class="page-title">
+        <div class="title">
+            <h2>Departments</h2>
+        </div>
+        <div class="action-buttons">
+            <button *ngIf="isAddVisible" mat-raised-button color="primary" [routerLink]="['../', 'create']">Create
+                Department</button>
+        </div>
+    </div>
+    <div class="search full-width">
+        <mat-form-field class="example-full-width">
+            <mat-label translate>COMMON.SEARCH</mat-label>
+            <input type="search" matInput name="search" [placeholder]="'PAGE.ORGANIZATION_LIST.SEARCH' | translate"
+                (keyup)="filterDepartments($event)" />
+        </mat-form-field>
+    </div>
+
+    <div class="mat-elevation-z1">
+        <table mat-table [dataSource]="filteredDepartments">
+            <ng-container matColumnDef="sno">
+                <th mat-header-cell *matHeaderCellDef style="width: 20px;">
+                    S.No
+                </th>
+                <td mat-cell *matCellDef="let row">{{filteredDepartments.filteredData.indexOf(row)+1}}</td>
+            </ng-container>
+            <ng-container matColumnDef="title">
+                <th mat-header-cell *matHeaderCellDef>
+                    {{ 'COMMON.TITLE' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.title }}</td>
+            </ng-container>
+            <ng-container matColumnDef="hod">
+                <th mat-header-cell *matHeaderCellDef>
+                    Head&nbsp;Of&nbsp;Department
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <div *ngFor="let value of row?.hod;let i = index" >
+                        <span>{{value.name}}
+                          {{row?.hod.length != i+1 ? ',':''}}
+                        </span>
+                      </div>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef>
+                    {{ 'COMMON.ACTIVE' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.flags.active }}</td>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>
+                    {{ 'COMMON.ACTIONS.TITLE' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <!-- <mat-icon class="view" [matMenuTriggerFor]="menu">more_vert</mat-icon> -->
+                    <i class="material-icons" [matMenuTriggerFor]="menu" style="margin-left: 10px;">more_vert</i>
+                    <mat-menu #menu="matMenu">
+                        <a [routerLink]="['../', row.uuid, 'edit']" *ngIf="isEditVisible"
+                            style="text-decoration: none;">
+                            <button mat-menu-item color="primary">
+                                Edit&nbsp;Department
+                            </button>
+                        </a>
+                        <button mat-menu-item *ngIf="isDeleteVisible" (click)="delete(row)">
+                            Delete&nbsp;Department
+                        </button>
+                    </mat-menu>
+
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            <tr class="mat-row" *matNoDataRow style="text-align: center;">
+                <td class="mat-cell" colspan="5">
+                    <h3 translate>COMMON.NO_DATA</h3>
+                </td>
+            </tr>
+        </table>
+
+        <mat-paginator [showFirstLastButtons]="true" [pageSizeOptions]="totalLength"></mat-paginator>
+
+    </div>
+
+</div>

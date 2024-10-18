@@ -1,0 +1,16 @@
+<div class="create-user-container" >
+
+    <h2 *ngIf="mode === 'add'">
+        <span>Create Peral</span>
+    </h2>
+    <h2 *ngIf="mode === 'edit'">
+        <span>Edit Peral</span>
+    </h2>
+
+    <application-form-error [errors]="errors"></application-form-error>
+    
+    <application-create-perals [mode]="mode" [perals]="(perals$ | async)?.response"
+    (commit)="submit($event)"></application-create-perals>
+
+
+</div>

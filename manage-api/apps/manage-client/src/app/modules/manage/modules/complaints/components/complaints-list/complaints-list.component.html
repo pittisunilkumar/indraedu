@@ -1,0 +1,191 @@
+<div class="tag-list">
+    <div class="page-title">
+        <div class="title">
+            <h2>Tickets</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-8">
+            <mat-form-field class="example-full-width">
+                <mat-label translate>COMMON.SEARCH</mat-label>
+                <input type="search" matInput name="search"
+                    [placeholder]="'PAGE.ORGANIZATION_LIST.SEARCH' | translate"
+                    (keyup)="filterComplaints($event)" />
+            </mat-form-field>
+        </div>
+        <div class="col-sm-2">
+            <mat-form-field class="example-full-width">
+                <mat-label>Select&nbsp;Department</mat-label>
+                <mat-select>
+                    <mat-option *ngFor="let dep of currentUser?.department" [value]="dep"
+                        (click)="getDepartmentTickets(dep)">
+                        {{dep.title}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-sm-2">
+            <mat-form-field class="example-full-width">
+                <mat-label>Select&nbsp;Status</mat-label>
+                <mat-select>
+                    <mat-option *ngFor="let tic of helperService?.TicketStatus" [value]="tic"
+                    (click)="filterTicketsByStatus(tic)">
+                        {{tic.title}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+    <!-- <table style="width: 100%;">
+        <tr>
+            <td style="width: 60%;">
+                <div class="search full-width">
+                    <mat-form-field class="example-full-width">
+                        <mat-label translate>COMMON.SEARCH</mat-label>
+                        <input type="search" matInput name="search"
+                            [placeholder]="'PAGE.ORGANIZATION_LIST.SEARCH' | translate"
+                            (keyup)="filterComplaints($event)" />
+                    </mat-form-field>
+                </div>
+            </td>
+            <td style="width: 20%;">
+                <div class="form-element child">
+                    <mat-form-field class="example-full-width" style="margin-top: -3px;">
+                        <mat-label>Select&nbsp;Department</mat-label>
+                        <mat-select>
+                            <mat-option *ngFor="let dep of currentUser?.department" [value]="dep"
+                                (click)="getDepartmentTickets(dep)">
+                                {{dep.title}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </td>
+            <td style="width: 20%;">
+                <div class="form-element child">
+                    <mat-form-field class="example-full-width" style="margin-top: -3px;">
+                        <mat-label>Select&nbsp;Status</mat-label>
+                        <mat-select>
+                            <mat-option *ngFor="let tic of helperService?.TicketStatus" [value]="tic"
+                            (click)="filterTicketsByStatus(tic)">
+                                {{tic.title}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </td>
+        </tr>
+    </table> -->
+
+
+    <div class="mat-elevation-z1">
+        <table mat-table [dataSource]="dataSource">
+            <ng-container matColumnDef="sno">
+                <th mat-header-cell *matHeaderCellDef style="width: 20px;">
+                    S.No
+                </th>
+                <td mat-cell *matCellDef="let row">{{dataSource.filteredData.indexOf(row)+1}}</td>
+            </ng-container>
+            <ng-container matColumnDef="ticketId">
+                <th mat-header-cell *matHeaderCellDef>
+                    Ticket&nbsp;Id
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.ticketId }}</td>
+            </ng-container>
+            <ng-container matColumnDef="course">
+                <th mat-header-cell *matHeaderCellDef>
+                   Course
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row?.courses?.title }}</td>
+            </ng-container>
+            <ng-container matColumnDef="department">
+                <th mat-header-cell *matHeaderCellDef>
+                    Department
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.department?.title }}</td>
+            </ng-container>
+            <ng-container matColumnDef="mobile">
+                <th mat-header-cell *matHeaderCellDef>
+                    Mobile
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row?.user?.mobile }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="message">
+                <th mat-header-cell *matHeaderCellDef>
+                    Message
+                </th>
+                <td mat-cell *matCellDef="let row" >{{ row.message| slice:0:30}}...</td>
+            </ng-container>
+            <ng-container matColumnDef="type">
+                <th mat-header-cell *matHeaderCellDef>
+                    Type
+                </th>
+                <td mat-cell *matCellDef="let row">{{helperService?.TicketType[row.type-1]?.title }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="priority">
+                <th mat-header-cell *matHeaderCellDef>
+                    Priority
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.priority }}</td>
+            </ng-container>
+            <ng-container matColumnDef="createdOn">
+                <th mat-header-cell *matHeaderCellDef>
+                    CreatedOn
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.createdOn| date:"mediumDate" }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="lastUpdated">
+                <th mat-header-cell *matHeaderCellDef>
+                    LastUpdated
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.lastUpdated | date:"mediumDate"}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef>
+                    Status
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <strong [style.color]="helperService?.TicketStatus[row.status-1]?.color">{{helperService?.TicketStatus[row.status-1]?.title }}</strong>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>
+                    Actions
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <!-- <mat-form-field style="border:none">
+                            <mat-select >
+                              <mat-option *ngFor="let tic of helperService?.TicketStatus" [value]="tic" (click)="updateTicketStatus(tic)">
+                                {{tic.title}}</mat-option>
+                            </mat-select>
+                          </mat-form-field> -->
+                    <!-- <mat-icon mat-icon-button color="primary" class="view" matTooltip="View Ticket" (click)="viewTicket(row)">visibility</mat-icon>
+                    <mat-icon class="view" [matMenuTriggerFor]="menu">more_vert</mat-icon> -->
+
+                    <i class="material-icons" style="color: #102f95;" matTooltip="View Ticket" (click)="viewTicket(row)">visibility</i>
+                    <i class="material-icons" style="color: #951093;" matTooltip="Reply" (click)="sendReplay(row)" *ngIf="row.status != 4 && row.status != 5">reply</i>
+                    <i class="material-icons"  *ngIf="row.status == 4 || row.status == 5"  style="cursor: not-allowed;background-color:whitesmoke">reply</i>
+                    <i class="material-icons" *ngIf="row.status == 4 || row.status == 5" style="cursor: not-allowed;background-color:whitesmoke">more_vert</i>
+                    <i class="material-icons" [matMenuTriggerFor]="menu" *ngIf="row.status != 4 && row.status != 5" matTooltip="Update Status">more_vert</i>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item *ngFor="let tic of helperService?.TicketStatus"
+                            (click)="updateTicketStatus(row,tic.value)">{{tic.title}}
+                        </button>
+                    </mat-menu>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            <tr class="mat-row" *matNoDataRow style="text-align: center;">
+                <td class="mat-cell" colspan="11">
+                    <h3 translate>COMMON.NO_DATA</h3>
+                </td>
+            </tr>
+        </table>
+
+        <mat-paginator [showFirstLastButtons]="true" [pageSizeOptions]="totalLength"></mat-paginator>
+
+    </div>
+
+</div>

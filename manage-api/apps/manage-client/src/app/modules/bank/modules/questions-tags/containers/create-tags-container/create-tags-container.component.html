@@ -1,0 +1,24 @@
+<div class="create-banners-container" >
+
+    <h2 *ngIf="mode === 'add'">
+      <span translate >COMMON.CREATE</span>
+      <span translate> COMMON.TAGS</span>
+    </h2>
+    <h2 *ngIf="mode === 'edit'">
+      <span translate>COMMON.EDIT</span>
+      <span translate> COMMON.TAGS</span>
+    </h2>
+    <application-form-error [errors]="errors"></application-form-error>
+   <application-create-tags [mode]="mode"
+   [tag]="(tag$ | async)?.response"
+   (commit)="submit($event)"></application-create-tags>
+  
+    <!-- <application-create-banners
+      [courses]="(courses$ | async)?.response"
+      [mode]="mode"
+      [banner]="(banner$ | async)?.response"
+      (commit)="submit($event)">
+    </application-create-banners> -->
+  
+  </div>
+  

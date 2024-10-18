@@ -1,0 +1,32 @@
+<div class="test-series-category-list-container">
+  <div class="page-title">
+    <div class="title">
+      <h2 [innerHTML]="'PAGE.TEST_SERIES.CATEGORIES' | translate"></h2>
+    </div>
+    <div class="action-buttons">
+      <button
+      *ngIf="createEnable=='true'"
+      mat-raised-button color="primary" 
+        [routerLink]="['../', 'add']">
+        {{ 'COMMON.ADD' | translate }}
+        {{ 'PAGE.TEST_SERIES.CATEGORY' | translate }}
+      </button>
+    </div>
+  </div>
+  <!-- <button color="warn" mat-raised-button (click)="deleteTests()">Delete Tests</button> -->
+  <!-- <application-spinner *ngIf="!tsCategories?.length"></application-spinner> -->
+
+  <application-test-category-list
+    *ngIf="tsCategories?.length"
+    [categories]="tsCategories"
+    (delete)="delete($event)"
+    (edit)="edit($event)">
+  </application-test-category-list>
+
+  <div *ngIf="length === 0">
+    <h3 class="text-center h3" translate>
+      COMMON.EMPTY
+    </h3>
+  </div>
+
+</div>

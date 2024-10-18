@@ -1,0 +1,39 @@
+<div class="questions-container" >
+  <!-- <div class="page-title"> -->
+    <div class="row">
+      <div class="col col-sm-8">
+        <div class="title">
+          <h2 [innerHTML]="'COMMON.QUESTIONS' | translate"></h2>
+        </div>
+      </div>
+      <div class="col col-sm-4" style="text-align: right;">
+        <div class="action-buttons">
+          <button
+          mat-raised-button color="primary"
+            [translate]="'COMMON.CREATE_QUESTIONS'"
+            [routerLink]="['../create']"
+            *ngIf="isAddVisible"
+            (click)="setPath()"
+          >Create Questions</button>
+        </div>
+      </div>
+    </div>
+    
+    
+  <!-- </div> -->
+  <application-questions-list
+    [questions]="(questions$ | async)?.response"
+    (delete)="removeQuestion($event)">
+  </application-questions-list>
+
+  <div *ngIf="length === 0">
+    <h3 class="text-center h3" translate>
+      PAGE.QUESTIONS_LIST.EMPTY
+    </h3>
+  </div>
+
+  <!-- <application-spinner *ngIf="isEnabled"></application-spinner> -->
+
+  <!-- <application-spinner *ngIf="!length"></application-spinner> -->
+
+</div>

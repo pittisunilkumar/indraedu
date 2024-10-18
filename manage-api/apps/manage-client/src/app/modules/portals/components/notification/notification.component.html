@@ -1,0 +1,404 @@
+<mat-card>
+  <mat-card-header>
+    <table style="width: 100%;text-align: left;">
+      <tr>
+        <td style="width: 80%;">
+          <mat-card-title>Notifications</mat-card-title>
+        </td>
+        <td style="width: 20%;margin-top: -10px;">
+          <mat-form-field class="example-full-width">
+            <mat-label>Select Notification Type</mat-label>
+            <mat-select>
+              <mat-option value="branch" (click)="selectNotificationType('branch')">Branch.IO</mat-option>
+              <mat-option value="branch" (click)="selectNotificationType('scheduleNotification')">
+                Schedule&nbsp;Notifications</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </tr>
+    </table>
+  </mat-card-header>
+
+  <div *ngIf="notification_type=='branch'">
+    <div>
+      <mat-form-field class="example-full-width">
+        <mat-label>Courses</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let sub of coursesList" [value]="sub" (click)="getSubjectsBasedOnCourse(sub)">
+            {{sub.title}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <mat-card-content>
+      <mat-button-toggle-group>
+        <mat-button-toggle value="questions" #questions (click)="setectBarchIOType('questions')">Question
+        </mat-button-toggle>
+        <mat-button-toggle value="video" #video (click)="setectBarchIOType('video')">Video
+        </mat-button-toggle>
+        <mat-button-toggle value="qbank" #qbank (click)="setectBarchIOType('qbank')">Qbank
+        </mat-button-toggle>
+        <mat-button-toggle value="testSeries" #testSeries (click)="setectBarchIOType('testSeries')">Test&nbsp;Series
+        </mat-button-toggle>
+        <mat-button-toggle value="ebook" #ebook (click)="setectBarchIOType('ebook')">Ebooks</mat-button-toggle>
+        <mat-button-toggle value="subscriptions" #subscriptions (click)="setectBarchIOType('subscriptions')">
+          Subscriptions
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </mat-card-content>
+    <!-- ////////////Questions/////////// -->
+    <div *ngIf="branchType=='questions'">
+      <mat-form-field class="full-width">
+        <mat-label translate>Search Question</mat-label>
+        <input type="search" matInput name="search" #input
+          [placeholder]="'PAGE.ORGANIZATION_LIST.SEARCH' | translate" />
+        <button matSuffix mat-stroked-button color="primary" (click)="filterQuestions(input.value)"
+          [disabled]="!input.value">Search</button>
+      </mat-form-field>
+    </div>
+
+    <div *ngIf="showQuestion">
+      <mat-accordion class="example-headers-align" multi style="margin: 1px;">
+        <mat-expansion-panel class="question">
+          <mat-expansion-panel-header style="height: auto;padding: 15px;">
+            <mat-panel-title style="width: 100%;margin: 2px;">
+
+              <div class="row">
+                <div class="col-sm-3">
+                  <h5 style="font-size: 18px;"> {{question[0]?.questionId}}</h5>
+                </div>
+                <div class="col-sm-9">
+                  <p class="title" [innerHTML]="question[0]?.title" ></p>
+                  <img [src]="question[0].questionId.imgUrl" *ngIf="question[0]?.imgUrl"
+                style="width: 300px;height: 250px;">
+                </div>
+              </div>
+              <!-- <table style="width: 100%;">
+                <tr>
+                  <th style="width: 50px;">
+                    <h5 style="font-size: 18px;"> {{question[0]?.questionId}}</h5>
+                  </th>
+                  <td style="width: 90%;font-size: 15px;">
+                    <p class="title" [innerHTML]="question[0]?.title" ></p>
+                  </td>
+                </tr>
+              </table> -->
+              
+            </mat-panel-title>
+            <mat-panel-description>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <div class="bg-f8 pb-0" *ngIf="question[0]?.type == 'SINGLE' || question[0]?.type == 'MULTIPLE'">
+            <div class="flex-wrap">
+              <div class="w-1-2" *ngFor="let opt of question[0]?.options; let i = index;">
+                <strong translate>COMMON.OPTIONS</strong> {{ i + 1 }} <br>
+                <span [innerHTML]="opt.name "></span><br>
+                <img [src]="opt.imgUrl" *ngIf="opt.imgUrl">
+              </div>
+            </div>
+          </div>
+
+
+          <div class="flex" *ngIf="question[0]?.type == 'MATCH_THE_FOLLOWING'">
+            <table>
+              <tr>
+                <td>
+                  <div class="option child" *ngFor="let option of question[0]?.matchLeftSideOptions; let index = index">
+                    <table>
+                      <tr>
+                        <td style="width: 20px;">
+                          <span>{{option.value}}</span>&nbsp;.
+                        </td>
+                        <td>
+                          <span for="option.name" [innerHTML]="option.name "></span>
+                        </td>
+                      </tr>
+                    </table>
+
+
+                    <img src="{{ option.imgUrl }}" *ngIf="option.imgUrl" alt="question img url" />
+                  </div>
+                </td>
+                <td>
+                  <div class="option child" *ngFor="let option of it?.matchRightSideOptions; let index = index">
+                    <table>
+                      <tr>
+                        <td style="width: 20px;">
+                          <span>{{option.value}}</span>&nbsp;.
+                        </td>
+                        <td>
+                          <span for="option.name" [innerHTML]="option.name "></span>
+                        </td>
+                      </tr>
+                    </table>
+                    <img src="{{ option.imgUrl }}" *ngIf="option.imgUrl" alt="question img url" />
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+    <!-- ////////////Videos/////////// -->
+    <table *ngIf="branchType=='video'">
+      <tr>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>Video Subject</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let sub of videoSubjects" [value]="sub" (click)="getVideoChapters(sub)">
+                {{sub.syllabus.title}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>Videos Chapters</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let chap of videoChaptes?.chapters" [value]="chap" (click)="getVideos(chap)">
+                {{chap.title}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>Videos</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let vid of videosList" [value]="vid" (click)="getVideoInfo(vid)">
+                {{vid.title}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </tr>
+    </table>
+
+    <!-- ////////////QBank/////////// -->
+    <table *ngIf="branchType=='qbank'">
+      <tr>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>QBank Subject</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let sub of QBankSubject" [value]="sub" (click)="getQBankChapters(sub)">
+                {{sub.syllabus.title}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>QBank Chapters</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let chap of QBnankChapters?.chapters" [value]="chap" (click)="getQBankTopics(chap)">
+                {{chap.title}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>QBank Topics</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let topic of QbankTopics" [value]="topic" (click)="getQbankTopicInfo(topic)">
+                {{topic.title}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </tr>
+    </table>
+
+    <!-- ////////////Test Series/////////// -->
+    <table *ngIf="branchType=='testSeries'">
+      <tr>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>Test Category</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let cat of testCategory" [value]="cat" (click)="getTestList(cat)">
+                {{cat.categories.title}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>Test</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let test of testList" [value]="test" (click)="getTestInfo(test)">
+                {{test.title}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </tr>
+    </table>
+
+    <!-- ////////////Ebooks/////////// -->
+    <div *ngIf="branchType=='ebook'">
+      <form [formGroup]="EBookForm">
+        <table>
+          <tr>
+            <td>
+              <mat-form-field class="example-full-width">
+                <mat-label>Ebook Title</mat-label>
+                <input matInput name="title" formControlName="ebookTitle" placeholder="Ebook Title" />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="example-full-width">
+                <mat-label>Ebook URL</mat-label>
+                <input matInput name="title" formControlName="ebookUrl" placeholder="Ebook Url" />
+              </mat-form-field>
+            </td>
+            <td>
+              <button mat-raised-button color="primary" [disabled]="!EBookForm.valid" (click)="ebookInfo()">Generate
+                Link</button>
+            </td>
+          </tr>
+        </table>
+      </form>
+    </div>
+
+
+    <!-- ////////////Subscriptions/////////// -->
+    <table *ngIf="branchType=='subscriptions'">
+      <tr>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>Subscriptions</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let sub of subscriptionsData" [value]="sub" (click)="getSubcriptionInfo(sub)">
+                {{sub.title}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+
+
+
+
+
+
+
+  <form [formGroup]="notificationForm" *ngIf="!notification_type || notification_type=='branch'">
+    <mat-form-field class="example-full-width" appearance="outline">
+      <mat-label>Title</mat-label>
+      <input matInput name="title" formControlName="title" placeholder="title" />
+    </mat-form-field>
+
+    <!-- <application-upload-image class="child" [url]="imgUrl" (formData)="getImageUrl($event)">
+      </application-upload-image> &nbsp;&nbsp;&nbsp; -->
+
+    <div class="add-img-type">
+      <mat-label for="upload">
+        <mat-checkbox class="example-margin" name="upload" formControlName="upload" [checked]="upload">Icon&nbsp;Url
+        </mat-checkbox>
+      </mat-label>
+      <input *ngIf="!notificationForm.value.upload" type="file" name="uploadFile" formControlName="uploadFile"
+        (change)="upload($event.target.files)" />
+      <mat-form-field class="example-form-field display-block" *ngIf="notificationForm.value.upload">
+        <input matInput type="url" name="fileUrl" formControlName="fileUrl" />
+      </mat-form-field>
+    </div>
+
+
+    <mat-form-field class="example-full-width" appearance="outline">
+      <mat-label>Message</mat-label>
+      <textarea matInput placeholder="messsage..." formControlName="message"></textarea>
+    </mat-form-field>
+
+    <mat-card-content>
+      <mat-button-toggle-group formControlName="notificationType" value="allUsers">
+        <mat-button-toggle value="allUsers" #allUsers *ngIf="notification_type!='branch'">All&nbsp;Users
+        </mat-button-toggle>
+        <mat-button-toggle value="selectedUsers" #selectedUsers (click)="getUsers()">Selected&nbsp;Users
+        </mat-button-toggle>
+        <mat-button-toggle value="subscriptions" #subscriptions *ngIf="notification_type!='branch'"
+          (click)="getSubscriptions()">Subscriptions
+        </mat-button-toggle>
+        <mat-button-toggle value="courses" *ngIf="notification_type!='branch'" #courses (click)="getCourses()">Courses
+        </mat-button-toggle>
+        <mat-button-toggle value="userFile" *ngIf="notification_type!='branch'" #userFile>Users&nbsp;File
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </mat-card-content>
+
+
+    <mat-form-field class="example-full-width" *ngIf="notificationForm.value.notificationType == 'selectedUsers'">
+      <mat-label>Selected&nbsp;Users</mat-label>
+      <mat-chip-list #chipList aria-label="User selection">
+        <mat-chip *ngFor="let us of userList" [selectable]="selectable" [removable]="removable" (removed)="remove(us)">
+          {{us.name}} [ {{us.mobile}} ]
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+        <input formControlName="users" [matAutocomplete]="auto" #input formControlName="users"
+          [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+        <button matSuffix type="button" mat-stroked-button color="primary" [disabled]="!input.value"
+          (click)="applyFilter(input.value)">Search</button>
+
+      </mat-chip-list>
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-option *ngFor="let user of users" [value]="user" (click)="input.value=''">
+          {{user.name}} [ {{user.mobile}} ]
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width" *ngIf="notificationForm.value.notificationType == 'subscriptions'">
+      <mat-label>Subscriptions</mat-label>
+      <mat-select formControlName="subscription" multiple>
+        <mat-option *ngFor="let sub of subscriptionList" [value]="sub">
+          {{sub.title}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width" *ngIf="notificationForm.value.notificationType == 'courses'">
+      <mat-label>Courses</mat-label>
+      <mat-select formControlName="courses" multiple>
+        <mat-option *ngFor="let sub of coursesList" [value]="sub">
+          {{sub.title}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="flex-wrap" *ngIf="notificationForm.value.notificationType == 'userFile'">
+      <div class="w-1-4">
+        <button type="button" class="button" mat-raised-button (click)="filePicker.click()">
+          <mat-icon>image</mat-icon> Select User File
+        </button>&nbsp;<span>{{fileName}}</span>
+        <input type="file" #filePicker (change)="onFileSelected($event)" accept=".csv,.xlsx,.xls,.json">
+      </div>
+      <!-- <div class="w-1-4">
+        <button mat-raised-button color="primary" (click)="FileSubmited()">Save</button>
+      </div> -->
+    </div>
+  </form>
+
+  <div *ngIf="notification_type=='scheduleNotification'">
+    <div>
+      <mat-form-field class="example-full-width">
+        <mat-label>Courses</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let sub of coursesList" [value]="sub" (click)="getSubjectsBasedOnCourse(sub)">
+            {{sub.title}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div><br>
+    <button type="button" class="button" (click)="filePicker.click()" mat-raised-button>
+      Schedule&nbsp;Notification&nbsp;File
+    </button>
+    &nbsp;<button mat-raised-button color="primary" [disabled]="!course"
+      (click)="FileSheduleNotificationsSubmited()">Send&nbsp;Notification</button>
+    <br><span>{{fileName}}</span>
+    <input type="file" #filePicker (change)="notificationFileSelected($event)" accept=".json"
+      style="width: 20px;">
+
+  </div>
+  <mat-card-actions align="end">
+    <button mat-raised-button color="primary" (click)="submit()" [disabled]="!notificationForm.valid" *ngIf="!notification_type">Send&nbsp;Notification</button>
+ 
+     <button mat-raised-button color="primary" (click)="submit()"
+      *ngIf="notification_type=='branch'" [disabled]="!notificationForm?.value?.title || !notificationForm?.value?.message || !branchIOUrl">Send&nbsp;Notification</button>
+
+  </mat-card-actions>
+</mat-card>

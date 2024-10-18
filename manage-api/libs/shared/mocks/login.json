@@ -1,0 +1,33 @@
+{
+  "status": true,
+  "message": "Login Successful!",
+  "response": {
+    "id": "259",
+    "name": "Test Name",
+    "email_id": "testname@gmail.com",
+    "mobile": "5555555555",
+    "password": "e10adc3949ba59abbe56e057f20f883e",
+    "token": "f3_DSgJkV2Y:APA91bFU9krP6Akrc3Mh7vCRk7piqkiG393mjl1Ybeqp2eT9ZL5QRKeEKvNefWB5Ay3ERKeunIqPTudBf1PFwFKItPqtTsZaAvps964FySsGaqX_6gjz6ODFDx6bSoXVHPR0O-ug_MEf",
+    "ios_token": null,
+    "gender": "Male",
+    "image": "",
+    "delete_status": "1",
+    "adding_through": "1",
+    "status": "Active",
+    "created_on": "2020-05-04 10:40:56",
+    "modified_on": "0000-00-00 00:00:00"
+  },
+  "user_exams": [
+    {
+      "id": "1751",
+      "user_id": "259",
+      "exam_id": "106",
+      "delete_status": "1",
+      "status": "Active",
+      "created_on": "2020-05-04 10:40:56",
+      "exam_name": "INTER TESTING",
+      "image": "storage/pdfs/90987C45-41F5-41F5-BA76-318FB7B25F2B.jpeg",
+      "users_exams": "yes"
+    }
+  ]
+}

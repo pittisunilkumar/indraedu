@@ -1,0 +1,202 @@
+
+  <div  style="overflow: hidden;"><br>
+    <div class="row">
+      <div class="col-sm-3" *ngFor="let card of cardsArray;let i = index">
+        <mat-card  routerLink="{{card.link}}" (click)="getRouthPath(card.link)"
+          *ngIf="cardsArray[i].active == true">
+          <table>
+            <tr>
+              <td>
+                <mat-icon>{{card.icon}}</mat-icon>
+              </td>
+              <td>
+                <div class="vl"></div>
+              </td>
+              <td class="titleHeading">
+                <h5>{{card.name}}</h5>
+                <h4>{{card.count.toLocaleString('en-IN')}}</h4>
+              </td>
+            </tr>
+          </table>
+        </mat-card>
+      </div>
+    </div>
+  <!-- <application-spinner *ngIf="cardsArray?.length == 0"></application-spinner> -->
+
+
+
+
+
+  <!-- <mat-grid-list cols="4" rowHeight="2:1" class="mainTable">
+    <mat-grid-tile *ngFor="let card of cardsArray;let i = index">
+      <mat-card class="mat-elevation-z6"  routerLink="{{card.link}}" *ngIf="cardsArray[i].active == true">
+        <table>
+          <tr>
+            <td>
+              <mat-icon>{{card.icon}}</mat-icon>
+            </td>
+            <td>
+              <div class="vl"></div>
+            </td>
+            <td class="titleHeading">
+              <h2>{{card.name}}</h2>
+              <h1>{{card.count}}</h1>
+            </td>
+          </tr>
+        </table>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list> -->
+
+
+
+
+  <!--  <mat-grid-list cols="4" rowHeight="2:1" class="mainTable">
+    <mat-grid-tile>
+      <mat-card class="mat-elevation-z6">
+        <table>
+          <tr>
+            <td>
+              <mat-icon>auto_stories</mat-icon>
+            </td>
+            <td>
+              <div class="vl"></div>
+            </td>
+            <td class="titleHeading">
+              <h2>Courses</h2>
+              <h1>100</h1>
+            </td>
+          </tr>
+        </table>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-card class="mat-elevation-z6">
+        <table>
+          <tr>
+            <td>
+              <mat-icon>subject</mat-icon>
+            </td>
+            <td>
+              <div class="vl"></div>
+            </td>
+            <td class="titleHeading">
+              <h2>Subjects</h2>
+              <h1>89785</h1>
+            </td>
+          </tr>
+        </table>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-card class="mat-elevation-z6">
+        <table>
+          <tr>
+            <td>
+              <mat-icon>play_circle_outline</mat-icon>
+            </td>
+            <td>
+              <div class="vl"></div>
+            </td>
+            <td class="titleHeading">
+              <h2>Videos</h2>
+              <h1>2566</h1>
+            </td>
+          </tr>
+        </table>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-card class="mat-elevation-z6">
+        <table>
+          <tr>
+            <td>
+              <mat-icon>people</mat-icon>
+            </td>
+            <td>
+              <div class="vl"></div>
+            </td>
+            <td class="titleHeading">
+              <h2>Employee</h2>
+              <h1>48</h1>
+            </td>
+          </tr>
+        </table>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <mat-grid-list cols="4" rowHeight="2:1" class="mainTable">
+    <mat-grid-tile>
+      <mat-card class="mat-elevation-z6">
+        <table>
+          <tr>
+            <td>
+              <mat-icon>people</mat-icon>
+            </td>
+            <td>
+              <div class="vl"></div>
+            </td>
+            <td class="titleHeading">
+              <h2>Users</h2>
+              <h1>1000000</h1>
+            </td>
+          </tr>
+        </table>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-card class="mat-elevation-z6">
+        <table>
+          <tr>
+            <td>
+              <mat-icon>quiz</mat-icon>
+            </td>
+            <td>
+              <div class="vl"></div>
+            </td>
+            <td class="titleHeading">
+              <h2>Tests</h2>
+              <h1>10000</h1>
+            </td>
+          </tr>
+        </table>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-card class="mat-elevation-z6">
+        <table>
+          <tr>
+            <td>
+              <mat-icon>subscriptions</mat-icon>
+            </td>
+            <td>
+              <div class="vl"></div>
+            </td>
+            <td class="titleHeading">
+              <h2>Subscriptions</h2>
+              <h1>500000</h1>
+            </td>
+          </tr>
+        </table>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-card class="mat-elevation-z6">
+        <table>
+          <tr>
+            <td>
+              <mat-icon>sell</mat-icon>
+            </td>
+            <td>
+              <div class="vl"></div>
+            </td>
+            <td class="titleHeading">
+              <h2>Coupons</h2>
+              <h1>150</h1>
+            </td>
+          </tr>
+        </table>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list> -->

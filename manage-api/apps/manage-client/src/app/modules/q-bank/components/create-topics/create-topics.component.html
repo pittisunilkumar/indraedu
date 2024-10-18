@@ -1,0 +1,197 @@
+<mat-card>
+  <div class="create-tests">
+    <div>
+      <form [formGroup]="form">
+        <mat-horizontal-stepper labelPosition="bottom" [linear]="true" #stepper>
+          <mat-step [stepControl]="form.controls.chooseCategoryForm">
+            <application-spinner *ngIf="mode !== 'add' && !topic"></application-spinner>
+            <div [formGroup]="form.controls.chooseCategoryForm" *ngIf="mode === 'add' || topic">
+              <ng-template matStepLabel>{{ 'PAGE.TEST_SERIES.STEPS.FIRST' | translate}}</ng-template>
+              <h5 translate>PAGE.TEST_SERIES.STEPS.FIRST</h5>
+              <div class="flex-wrap">
+                <div class="form-element">
+                  <mat-form-field>
+                    <mat-label>{{ 'COMMON.TITLE' | translate }}</mat-label>
+                    <input matInput  name="title" formControlName="title" />
+                  </mat-form-field>
+                </div>
+                <div class="form-element">
+                  <mat-form-field class="example-form-field">
+                    <mat-label>{{
+                      'COMMON.ORDER' | translate
+                      }}</mat-label>
+                    <input matInput oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                     name="order" formControlName="order" placeholder="Ex: 20" />
+                  </mat-form-field>
+                </div>
+                <div class="form-element">
+                  <mat-form-field>
+                    <mat-label translate>PAGE.TEST_SERIES.SCHEDULED_ON </mat-label>
+                    <input matInput [matDatepicker]="picker1" name="scheduledDate" formControlName="scheduledDate" />
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="full-width">
+                  <mat-form-field appearance="fill">
+                    <mat-label>{{ 'COMMON.DESCRIPTION' | translate }}</mat-label>
+                    <textarea matInput name="description" formControlName="description">
+                    </textarea>
+                  </mat-form-field>
+                </div>
+                <div class="form-element">
+                  <application-upload-image class="child" [isImage]="false" [url]="topic?.pdf?.fileUrl" [title]="'COMMON.PDF'"
+                    (formData)="getFileUrl($event, 'pdf')"></application-upload-image>
+                </div>
+                <div class="form-element child">
+                  <application-upload-image class="child" [url]="topic?.image?.imgUrl" (formData)="getFileUrl($event, 'imgUrl')">
+                  </application-upload-image>
+                </div>
+                <div class="form-element child">
+                  <application-upload-image class="child" [url]="topic?.icon?.imgUrl" [title]="'COMMON.ICON_URL'"
+                    (formData)="getFileUrl($event, 'iconUrl')"></application-upload-image>
+                </div>
+                <div class="form-element child" *ngIf="form.value.chooseCategoryForm.flags.suggested">
+                  <application-upload-image class="child" [url]="topic?.suggestedBanner?.imgUrl"
+                    title="Topic Suggested banner" (formData)="getFileUrl($event, 'suggestedBanner')">
+                  </application-upload-image>
+                </div>
+                <div class="full-width">
+                  <mat-form-field>
+                    <mat-label translate>COMMON.CHAPTERS</mat-label>
+                    <mat-select formControlName="chapter" [compareWith]="helper.compareFn">
+                      <mat-option *ngFor="let item of data.subject?.chapters" [value]="item">
+                        {{ item.title }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="full-width flags" [formGroup]="form.controls.chooseCategoryForm.get('flags')">
+                  <strong><span translate>COMMON.FLAGS</span></strong>
+                  <div class="flex-wrap">
+                    <div class="form-element child">
+                      <label for="active">
+                        <mat-checkbox class="example-margin" name="active" formControlName="active">
+                          {{ 'COMMON.ACTIVE' | translate }}</mat-checkbox>
+                      </label>
+                    </div>
+                    <div class="form-element child">
+                      <label for="paid">
+                        <mat-checkbox class="example-margin" name="paid" formControlName="paid">
+                          {{ 'COMMON.PAID' | translate }}</mat-checkbox>
+                      </label>
+                    </div>
+                    <div class="form-element child">
+                      <label for="suggested">
+                        <mat-checkbox class="example-margin" name="suggested" formControlName="suggested">
+                          {{ 'COMMON.SUGGESTED' | translate }}</mat-checkbox>
+                      </label>
+                    </div>
+                  </div>
+  
+                </div>
+              </div>
+              <div class="text-right button-group p-1">
+                <button mat-stroked-button color="warn" translate routerLink="../../list" (click)="cancel()">Cancel</button>
+                <button mat-raised-button color="primary" matStepperNext [disabled]="!form.controls.chooseCategoryForm.valid" (click)="getSubjectName()">Next</button>
+              </div>
+            </div>
+          </mat-step>
+          <!-- <mat-step [stepControl]="form.controls.assignQuestionsForm"> -->
+            <mat-step>
+            <div [formGroup]="form.controls.assignQuestionsForm">
+              <ng-template matStepLabel>{{ 'PAGE.TEST_SERIES.STEPS.SECOND' | translate}}</ng-template>
+              <h5 translate>PAGE.TEST_SERIES.STEPS.SECOND</h5>
+  
+              <!-- <application-questions-list [questions]="data?.questions" [canSelect]="true"
+                [assignedQuestions]="questionsAssigned" (selection)="assignQuestions($event)">
+              </application-questions-list> -->
+
+              <application-questions-list [questions]="data?.questions" [canSelect]="true"
+                [assignedQuestions]="topic?.que" (selection)="assignQuestions($event)" [total]="total">
+              </application-questions-list>
+  
+              <div class="text-right button-group p-1">
+                <span style="font-size: 20px;">Selected Questions : {{selectedQuestionsCount}}</span>&nbsp;&nbsp;
+                <button mat-stroked-button color="primary" matStepperPrevious>Back</button>
+                <button mat-raised-button color="primary" matStepperNext>Next</button>
+              </div>
+            </div>
+          </mat-step>
+          <mat-step>
+            <ng-template matStepLabel>{{ 'PAGE.TEST_SERIES.STEPS.FOURTH' | translate}}</ng-template>
+            <p>You are now done.</p>
+            <div class="flex-wrap confirm-step">
+              <div class="w-1-3">
+                <h5 translate>COMMON.COURSE</h5>
+                <div>
+                  <span class="tag">
+                    {{couresName}}
+                  </span>
+                </div>
+              </div>
+              <div class="w-1-3">
+                <h5 translate>COMMON.SUBJECTS</h5>
+                <div>
+                  <span class="tag">
+                    {{ subjectName }}
+                  </span>
+                </div>
+              </div>
+              <div class="w-1-3">
+                <h5><span translate>COMMON.QUESTIONS</span>&nbsp;<span translate>COMMON.COUNT</span></h5>
+                <div>
+                  <span class="tag">
+                    {{ selectedQuestionsCount }}
+                  </span>
+                </div>
+              </div>
+             
+              <div class="w-1-1">
+                <h5 translate>COMMON.QUESTIONS</h5>
+                <mat-form-field class="full-width">
+                  <mat-label translate>COMMON.SEARCH</mat-label>
+                  <input type="search" matInput name="search" [placeholder]="'COMMON.FILTER.BY_TITLE' | translate"
+                    (keyup)="filterList($event)" />
+                </mat-form-field>
+                <div>
+                  <mat-card class="card" *ngFor="let it of form.value.assignQuestionsForm.questions;let i = index">
+                    <div class="flex-wrap">
+                      <div class="w-1-3" style="width:50px">
+                        <strong translate>S.No</strong>
+                        <p>{{i+1}}</p>
+                      </div>
+                      <div class="w-1-3" style="width:800px">
+                        <strong translate>COMMON.TITLE</strong>
+                        <p [innerHTML]="it.que?.title | trustHtml " ></p>
+                      </div>
+                      <span class="spacer"></span>
+                      <div class="w-1-3" style="width:100px">
+                        <strong translate>COMMON.ORDER</strong>
+                        <p> {{ it.order }} </p>
+                      </div>
+                      <div class="w-1-3" style="width:50px">
+                        <mat-icon class="view" color="warn" (click)="deleteQuestions(it.que?.uuid)"  matTooltip="Delete">
+                          delete
+                        </mat-icon>
+                      </div>
+                    </div>
+                  </mat-card>
+                </div>
+              </div>
+            </div>
+            <div class="text-right button-group p-1">
+              <button mat-stroked-button color="warn" (click)="stepper.reset()">Reset</button>
+              <button mat-stroked-button color="warn" matStepperPrevious>Back</button>
+              <button  mat-raised-button color="primary" type="submit" *ngIf="!isApiCalling" (click)="submit()"
+                translate>Submit</button>
+              <button mat-raised-button color="primary" type="submit" class="submit-btn" *ngIf="isApiCalling">
+                <mat-spinner class="spinner white-spinner" strokeWidth="2.5" diameter='20'></mat-spinner>
+              </button>
+            </div>
+          </mat-step>
+        </mat-horizontal-stepper>
+      </form>
+    </div>
+  </div>
+</mat-card>

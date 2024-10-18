@@ -1,0 +1,10 @@
+<div class="command-remove-dialog">
+    <div>
+        <div mat-dialog-content>
+            <span><b>{{payload.course}} & {{payload.subject}}</b> were already exists.</span>
+        </div>
+    </div>
+    <div mat-dialog-actions align="end">
+        <button   mat-raised-button color="primary" [mat-dialog-close]="'confirm'" (click)="submit()" type="submit">Ok</button>
+    </div>
+</div>

@@ -1,0 +1,139 @@
+<div class="users-list mat-table-wrapper">
+<div class="row">
+    <div class="col-sm-8">
+        <mat-form-field>
+            <mat-label translate>COMMON.SEARCH</mat-label>
+            <input matInput (keyup)="applyFilter($event)" [placeholder]="'COMMON.FILTER.BY_TITLE' | translate"
+                #input />
+        </mat-form-field>
+    </div>
+    <div class="col-sm-3">
+        <form [formGroup]="resetForm">
+            <mat-form-field appearance="outline" style="font-size: 14px;">
+                <mat-label translate>Enter&nbsp;Mobile&nbsp;Number</mat-label>
+                <input matInput formControlName="mobile" maxlength="10">
+            </mat-form-field>
+        </form>
+    </div>
+    <div class="col-sm-1">
+        <button style="margin-top: 10px;" mat-raised-button color="primary" [disabled]="resetForm?.value?.mobile?.length != 10"
+        (click)="submit()">Submit</button>
+    </div>
+</div>
+    <!-- <table style="width: 100%;">
+        <tr>
+            <td style="width: 65%;">
+                <mat-form-field>
+                    <mat-label translate>COMMON.SEARCH</mat-label>
+                    <input matInput (keyup)="applyFilter($event)" [placeholder]="'COMMON.FILTER.BY_TITLE' | translate"
+                        #input />
+                </mat-form-field>
+            </td>
+            <td>
+                <form [formGroup]="resetForm">
+                    <mat-form-field appearance="outline" style="font-size: 14px;">
+                        <mat-label translate>Enter&nbsp;Mobile&nbsp;Number</mat-label>
+                        <input matInput formControlName="mobile" maxlength="10">
+                    </mat-form-field>
+                </form>
+            </td>
+            <td>
+                <button mat-raised-button color="primary" [disabled]="resetForm?.value?.mobile?.length != 10"
+                    (click)="submit()">Submit</button>
+            </td>
+        </tr>
+    </table> -->
+
+    <div class="mat-elevation-z1">
+        <table mat-table [dataSource]="dataSource">
+            <ng-container matColumnDef="sno">
+                <th mat-header-cell *matHeaderCellDef>S.No</th>
+                <td mat-cell *matCellDef="let row;let i = index">{{dataSource.filteredData.indexOf(row)+1 }}</td>
+            </ng-container>
+            <ng-container matColumnDef="mobile">
+                <th mat-header-cell *matHeaderCellDef>
+                    Mobile Number
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.mobile }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="subscription">
+                <th mat-header-cell *matHeaderCellDef>
+                    Subscription
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <mat-slide-toggle matTooltipPosition="left" (click)="changeStatus(row._id, row?.subscription,'subscription')"
+                        [checked]="row?.subscription ===  true " class="primary">
+                    </mat-slide-toggle>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="submission">
+                <th mat-header-cell *matHeaderCellDef>
+                    Submission
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <mat-slide-toggle matTooltipPosition="left" (click)="changeStatus(row._id, row?.submission,'submission')"
+                        [checked]="row?.submission ===  true " class="primary">
+                    </mat-slide-toggle>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="showInActiveCourses">
+                <th mat-header-cell *matHeaderCellDef>
+                    ShowInActiveCourses
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <mat-slide-toggle matTooltipPosition="left" (click)="changeStatus(row._id, row?.showInActiveCourses,'showInActiveCourses')"
+                        [checked]="row?.showInActiveCourses ===  true " class="primary">
+                    </mat-slide-toggle>
+                </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef>
+                    Status
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <mat-slide-toggle matTooltipPosition="left" (click)="changeStatus(row._id, row?.status,'status')"
+                        [checked]="row?.status ===  true " class="primary">
+                    </mat-slide-toggle>
+                </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="createdOn">
+                <th mat-header-cell *matHeaderCellDef>
+                    {{ 'COMMON.CREATED_ON' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let row">{{row.createdOn | date:'mediumDate' }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>
+                    Actions
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <!-- <mat-icon mat-icon-button color="warn" class="view" matTooltip="Delete" (click)="delete(row.uuid)">
+                        delete
+                    </mat-icon> -->
+                    <i class="material-icons" style="color:#f22424;" matTooltip="Delete" (click)="delete(row.uuid)">
+                        delete
+                    </i>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="8">
+                    No data matching the filter "{{ input.value }}"
+                </td>
+            </tr>
+        </table>
+
+        <mat-paginator [showFirstLastButtons]="true" [pageSizeOptions]="[10,25,50, 100]"></mat-paginator>
+
+    </div>
+</div>

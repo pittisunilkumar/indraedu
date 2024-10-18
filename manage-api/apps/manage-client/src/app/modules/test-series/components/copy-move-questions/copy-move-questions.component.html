@@ -1,0 +1,35 @@
+<div><br>
+    <h1 style="text-align: center;">{{type}}&nbsp;{{mode}}</h1>
+    <div>
+        <form [formGroup]="form" (ngSubmit)="submit()">
+
+            <mat-form-field>
+                <mat-label translate>COMMON.TO_CATEGORY</mat-label>
+                <input matInput (keyup)="categoryFilter($event)" formControlName="toCategory"
+                    [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let cat of categories" [value]="cat.categories.title"
+                        (click)="getTests(cat)">
+                        {{cat.categories.title}} ({{cat.courses.title}})
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+           
+            <mat-form-field *ngIf="mode == 'questions' ">
+                <mat-label translate>COMMON.TO_TEST</mat-label>
+                <mat-select formControlName="toTest">
+                    <mat-option *ngFor="let test of testList" [value]="test" (click)="getQuestions(test)">
+                        {{test.title}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <!-- <div mat-dialog-actions align="end"> -->
+                <button class="closeButton" mat-raised-button color="warn" mat-dialog-close translate>Cancel</button>&nbsp;
+                <button mat-raised-button color="primary" type="submit" translate
+                    [mat-dialog-close]="'confirm'">Submit</button>
+            <!-- </div> -->
+        </form>
+    </div>
+   
+
+
+</div>

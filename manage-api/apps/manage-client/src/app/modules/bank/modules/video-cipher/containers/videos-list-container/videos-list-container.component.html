@@ -1,0 +1,97 @@
+<div class="videos-list-container" >
+
+  <div class="page-title">
+
+    <div class="title">
+      <h2>VideoCypher video list</h2>
+    </div>
+    <!-- UPLOAD FUNCTIONALITY IS NOT LIVE YET  -->
+    <!-- <div class="action-buttons">
+      <button
+        class="primary"
+        [translate]="'PAGE.VDO_CIPHER.UPLOAD'"
+        [routerLink]="['../', 'create']"
+      ></button>
+    </div> -->
+  </div>
+
+  <div class="filters">
+  <mat-card>
+      <h3 translate="COMMON.FILTERS"></h3>
+      <form [formGroup]="form" *ngIf="form">
+        <div class="flex-wrap">
+          <div class="w-1-3">
+            <mat-form-field appearance="fill">
+              <mat-label translate="COMMON.COURSE"></mat-label>
+              <mat-select formControlName="course">
+                <mat-option *ngFor="let item of (videoCourses$ | async)?.response" [value]="item">
+                  {{ item.title }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="w-1-3">
+            <mat-form-field appearance="fill">
+              <mat-label translate="COMMON.SUBJECT"></mat-label>
+              <mat-select formControlName="subject">
+                <mat-option *ngFor="let item of videoSubjectsByCourseId" [value]="item">
+                  {{ item.title }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="w-1-3">
+            <mat-form-field appearance="fill">
+              <mat-label translate="COMMON.CHAPTERS"></mat-label>
+              <mat-select formControlName="chapter">
+                <mat-option *ngFor="let item of chapters" [value]="item">
+                  {{ item.title }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="text-right button-group">
+          <button mat-stroked-button color="warn" translate (click)="reset()">
+          Reset
+          </button>
+          <button
+            mat-raised-button
+            type="submit"
+            color="primary"
+            [disabled]="!form.value.course"
+            (click)="applyFilters()"
+            translate
+          >
+          Apply Filters
+          </button>
+        </div>
+      </form>
+  </mat-card>
+  </div>
+
+  <application-videos-list [list]="filteredList" *ngIf="filteredList?.length"></application-videos-list>
+
+  <div *ngIf="!filteredList?.length" class="card empty-list">
+    <h3 class="text-center h3" translate>
+      COMMON.FILTER.EMPTY
+    </h3>
+  </div>
+  <div class="fixed">
+    <div class="flex-wrap">
+      <h2 class="videos-length" style="margin-left: 50px;">
+        <span> {{ 'COMMON.VIDEO_LOCALE.LENGTH' | translate }}: </span>
+        <strong>{{ response?.count }}</strong>
+      </h2>
+      <mat-paginator [length]="response?.count"
+        [pageSize]="pageOptions.limit"
+        [showFirstLastButtons]="true"
+        (page)="loadDataByParams($event)"
+        style="margin-left: -50px;">
+      </mat-paginator>
+    </div>
+
+  </div>
+
+</div>

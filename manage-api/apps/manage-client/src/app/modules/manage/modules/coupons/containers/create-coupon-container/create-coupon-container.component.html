@@ -1,0 +1,16 @@
+<div class="create-coupon-container" >
+  
+  <h2>
+    <span translate *ngIf="mode === 'add'">PAGE.COUPONS.ADD_TITLE</span>
+    <span translate *ngIf="mode === 'edit'">PAGE.COUPONS.EDIT_TITLE</span>
+  </h2>
+
+  <application-form-error [errors]="errors"></application-form-error>
+
+  <application-create-coupon
+    (commit)="submit($event)"
+    [mode]="mode"
+    [coupon]="coupon$ | async">
+  </application-create-coupon>
+
+</div>

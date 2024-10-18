@@ -1,0 +1,307 @@
+<mat-card>
+    <h2 style="text-align: center;">User Payment Details</h2>
+    <div class="flex-wrap">
+        <div class="w-1-3" *ngIf="transactions?.transactionId">
+            <span><b> Transaction Id</b></span>
+            <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+            <span> {{transactions?.transactionId}}</span>
+        </div>
+        <div class="w-1-3" *ngIf="transactions?.userId.name">
+            <span> <b>User Name</b></span>
+            <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+            <span>{{transactions?.userId.name}}</span>
+        </div>
+        <div class="w-1-3" *ngIf="transactions?.userId.mobile">
+            <span><b> User Mobile</b></span>
+            <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+            <span>{{transactions?.userId.mobile}}</span>
+        </div>
+
+        <div class="w-1-3" *ngIf="transactions?.subscriptionId?.title">
+            <span><b> Subscription</b></span>
+            <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+            <span>{{transactions?.subscriptionId.title}}</span>
+        </div>
+
+        <div class="w-1-3" *ngIf="transactions?.couponId != null ">
+            <span> <b>Coupon</b></span>
+            <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+            <span>{{transactions?.couponId.code }}</span>&nbsp;
+            <span *ngIf="transactions?.couponId.discountType ==='flat'">[&nbsp;{{transactions?.couponId.discount
+                |
+                currency:'INR'}}&nbsp;]</span>
+            <span
+                *ngIf="transactions?.couponId.discountType ==='percentage'">[&nbsp;{{transactions?.couponId.discount}}%&nbsp;]</span>
+        </div>
+        <div class="w-1-3" *ngIf="transactions?.actualPrice">
+            <span><b> Actual Price</b></span>
+            <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+            <span>{{transactions?.actualPrice}}</span>
+        </div>
+        <div class="w-1-3" >
+            <span> <b>Discount Price</b></span>
+            <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+            <span style="color: red;font-weight: bold;">{{transactions?.discountPrice}}</span>
+        </div>
+        <div class="w-1-3" *ngIf="transactions?.finalPaidAmount">
+            <span><b> Paid Amount</b></span>
+            <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+            <span style="color: green;font-weight: bold;">{{transactions?.finalPaidAmount?.toFixed(2) | currency:'INR'}}</span>
+        </div>
+        <div class="w-1-3" *ngIf="transactions?.paymentType">
+            <span><b> Payment Type</b></span>
+            <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+            <span>{{transactions?.paymentType}}</span>
+        </div>
+        <div class="w-1-3" *ngIf="transactions?.paymentStatus">
+            <span><b>Payment Status</b></span>
+            <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+            <span style="color: green;font-weight: bold;" *ngIf="transactions.paymentStatus == 'SUCCESS'">{{transactions?.paymentStatus}}</span>
+            <span style="color: yellowgreen;font-weight: bold;"  *ngIf="transactions.paymentStatus == 'PENDING'">{{transactions?.paymentStatus}}</span>
+            <span style="color: red;font-weight: bold;" *ngIf="transactions.paymentStatus == 'FAILED'">{{transactions?.paymentStatus}}</span>
+        </div>
+        <div class="w-1-3" *ngIf="transactions?.modeOfPayment">
+            <span><b>Mode Of Payment</b></span>
+            <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+            <span>{{transactions?.modeOfPayment}}</span>
+        </div>
+        <div class="w-1-3" *ngIf="transactions?.billNumber">
+            <span><b>Bill Number</b></span>
+            <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+            <span>{{ transactions?.billNumber }}</span>&nbsp;
+        </div>
+        <div class="w-1-3" *ngIf="transactions?.chequeNumber">
+            <span><b>Cheque Number</b></span>
+            <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+            <span>{{ transactions?.chequeNumber}}</span>&nbsp;
+        </div>
+        <div class="w-1-3" *ngIf="transactions?.chequeDate">
+            <span><b>Cheque Date</b></span>
+            <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+            <span>{{ transactions?.chequeDate | date:"mediumDate" }}</span>&nbsp;
+        </div>
+        <div class="w-1-3" *ngIf="transactions?.bankName">
+            <span><b>Bank Name</b></span>
+            <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+            <span>{{ transactions?.bankName }}</span>&nbsp;
+        </div>
+        <div class="w-1-3" *ngIf="transactions?.referenceNumber">
+            <span><b>Reference&nbsp;Number</b></span>
+            <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+            <span>{{ transactions?.referenceNumber }}</span>&nbsp;
+        </div>
+        <div class="w-1-3" *ngIf="transactions?.creditORdebitCard">
+            <span><b>Credit/Debit Card</b></span>
+            <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+            <span>{{ transactions?.creditORdebitCard }}</span>&nbsp;
+        </div>
+        <div class="w-1-3" *ngIf="transactions?.cardType">
+            <span><b>Card Type</b></span>
+            <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+            <span>{{ transactions?.cardType }}</span>&nbsp;
+        </div>
+        <div class="w-1-3" *ngIf="transactions?.upiId">
+            <span><b>Upi Id</b></span>
+            <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+            <span>{{ transactions?.upiId }}</span>&nbsp;
+        </div>
+        <div class="w-1-3" *ngIf="transactions?.mode_transactionNumber">
+            <span><b>Transaction&nbsp;Number</b></span>
+            <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+            <span>{{ transactions?.mode_transactionNumber}}</span>&nbsp;
+        </div>
+        <div class="w-1-3" *ngIf="transactions?.razorpayOrderId">
+            <span><b>RazorPay&nbsp;OrderId</b></span>
+            <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+            <span>{{ transactions?.razorpayOrderId }}</span>&nbsp;
+        </div>
+        <div class="w-1-3" *ngIf="transactions?.razorPayPaymentId">
+            <span><b>RazorPay&nbsp;PaymentId</b></span>
+            <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+            <span>{{ transactions?.razorPayPaymentId }}</span>&nbsp;
+        </div>
+        <div class="w-1-3" *ngIf="transactions?.razoraySignature">
+            <span><b>RazorPay&nbsp;Signature</b></span>
+            <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+            <span>{{ transactions?.razoraySignature | slice:1:20  }}...</span>&nbsp;
+        </div>
+        <div class="w-1-3" *ngIf="transactions?.dateOfPayment">
+            <span><b>Date Of Payment</b></span>
+            <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+            <span>{{transactions?.dateOfPayment | date:"mediumDate"}}</span>
+        </div>
+        <div class="w-1-3" *ngIf="transactions?.expiryDate">
+            <span><b>Expiry Date</b></span>
+            <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+            <span>{{transactions?.expiryDate | date:"mediumDate"}}</span>
+        </div>
+        <div class="w-1-3" *ngIf="transactions?.paymentMessage">
+            <span><b>Payment Message</b></span>
+            <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+            <span>{{ transactions?.paymentMessage }}</span>&nbsp;
+        </div>
+    </div>
+
+    <!-- <table style="text-align: left;">
+        <tr>
+            <th> Transaction Id</th>
+            <th>:&nbsp;&nbsp;</th>
+            <td> <span>{{transactions?.transactionId}}</span></td>
+            <th> User Name</th>
+            <th>:&nbsp;&nbsp;</th>
+            <td>
+                <span>{{ transactions?.userId.name ?transactions?.userId.name:'---' }}</span>&nbsp;
+            </td>
+            <th> User Mobile</th>
+            <th>:&nbsp;&nbsp;</th>
+            <td>
+                <span>{{transactions?.userId.mobile}}</span>
+            </td>
+        </tr>
+        <tr>
+            <th> Subscription</th>
+            <th>:&nbsp;&nbsp;</th>
+            <td>
+                <span>{{transactions?.subscriptionId.title}}</span>
+            </td>
+            <th> Coupon</th>
+            <th>:&nbsp;&nbsp;</th>
+            <td>
+                <span>{{transactions?.couponId == null ?'---':transactions?.couponId.code }}</span>&nbsp;
+                <span *ngIf="transactions?.couponId != null">
+                    <span *ngIf="transactions?.couponId.discountType ==='flat'">[&nbsp;{{transactions?.couponId.discount
+                        |
+                        currency:'INR'}}&nbsp;]</span>
+                    <span
+                        *ngIf="transactions?.couponId.discountType ==='percentage'">[&nbsp;{{transactions?.couponId.discount}}%&nbsp;]</span>
+                </span>
+            </td>
+            <th> Actual Price</th>
+            <th>:&nbsp;&nbsp;</th>
+            <td><span>{{transactions?.actualPrice}}</span></td>
+        </tr>
+        <tr>
+            <th> Discount Price</th>
+            <th>:&nbsp;&nbsp;</th>
+            <td>
+                <span>{{transactions?.discountPrice}}</span>
+            </td>
+            <th> Paid Amount</th>
+            <th>:&nbsp;&nbsp;</th>
+            <td>
+                <span>{{transactions?.finalPaidAmount}}</span>
+            </td>
+            <th> Payment Type</th>
+            <th>:&nbsp;&nbsp;</th>
+            <td> <span>{{transactions?.paymentType}}</span></td>
+        </tr>
+        <tr>
+
+            <th>Payment Status</th>
+            <th>:&nbsp;&nbsp;</th>
+            <td>
+                <span>{{transactions?.paymentStatus}}</span>
+            </td>
+            <th>Mode Of Payment</th>
+            <th>:&nbsp;&nbsp;</th>
+            <td>
+                <span>{{transactions?.modeOfPayment}}</span>
+            </td>
+            <th>Bill Number</th>
+            <th>:&nbsp;&nbsp;</th>
+            <td>
+                <span>{{ transactions?.billNumber ?transactions?.billNumber:'---' }}</span>&nbsp;
+            </td>
+        </tr>
+        <tr>
+            <th>Cheque Number</th>
+            <th>:&nbsp;&nbsp;</th>
+            <td>
+                <span>{{ transactions?.chequeNumber ?transactions?.chequeNumber:'---' }}</span>&nbsp;
+            </td>
+            <th>Cheque Date</th>
+            <th>:&nbsp;&nbsp;</th>
+            <td>
+                <span *ngIf="transactions?.chequeDate">{{ transactions?.chequeDate | date:"mediumDate" }}</span>&nbsp;
+                <span *ngIf="!transactions?.chequeDate">---</span>&nbsp;
+            </td>
+            <th>Bank Name</th>
+            <th>:&nbsp;&nbsp;</th>
+            <td>
+                <span>{{ transactions?.bankName ?transactions?.bankName:'---' }}</span>&nbsp;
+            </td>
+        </tr>
+        <tr>
+            <th>Reference&nbsp;Number</th>
+            <th>:&nbsp;&nbsp;</th>
+            <td>
+                <span>{{ transactions?.referenceNumber ?transactions?.referenceNumber:'---' }}</span>&nbsp;
+            </td>
+            <th>Credit/Debit Card</th>
+            <th>:&nbsp;&nbsp;</th>
+            <td>
+                <span>{{ transactions?.creditORdebitCard ?transactions?.creditORdebitCard:'---' }}</span>&nbsp;
+            </td>
+            <th>Card Type</th>
+            <th>:&nbsp;&nbsp;</th>
+            <td>
+                <span>{{ transactions?.cardType ?transactions?.cardType:'---' }}</span>&nbsp;
+            </td>
+        </tr>
+        <tr>
+            <th>Upi Id</th>
+            <th>:&nbsp;&nbsp;</th>
+            <td>
+                <span>{{ transactions?.upiId ?transactions?.upiId:'---' }}</span>&nbsp;
+            </td>
+            <th>Transaction&nbsp;Number</th>
+            <th>:&nbsp;&nbsp;</th>
+            <td>
+                <span>{{ transactions?.mode_transactionNumber ?transactions?.mode_transactionNumber:'---'
+                    }}</span>&nbsp;
+            </td>
+            <th>Razorpay&nbsp;OrderId</th>
+            <th>:&nbsp;&nbsp;</th>
+            <td>
+                <span>{{ transactions?.razorpayOrderId ?transactions?.razorpayOrderId:'---' }}</span>&nbsp;
+            </td>
+        </tr>
+        <tr>
+            <th>RazorPay&nbsp;PaymentId</th>
+            <th>:&nbsp;&nbsp;</th>
+            <td>
+                <span>{{ transactions?.razorPayPaymentId ?transactions?.razorPayPaymentId:'---' }}</span>&nbsp;
+            </td>
+            <th>Razoray&nbsp;Signature</th>
+            <th>:&nbsp;&nbsp;</th>
+            <td>
+                <span>{{ transactions?.razoraySignature ?transactions?.razoraySignature:'---' }}</span>&nbsp;
+            </td>
+            <th>Date Of Payment</th>
+            <th>:&nbsp;&nbsp;</th>
+            <td>
+                <span>{{transactions?.dateOfPayment | date:"mediumDate"}}</span>
+            </td>
+        </tr>
+        <tr>
+
+            <th>Expiry Date</th>
+            <th>:&nbsp;&nbsp;</th>
+            <td>
+                <span>{{transactions?.expiryDate | date:"mediumDate"}}</span>
+            </td>
+
+            <th>Payment Message</th>
+            <th>:&nbsp;&nbsp;</th>
+            <td>
+                <span>{{ transactions?.paymentMessage ?transactions?.paymentMessage:'---' }}</span>&nbsp;
+            </td>
+
+        </tr>
+    </table> -->
+
+   <br><br>
+    <button  mat-raised-button color="primary" class="paymentsButton" (click)="backToPaymentsList()">Back</button>&nbsp;
+   <button  mat-stroked-button color="primary" *ngIf="transactions?.paymentStatus == 'PENDING' && transactions?.modeOfPayment=='RAZORPAY'"
+    (click)="checkPaymentStatus(transactions?.razorpayOrderId)">Check Payment Status</button>
+</mat-card>

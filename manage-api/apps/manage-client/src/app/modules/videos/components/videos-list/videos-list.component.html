@@ -1,0 +1,258 @@
+<div class="videos-list" *ngIf="chapters">
+  <table>
+    <tr>
+      <td style="width: 85%;">
+        <mat-form-field class="full-width">
+          <mat-label translate>COMMON.SEARCH</mat-label>
+          <input type="search" matInput name="search" [placeholder]="'COMMON.FILTER.BY_TITLE' | translate"
+            (keyup)="filterList($event)" />
+        </mat-form-field>
+      </td>
+      <td>
+        <mat-form-field style="margin-top: -3px;">
+          <mat-label>Select&nbsp;Order&nbsp;Type</mat-label>
+          <mat-select>
+            <mat-option value="dragAndDrop" #dragAndDrop (click)="selectChapterOrderType(dragAndDrop)">Drag And Drop
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </td>
+      <!-- <td>
+        <mat-checkbox style="margin-left: -200px;" [checked]="allChapterComplete" [indeterminate]="ChapterIndeterminate"
+          (change)="setAllChapters($event.checked)">Select&nbsp;All&nbsp;Chapters&nbsp;&nbsp;&nbsp;&nbsp;</mat-checkbox>
+      </td> -->
+    </tr>
+  </table>
+
+  <div cdkDropListGroup>
+    <div cdkDropList [cdkDropListData]="filteredList" (cdkDropListDropped)="dropChapters($event)">
+      <div class="example-Box">
+        <table>
+          <tr>
+            <td style="width: 50px;">S.No</td>
+            <td style="width: 400px;">&nbsp;&nbsp;&nbsp;Title</td>
+            <td style="width: 80px;">&nbsp;&nbsp;&nbsp;Order</td>
+            <td style="width: 80px;">&nbsp;Video&nbsp;Count</td>
+            <td style="width: 80px;">&nbsp;&nbsp;&nbsp;Action</td>
+            <td style="width: 80px;">
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <mat-checkbox [checked]="allChapterComplete" [indeterminate]="ChapterIndeterminate"
+                (change)="setAllChapters($event.checked)"></mat-checkbox>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <mat-accordion class="example-headers-align" multi>
+        <mat-expansion-panel *ngFor="let chapter of filteredList;let i = index" [cdkDragDisabled]="chapter.disabled" cdkDrag>
+          <mat-expansion-panel-header (click)="getChapterUUid(chapter,i)">
+            <table>
+              <tr>
+                <td style="width: 50px;">
+                  <label>{{i+1}}</label>
+                </td>
+                <td style="width: 400px;">
+                  <span>{{ chapter.title }}</span>
+                </td>
+                <td style="width: 80px;text-align: left;">
+                  <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ chapter.order }}</span>
+                </td>
+                <td style="width: 80px;text-align: center;">
+                  <span>{{ chapter.videos?.length }}</span>
+                </td>
+                <td style="width: 80px;text-align: center;">
+                  <!-- <mat-icon class="view" *ngIf="isChapterVisible" color="warn" matTooltip="Delete"
+                    (click)="chapterDelete.emit(chapter)"> delete
+                  </mat-icon> -->
+                  <i class="material-icons" style="color:#f22424;" *ngIf="isChapterVisible" matTooltip="Delete"
+                    (click)="chapterDelete.emit(chapter)"> delete
+                </i>
+                </td>
+                <td style="width: 80px;">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <mat-checkbox (click)="$event.stopPropagation()" (change)="toggleChapter($event,chapter)"
+                    [checked]="allChapterSelected">
+                  </mat-checkbox>
+                </td>
+              </tr>
+            </table>
+            <!-- <mat-panel-title>
+              <label>{{i+1}}</label>.&nbsp; <span>{{ chapter.title }}</span>
+            </mat-panel-title>
+            <mat-panel-description>
+              <div class="flex-wrap">
+                <div>
+                  <span translate>COMMON.ORDER</span>
+                  <strong class="px-1">{{ chapter.order }}</strong>
+                </div>
+                <div>
+                  <span translate>COMMON.COUNT</span>
+                  <strong class="px-1">{{ chapter.videos?.length }}</strong>
+                </div>
+              </div>
+              <mat-icon class="chapterDelete" *ngIf="isChapterVisible" color="warn" matTooltip="Delete"
+                (click)="chapterDelete.emit(chapter)"> delete
+              </mat-icon>
+              <mat-checkbox class="chapterDelete-checkbox" (click)="$event.stopPropagation()"
+                (change)="toggleChapter($event,chapter)" [checked]="allChapterSelected">
+              </mat-checkbox>
+            </mat-panel-description> -->
+          </mat-expansion-panel-header>
+
+          <div class="videos" (mouseover)="getChapterUUid(chapter,i)" *ngIf="viewVideoEnable">
+
+            <div class="flex-wrap" (click)="getVideos(chapter?.videos,i)">
+
+              <div class="w-1-1">
+
+                <h3 translate>COMMON.VIDEOS</h3>
+                <table>
+                  <tr>
+                    <td style="width: 85%;">
+                      <mat-form-field class="full-width">
+                        <mat-label translate>COMMON.SEARCH</mat-label>
+                        <input type="search" matInput name="search" [placeholder]="'COMMON.FILTER.BY_TITLE' | translate"
+                          (keyup)="filterVideoList($event,i)" />
+                      </mat-form-field>
+                    </td>
+                    <td>
+                      <mat-form-field style="margin-top: -4px;">
+                        <mat-label>Select&nbsp;Order&nbsp;Type</mat-label>
+                        <mat-select>
+                          <mat-option value="dragAndDrop" #dragAndDrop (click)="selectOrderType(dragAndDrop)">Drag And
+                            Drop
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </td>
+                  </tr>
+                </table>
+                <div *ngIf="chapter?.videos?.length">
+                  <div class="example-container">
+                    <div class="exampleBox">
+                      <table style="text-align: left;">
+                        <tr>
+                          <th style="width: 30px;">S.No</th>
+                          <th style="width: 350px;">Title</th>
+                          <th style="width: 50px;text-align: center;">Order</th>
+                          <th style="width: 350px;text-align: center;">Video&nbsp;Id</th>
+                          <th style="width: 250px;text-align: center;">Actions</th>
+                          <th style="width:80px;text-align: left;">Status</th>
+                          <th style="text-align: right;">
+                            <mat-checkbox [checked]="allComplete[i]" [indeterminate]="Indeterminate[i]"
+                              (change)="setAll($event.checked,i)">
+                            </mat-checkbox>
+                          </th>
+                        </tr>
+                      </table>
+                    </div>
+                    <div cdkDropList [cdkDropListData]="filteredList[i]?.videos"
+                      (cdkDropListDropped)="drop($event,filteredList[i]?.videos)">
+                      <div class="example-box" *ngFor="let vid of filteredList[i]?.videos;let j = index"
+                        (click)="getChapterUUid(chapter,i)" cdkDrag [cdkDragDisabled]="vid.disabled">
+                        <table>
+                          <tr>
+                            <td style="width: 30px;">{{j+1}}</td>
+                            <td style="width: 350px;">{{ vid.title }}</td>
+                            <td style="width: 50px;text-align: center;">{{ vid.order }}</td>
+                            <td style="width: 350px;text-align: center;">{{ vid?.videoId }}</td>
+                            <td style="width: 250px;text-align: center;">
+                              <a [routerLink]="['../', vid.uuid, 'edit']" *ngIf="editVideoEnable">
+                                <mat-icon class="view" color="primary" matTooltip="Edit"> mode </mat-icon>
+                              </a>
+                              <mat-icon color="warn" *ngIf="deleteVideoEnabled" class="view" matTooltip="Delete"
+                                (click)="delete.emit(vid)"> delete
+                              </mat-icon>
+                            </td>
+                            <td style="width:80px;text-align: left;">
+                              <span *ngIf="!vid.flags?.active">
+                                <b style="color: red;">{{vid.flags?.active}}</b>
+                              </span>
+                              <span *ngIf="vid.flags?.active">
+                                <b style="color: green;">{{vid.flags?.active}}</b>
+                              </span>
+                            </td>
+                            <td style="text-align: right;">
+                              <mat-checkbox (change)="toggleVideos($event,vid)" [checked]="allSelected[i]">
+                              </mat-checkbox>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <!-- <div cdkDropListGroup>
+                    <div class="example-container">
+                      <div cdkDropList [cdkDropListData]="filteredList[i]?.videos" class="example-list"
+                        (cdkDropListDropped)="drop($event,filteredList[i]?.videos)">
+                        <div class="topics bg-f8 my-1" *ngFor="let vid of filteredList[i]?.videos;let j = index"
+                          cdkDrag>
+                          <div class="flex-wrap my-1" (click)="getChapterUUid(chapter,i)">
+                            <div class="w-1-4">
+                              &nbsp;&nbsp;&nbsp;&nbsp; <strong translate>COMMON.TITLE</strong>
+                              <br>
+                              <label>{{j+1}}</label>.&nbsp; <span>{{ vid.title }}</span>
+                            </div>
+                            <div class="w-1-4">
+                              <strong translate>COMMON.ORDER</strong>
+                              <br>
+                              <span>{{ vid.order }}</span>
+                            </div>
+                            <div class="w-1-4">
+                              <strong translate>COMMON.VIDEO_LOCALE.VIDEO_ID</strong>
+                              <br>
+                              <span>{{ vid.videoId }}</span>
+                            </div>
+
+                            <div class="w-1-4">
+                              <a [routerLink]="['../', vid.uuid, 'edit']" *ngIf="editVideoEnable">
+                                <mat-icon class="view" color="primary" matTooltip="Edit"> mode </mat-icon>
+                              </a>
+                              <mat-icon color="warn" *ngIf="deleteVideoEnabled" class="view" matTooltip="Delete"
+                                (click)="delete.emit(vid)"> delete
+                              </mat-icon>
+                              <mat-checkbox class="mat-checkbox" (change)="toggleVideos($event,vid)"
+                                [checked]="allSelected[i]">
+                              </mat-checkbox>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div> -->
+                  <div class="copyAndMovebuttons" *ngIf="isChangeBtnEnabled">
+                    <button mat-raised-button color="primary" translate (click)="updateVideoOrder(chapter)">Change
+                      Order</button>
+                  </div>
+                </div>
+                <div class="copyAndMovebuttons" *ngIf="isBtnEnabled[i]">
+                  <span style="font-size: 20px;">Selected Videos : {{selectedVideoCount[i]}}</span>&nbsp;&nbsp;
+                  <button mat-raised-button color="primary" translate (click)="copyVideos()">Copy</button>
+                  <button mat-raised-button color="primary" translate (click)="moveVideos()">Move</button>
+                  <!-- <button  mat-raised-button color="warn" translate class="danger" (click)="multipletDeleteVideos()">Delete</button> -->
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </mat-expansion-panel>
+
+      </mat-accordion><br>
+
+    </div>
+  </div>
+  <div class="copyAndMovebuttons" *ngIf="isChapterChangeBtnEnabled">
+    <button mat-raised-button color="primary" translate (click)="updateChapterOrder()">Change
+      Order</button>
+  </div>
+  <div class="copyAndMovebuttons" *ngIf="isChapterBtnEnabled">
+    <span style="font-size: 20px;">Selected Chapters : {{selectedChapterCount}}</span>&nbsp;&nbsp;
+    <button mat-raised-button color="primary" translate (click)="copyChapters()">Copy</button>
+    <button mat-raised-button color="primary" translate (click)="moveChapters()">Move</button>
+    <!-- <button  mat-raised-button color="warn" translate class="danger" (click)="multipletDeleteChapters()">Delete</button> -->
+  </div>
+</div>

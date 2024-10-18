@@ -1,0 +1,159 @@
+<div class="create-questions-container" style="margin:4% 4% 4% 4%;">
+
+  <!-- <h2  [innerHTML]="'PAGE.CREATE_QUESTIONS.TITLE' | translate"></h2> -->
+  <div style="width: 60%;">
+    <h5 *ngIf="mode === 'add'">
+      <span *ngIf="path == 'Qbank'">{{qBankSubjectName}}&nbsp;/&nbsp;</span>
+      <span *ngIf="path == 'Qbank'">{{qBankChapterName}}&nbsp;/&nbsp;</span>
+      <span *ngIf="path == 'Qbank'">{{qBankTopicName}}&nbsp;/&nbsp;</span>
+      
+      <span *ngIf="path == 'test_series'">{{testCourseName}}&nbsp;/&nbsp;</span>
+      <span *ngIf="path == 'test_series'">{{testCategoryName}}&nbsp;/&nbsp;</span>
+      <span *ngIf="path == 'test_series'">{{testName}}&nbsp;/&nbsp;</span>
+      <span translate >COMMON.CREATE</span>
+      <span translate> COMMON.QUESTIONS</span>
+    </h5>
+    <h5 *ngIf="mode === 'edit'">
+      <span *ngIf="path == 'Qbank'">{{qBankSubjectName}}&nbsp;/&nbsp;</span>
+      <span *ngIf="path == 'Qbank'">{{qBankChapterName}}&nbsp;/&nbsp;</span>
+      <span *ngIf="path == 'Qbank'">{{qBankTopicName}}&nbsp;/&nbsp;</span>
+      
+      <span *ngIf="path == 'test_series'">{{testCourseName}}&nbsp;/&nbsp;</span>
+      <span *ngIf="path == 'test_series'">{{testCategoryName}}&nbsp;/&nbsp;</span>
+      <span *ngIf="path == 'test_series'">{{testName}}&nbsp;/&nbsp;</span>
+      <span translate>COMMON.EDIT</span>
+      <span translate> COMMON.QUESTIONS</span>
+    </h5>
+  </div>
+  <div class="questionType">
+   <form [formGroup]="qTypeForm">
+    <mat-form-field>
+      <mat-label>Select Question Type</mat-label>
+      <mat-select formControlName="qtype">
+        <mat-option value="SINGLE" (click)="selectquestionsType('SINGLE')">{{'PAGE.CREATE_QUESTIONS.TYPES.SINGLE_CHOICE' | translate}}</mat-option>
+        <!-- <mat-option value="MULTIPLE" (click)="selectquestionsType('MULTIPLE')">{{'PAGE.CREATE_QUESTIONS.TYPES.MULTI_CHOICE' | translate}}</mat-option> -->
+        <mat-option value="FILL_IN_THE_BLANK" (click)="selectquestionsType('FILL_IN_THE_BLANK')">{{'PAGE.CREATE_QUESTIONS.TYPES.FILL_IN_THE_BLANK' | translate}}</mat-option>
+        <mat-option value="TRUE_OR_FALSE" (click)="selectquestionsType('TRUE_OR_FALSE')">{{'PAGE.CREATE_QUESTIONS.TYPES.TRUE_OR_FALSE' | translate}}</mat-option>
+        <mat-option value="MATCH_THE_FOLLOWING" (click)="selectquestionsType('MATCH_THE_FOLLOWING')">{{'PAGE.CREATE_QUESTIONS.TYPES.MATCH_THE_FOLLOWING' | translate}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+   </form>
+    <!-- <mat-form-field appearance="outline" class="full-width" *ngIf="mode == 'edit'">
+      <mat-label>Select Question Type</mat-label>
+      <input matInput [value]="questionsType" readonly>
+    </mat-form-field> -->
+  </div>
+
+  <!-- <div class="flex-wrap" *ngIf="path != 'Qbank'">
+    <div class="w-1-4">
+      <button type="button" class="button" mat-raised-button (click)="filePicker.click()">
+        <mat-icon>image</mat-icon> Select Questions File
+      </button>&nbsp;<span>{{fileName}}</span>
+      <input type="file" #filePicker (change)="onFileSelected($event)" accept=".csv,.xlsx,.xls,.json">
+    </div>
+    <div class="w-1-4">
+      <button mat-raised-button color="primary" (click)="FileSubmited()">Save</button>
+    </div>
+  </div> -->
+  
+  <!-- <div class="flex-wrap" *ngIf="path == 'test_series'">
+    <div class="w-1-4">
+      <button type="button" class="button" mat-raised-button (click)="filePicker.click()">
+        <mat-icon>image</mat-icon> Select Test Questions File
+      </button>&nbsp;<span>{{fileName}}</span>
+      <input type="file" #filePicker (change)="onFileSelected($event)" accept=".csv,.xlsx,.xls,.json">
+    </div>
+    <div class="w-1-4">
+      <button mat-raised-button color="primary" (click)="FileTestQueSubmited()">Save</button>
+    </div>
+  </div> -->
+
+  <!-- <div class="flex-wrap" *ngIf="path == 'Qbank'">
+    <div class="w-1-4">
+      <button type="button" class="button" mat-raised-button (click)="filePicker.click()">
+        <mat-icon>image</mat-icon> Select Topic Questions File
+      </button>&nbsp;<span>{{fileName}}</span>
+      <input type="file" #filePicker (change)="onFileSelected($event)" accept=".csv,.xlsx,.xls,.json">
+    </div>
+    <div class="w-1-4">
+      <button mat-raised-button color="primary" (click)="FileTopicQueSubmited()">Save</button>
+    </div>
+  </div> -->
+
+  <application-form-error [errors]="errors"></application-form-error>
+
+  <div [ngClass]="{'flex': showPreview}">
+    <!-- <div class="create-section" [ngClass]="{'w-1-1': showPreview}" > -->
+      <div class="create-section" style="width: 100%;">
+      <application-create-questions
+        (review)="review($event)"
+        (commit)="onSubmit()"
+        [syllabus]="(syllabus$ | async)?.response"
+        [question]="questionToEdit"
+        [mode]="mode"
+        [type]="questionsType"
+        [Editor]="Editor"
+        *ngIf="questionsType == 'SINGLE' || questionsType == 'MULTIPLE'"
+        [perals]="perals"
+        >
+      </application-create-questions>
+
+      <application-create-blank-questions
+      (review)="review($event)"
+      (commit)="onSubmit()"
+      [syllabus]="(syllabus$ | async)?.response"
+      [question]="questionToEdit"
+      [mode]="mode"
+      [questionType]="questionsType"
+      [Editor]="Editor"
+       *ngIf="questionsType == 'FILL_IN_THE_BLANK'">
+      </application-create-blank-questions>
+
+      <application-create-true-false-questions
+      (review)="review($event)"
+      (commit)="onSubmit()"
+      [syllabus]="(syllabus$ | async)?.response"
+      [question]="questionToEdit"
+      [mode]="mode"
+      [questionType]="questionsType" 
+      [Editor]="Editor"
+      *ngIf="questionsType == 'TRUE_OR_FALSE'">
+      </application-create-true-false-questions>
+
+      <application-create-match-questions
+      (review)="review($event)"
+      (commit)="onSubmit()"
+      [syllabus]="(syllabus$ | async)?.response"
+      [question]="questionToEdit"
+      [mode]="mode"
+      [questionType]="questionsType" 
+      [Editor]="Editor"
+      *ngIf="questionsType == 'MATCH_THE_FOLLOWING'">
+      </application-create-match-questions>
+
+    </div>
+  </div>
+    <!-- <div *ngIf="showPreview" class="preview-section w-1-1"> -->
+    <div *ngIf="showPreview" style="width: 100%;">
+
+      <h3  *ngIf="questionsType"
+        [innerHTML]="
+          'PAGE.CREATE_QUESTIONS.PREVIEW_QUESTIONS_BEFORE_SUBMIT' | translate
+        "
+      ></h3>
+      <p
+        *ngIf="questions?.length === 0"
+        [innerHTML]="'PAGE.CREATE_QUESTIONS.EMPTY_LIST' | translate"
+      ></p>
+      <application-question-preview
+        *ngFor="let question of questions; let index = index;"
+        [question]="question"
+        (delete)="delete(index)"
+        (edit)="edit(question)">
+      </application-question-preview>
+    </div><br><br><br><br>
+ 
+  <!-- <h2  *ngIf="!questionsType" style="text-align: center;">
+    Please Select Question Type
+  </h2> -->
+</div>

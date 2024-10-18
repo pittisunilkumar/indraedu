@@ -1,0 +1,12 @@
+<div class="messages-list-container">
+
+  <div class="page-title">
+    <div class="title">
+      <h2 [innerHTML]="'PAGE.PORTAL.MESSAGES' | translate"></h2>
+    </div>
+    <div class="action-buttons">
+    </div>
+  </div>
+
+  <application-messages-list [messages]="(messages$ | async)?.response"></application-messages-list>
+</div>

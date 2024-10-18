@@ -1,0 +1,259 @@
+<mat-card>
+  <div class="create-questions">
+    <div>
+      <form class="create" [formGroup]="createQuestionForm">
+        <div class="title form-element">
+          <mat-label translate>Question&nbsp;<sup>*</sup></mat-label>
+          <ckeditor [config]="config" [editor]="Editor" formControlName="title"></ckeditor>
+          <!-- <ckeditor name="title" formControlName="title"></ckeditor> -->
+        </div>
+  
+        <div class="child">
+          <application-upload-image class="child" [url]="question?.imgUrl" (formData)="getImageUrl($event)">
+          </application-upload-image>
+        </div>
+  
+  
+  
+        <div>
+          <label translate>COMMON.OPTIONS</label>
+          <!-- <a href="javascript:void(0);" (click)="addNewOption()" translate>
+            PAGE.CREATE_QUESTIONS.ADD_OPTION
+          </a> -->
+        </div>
+        <div class=" flex-wrap">
+          <div class="options form-element child" formArrayName="matchLeftSideOptions">
+            <div *ngFor="
+                  let option of createQuestionForm.get('matchLeftSideOptions')['controls'];
+                  let i = index
+                ">
+              <div [formGroupName]="i">
+                <div class="card form-element" style="background-color: #EAEDED;box-shadow: none;">
+                  <div>
+                    <mat-label translate [translateParams]="{ num: i + 1 }">Option {{i+1}}&nbsp;<sup>*</sup>
+  
+                      <div class="text-right">
+                        <mat-icon title="add checkpoint by topic" class="clear-topic" (click)="removeOption(i)">
+                          clear
+                        </mat-icon>
+                      </div>
+  
+                    </mat-label>
+                    <!-- <mat-form-field appearance="outline" class="full-width">
+                      <input matInput formControlName="name">
+                    </mat-form-field> -->
+                    <!-- <ckeditor name="name" formControlName="name"></ckeditor> -->
+                    <ckeditor [config]="config" [editor]="Editor" formControlName="name"></ckeditor>
+                  </div>
+                  <div class="child">
+                      <application-upload-image class="child " [url]="question?.matchLeftSideOptions[i]?.imgUrl"
+                        (formData)="getOptionsUrl($event,i)"></application-upload-image>
+                    </div>
+  
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="questions form-element child" formArrayName="matchRightSideOptions">
+            <div *ngFor="
+                  let option of createQuestionForm.get('matchRightSideOptions')['controls'];
+                  let i = index
+                ">
+              <div [formGroupName]="i">
+                <div class="card form-element" style="background-color: #EAEDED;box-shadow: none;">
+                  <div>
+                    <mat-label translate [translateParams]="{ num: i + 1 }">Option {{sentence?.charAt(i+1)}}&nbsp;<sup>*</sup>
+  
+                      <div class="text-right">
+                        <mat-icon title="add checkpoint by topic" class="clear-topic" (click)="removeOption(i)">
+                          clear
+                        </mat-icon>
+                      </div>
+  
+                    </mat-label>
+                    <!-- <mat-form-field appearance="outline" class="full-width">
+                      <input matInput formControlName="name">
+                    </mat-form-field> -->
+                    <!-- <ckeditor name="name" formControlName="name"></ckeditor> -->
+                    <ckeditor [config]="config" [editor]="Editor" formControlName="name"></ckeditor>
+                  </div>
+                  <div class="child">
+                      <application-upload-image class="child " [url]="question?.matchRightSideOptions[i]?.imgUrl"
+                        (formData)="getFollowingOptionsUrl($event,i)"></application-upload-image>
+                    </div>
+  
+                </div>
+              </div>
+            </div>
+          </div>
+          <button mat-raised-button color="primary" type="button"  (click)="addNewOption()">Add Option</button>
+
+        </div>
+        <br>
+
+        <mat-label translate>Answer&nbsp;<sup>*</sup></mat-label>
+        <div formArrayName="answer">
+          <div *ngFor="
+                let option of createQuestionForm.get('answer')['controls'];
+                let i = index
+              ">
+            <div [formGroupName]="i">
+              <div class="form-element">
+                <div>
+                  <!-- <mat-label translate [translateParams]="{ num: i + 1 }">Option {{alphabet}}
+                  </mat-label> -->
+                  <mat-form-field appearance="outline" class="full-width">
+                    <input matInput maxlength="3" pattern="/^[a-zA-Z]{2}[0-9]*$/"
+                     formControlName="name">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+  
+  
+  
+        <div class="description form-element">
+          <div class="full-width">
+            <mat-label translate>COMMON.DESCRIPTION</mat-label>
+            <!-- <ckeditor name="description" formControlName="description"></ckeditor> -->
+            <ckeditor [config]="config" [editor]="Editor" formControlName="description"></ckeditor>
+          </div>
+        </div>
+        <div class="child">
+          <application-upload-image class="child" [url]="question?.descriptionImgUrl" (formData)="getDescriptionImgUrl($event)">
+          </application-upload-image>
+        </div>
+        <div class="flex-wrap">
+          <div class="form-element child w-1-2">
+            <mat-form-field>
+              <mat-label>{{
+                'PAGE.CREATE_QUESTIONS.PREVIOUS_APPERANCES' | translate
+                }}</mat-label>
+              <input matInput type="text" name="previousAppearances" formControlName="previousAppearances"
+                placeholder="Sample text" />
+            </mat-form-field>
+          </div>
+  
+          <div class="form-element child">
+            <!-- <mat-form-field class="full-width">
+              <mat-label>{{ 'COMMON.TAGS' | translate }}</mat-label>
+              <input  matInput (keyup)="tagsFilter($event)" formControlName="tags" [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let item of tags" [value]="item.title">
+                  {{item.title}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field> -->
+            <mat-form-field>
+              <mat-label >{{ 'COMMON.TAGS' | translate }}</mat-label>
+              <mat-select formControlName="tags" name="tags" [compareWith]="helper.compareFn">
+                <mat-option *ngFor="let item of tags" [value]="item">
+                  {{item.title}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+  
+          </div>
+        </div>
+  
+        <div class="flex-wrap">
+          <div class="difficulty form-element child">
+            <mat-form-field>
+              <mat-label translate>COMMON.DIFFICULTY&nbsp;<sup>*</sup></mat-label>
+              <mat-select formControlName="difficulty" name="difficulty">
+                <mat-option value="EASY">{{
+                  'COMMON.EASY' | translate
+                  }}</mat-option>
+                <mat-option value="MEDIUM">{{
+                  'COMMON.MEDIUM' | translate
+                  }}</mat-option>
+                <mat-option value="HARD">{{
+                  'COMMON.HARD' | translate
+                  }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+  
+          <div class="form-element syllabus child">
+            <mat-form-field *ngIf="path === 'bank'">
+              <mat-label translate>COMMON.SYLLABUS&nbsp;<sup>*</sup></mat-label>
+              <mat-select formControlName="syllabus" [compareWith]="helper.compareFn" multiple>
+                <mat-option *ngFor="let item of subjects" [value]="item">
+                  <strong>{{ item.title }} [ {{item.shortcut}} ]</strong>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field *ngIf="path === 'test_series'">
+              <mat-label translate>COMMON.SYLLABUS&nbsp;<sup>*</sup></mat-label>
+              <mat-select [value]="testSubjects" [compareWith]="helper.compareFn" multiple disabled>
+                <mat-option *ngFor="let item of subjects" [value]="item">
+                  <strong>{{ item.title }} [ {{item.shortcut}} ]</strong>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field *ngIf="path === 'Qbank'">
+              <mat-label translate>COMMON.SYLLABUS&nbsp;<sup>*</sup></mat-label>
+              <input matInput type="text" [value]="subjectName" readonly />
+            </mat-form-field>
+          </div>
+          <div class="answer form-element">
+            <mat-label>Math Type&nbsp;<sup>*</sup></mat-label> &nbsp; &nbsp;
+            <mat-radio-group  formControlName="mathType">
+                <mat-radio-button  value="yes">YES</mat-radio-button>
+                <mat-radio-button  value="no">No</mat-radio-button>
+              </mat-radio-group>
+          </div>
+        </div>
+        <div class="form-element flags last" [formGroup]="createQuestionForm.controls.flags">
+          <strong><span translate>COMMON.FLAGS</span></strong>
+          <label for="pro">
+            <mat-checkbox class="example-margin" name="pro" formControlName="pro">{{
+              'COMMON.PRO' | translate
+              }}</mat-checkbox>
+          </label>
+          <label for="editable">
+            <mat-checkbox class="example-margin" name="editable" formControlName="editable">
+              {{ 'COMMON.EDITABLE' | translate }}</mat-checkbox>
+          </label>
+          <label for="qBank">
+            <mat-checkbox class="example-margin" name="qBank" formControlName="qBank">{{ 'COMMON.QBANK' | translate }}
+            </mat-checkbox>
+          </label>
+          <label for="testSeries">
+            <mat-checkbox class="example-margin" name="testSeries" formControlName="testSeries">
+              {{ 'COMMON.TEST_SERIES' | translate }}</mat-checkbox>
+          </label>
+          <label for="active">
+            <mat-checkbox class="example-margin" name="active" formControlName="active">{{ 'COMMON.ACTIVE' | translate }}
+            </mat-checkbox>
+          </label>
+        </div>
+        <footer class="text-right button-group p-1 form-actions fixed">
+          <button translate mat-stroked-button color="warn" (click)="onReset()">
+           Reset
+          </button>
+          <!-- <button translate class="primary" (click)="onReview()" *ngIf="path === null"
+            [disabled]="!createQuestionForm?.valid">
+            COMMON.REVIEW
+          </button> -->
+          <button translate mat-raised-button color="primary" (click)="onReview()" 
+          [disabled]="!createQuestionForm?.valid" *ngIf="path === 'bank'">
+         Review
+        </button>
+          <button translate mat-raised-button color="primary" (click)="onReview()" 
+          [disabled]="createQuestionForm.value?.answer == '' || createQuestionForm.value?.title == '' || createQuestionForm.value?.description == '' || createQuestionForm.value?.difficulty == ''  "
+          *ngIf="path === 'Qbank'|| path === 'test_series'">
+          Review
+          </button>
+          <button type="submit" mat-raised-button color="primary" (click)="onSubmit()" translate *ngIf="questionsArray?.length">
+          Submit
+          </button>
+        </footer>
+      </form>
+    </div>
+  </div>
+</mat-card>

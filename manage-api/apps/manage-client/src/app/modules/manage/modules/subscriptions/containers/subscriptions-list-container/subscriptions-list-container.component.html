@@ -1,0 +1,17 @@
+<div class="subscriptions-list-container">
+
+  <div class="page-title">
+    <div class="title">
+      <h2 [innerHTML]="'COMMON.SUBSCRIPTIONS' | translate"></h2>
+    </div>
+    <div class="action-buttons">
+      <button *ngIf="createEnable =='true'" mat-raised-button color="primary" [routerLink]="['../', 'create']">
+        Create Subscription
+      </button>
+    </div>
+  </div>
+  <!-- <application-spinner *ngIf="!subscriptions"></application-spinner> -->
+  <application-subscriptions-list *ngIf="subscriptions" [list]="subscriptions" (edit)="edit($event)" (delete)="delete($event)">
+  </application-subscriptions-list>
+
+</div>

@@ -1,0 +1,156 @@
+<mat-card>
+    <h2> <b (click)="backToTickets()">{{ticketData?.ticketId}}&nbsp;/&nbsp;</b>Ticket Details</h2>
+    <br><br>
+    <div class="row">
+        <div class="col-sm-12" id="replay">
+            <div class="row">
+                <div class="col-sm-12" *ngIf="ticketData?.message">
+                    <span><b>Message</b></span>
+                    <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+                    <span>{{ticketData?.message}}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4" *ngIf="ticketData?.ticketId">
+                    <span><b> Ticket Id</b></span>
+                    <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+                    <span>{{ticketData?.ticketId}}</span>
+                </div>
+                <div class="col-sm-4" *ngIf="ticketData?.user">
+                    <span><b>User Name</b></span>
+                    <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+                    <span>{{ticketData?.user?.name}}</span>
+                </div>
+                <div class="col-sm-4" *ngIf="ticketData?.user">
+                    <span><b>User Mobile</b></span>
+                    <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+                    <span>{{ticketData?.user?.mobile}}</span>
+                </div>
+                <div class="col-sm-4" *ngIf="ticketData?.department">
+                    <span><b>Department</b></span>
+                    <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+                    <span>{{ticketData?.department?.title}}</span>
+                </div>
+
+                <div class="col-sm-4" *ngIf="ticketData?.type">
+                    <span><b>Type</b></span>
+                    <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+                    <span>{{helperService?.TicketType[ticketData?.type-1]?.title }}</span>
+                </div>
+
+                <div class="col-sm-4" *ngIf="ticketData?.priority">
+                    <span><b>Priority</b></span>
+                    <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+                    <span>{{ticketData?.priority}}</span>
+                </div>
+                <div class="col-sm-4" *ngIf="ticketData?.createdOn">
+                    <span><b>Created On</b></span>
+                    <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+                    <span>{{ticketData?.createdOn| date:"mediumDate"}}</span>
+                </div>
+                <div class="col-sm-4" *ngIf="ticketData?.lastUpdated">
+                    <span><b>Last Updated</b></span>
+                    <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+                    <span>{{ticketData?.lastUpdated| date:"mediumDate"}}</span>
+                </div>
+
+                <div class="col-sm-4" *ngIf="ticketData?.status">
+                    <span><b>Status</b></span>
+                    <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+                    <strong
+                        [style.color]="helperService?.TicketStatus[ticketData?.status-1]?.color">{{helperService?.TicketStatus[ticketData?.status-1]?.title
+                        }}</strong>
+
+                    <!-- <span>{{helperService?.TicketStatus[ticketData?.status-1]?.title}}</span> -->
+                </div>
+                <div class="col-sm-4" *ngIf="ticketData?.closedDateTime">
+                    <span><b>Closed &nbsp;On</b></span>
+                    <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+                    <span>{{ticketData?.closedDateTime | date:"mediumDate"}}</span>
+                </div>
+                <div class="col-sm-4" *ngIf="ticketData?.modifiedBy">
+                    <span><b>Modified&nbsp;By</b></span>
+                    <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+                    <span>{{ticketData?.modifiedBy?.name}}</span>
+                </div>
+                <div class="col-sm-4" *ngIf="ticketData?.modifiedOn">
+                    <span><b>Modified&nbsp;On</b></span>
+                    <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+                    <span>{{ticketData?.modifiedOn | date:"mediumDate"}}</span>
+                </div>
+            </div>
+            <div class="row" *ngIf="ticketData?.image.length">
+                <div class="col-sm-4" *ngFor="let img of ticketData?.image;let i=index">
+                    <span><b>Image&nbsp;File&nbsp;{{i+1}}</b></span>
+                    <br><br>
+                    <img [src]="img" alt="img"  style="width: 100%;height: 300px;">
+                </div>
+            </div>
+
+            <div class="row" *ngIf="ticketData?.audio.length">
+                <div class="col-sm-4" *ngFor="let aud of ticketData?.audio;let i=index">
+                    <span><b>Audio&nbsp;File&nbsp;{{i+1}}</b></span><br><br>
+                    <audio controls>
+                        <source [src]="aud" type="audio/ogg">
+                        <source [src]="aud" type="audio/mpeg">
+                    </audio>
+                </div>
+            </div>
+            <br>
+            <div class="row" *ngIf="ticketData?.reply.length">
+                <hr>
+                <h2 style="text-align: center;">Given Reply's</h2>
+                <div class="col-sm-12" *ngFor="let rly of ticketData?.reply;let j = index">
+                    <span><b>Reply Message&nbsp;{{j+1}}</b></span>
+                    <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+                    <span>{{rly?.reply_message}}</span><br>
+                    <span><b>Created on</b></span>
+                    <span>&nbsp;&nbsp;:&nbsp;&nbsp;</span>
+                    <span>{{rly?.createdOn | date:'medium' }}</span><br>
+                    <div class="row">
+                        <div class="col-sm-4" *ngFor="let img of rly?.reply_image;let i=index">
+                            <span><b>Replay&nbsp;Image&nbsp;File&nbsp;{{i+1}}</b></span>
+                            <br><br>
+                            <img [src]="img" alt="img" style="width: 100%;height: 250px;">
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+
+        </div>
+        <!-- <div class="col-sm-4" id="replay" *ngIf="ticketData?.status !=4">
+            <h2 style="text-align: center;">Reply Here</h2>
+            <mat-form-field appearance="outline">
+                <textarea matInput placeholder="send message.." #input></textarea>
+            </mat-form-field>
+        
+            <div >
+                <button type="button" class="savebutton" mat-raised-button (click)="filePicker.click()">
+                  <mat-icon>image</mat-icon>Reply Image
+                </button >&nbsp;
+                <span *ngFor="let name of fileName;let i = index">{{i+1}} .&nbsp;{{name.name}}<br> </span>
+                <input type="file"  #filePicker (change)="upload($event.target.files)" multiple>
+                </div>
+                <div *ngFor="let img of reply_image">
+                <img [src]="img" *ngIf="img" style="width: 100%;height: 250px;" ><br><br>
+              </div>
+              <br>
+
+              <button type="button" mat-raised-button color="warn"  class="savebutton" (click)="updateCloseStatus()">Close Ticket</button>
+        </div> -->
+    </div>
+
+    <br><br>
+    <div class="row">
+        <div class="col-sm-5"></div>
+        <div class="col-sm-1">
+            <button mat-raised-button color="primary" class="paymentsButton" (click)="sendReplay()">Reply</button>
+        </div>
+        <div class="col-sm-1">
+            <button mat-raised-button color="warn" class="paymentsButton" (click)="backToTickets()">Back</button>
+        </div>
+        <div class="col-sm-5"></div>
+    </div>
+
+</mat-card>

@@ -1,0 +1,41 @@
+<div class="create-syllabus-container">
+  <h2 *ngIf="mode === 'add'">
+    <span translate >COMMON.CREATE</span>
+    <span translate> COMMON.SYLLABUS</span>
+  </h2>
+  <h2 *ngIf="mode === 'edit'">
+    <span translate>COMMON.EDIT</span>
+    <span translate> COMMON.SYLLABUS</span>
+  </h2>
+
+  <div class="flex-wrap">
+   <!--  <div class="w-1-4">
+      <button type="button" class="button" mat-raised-button (click)="filePicker.click()">
+        <mat-icon>image</mat-icon> Select Subject File
+      </button>&nbsp;<span>{{fileName}}</span>
+      <input type="file" #filePicker (change)="onFileSelected($event)" accept=".csv,.xlsx,.xls">
+    </div>
+    <div class="w-1-4">
+      <button mat-raised-button color="primary" (click)="onSubjectubmit()">Save</button>
+    </div>-->
+    
+    <!-- <div class="w-1-4">
+      <button type="button" class="button" mat-raised-button (click)="filePicker1.click()">
+        <mat-icon>image</mat-icon> Select Chapter File
+      </button>&nbsp;<span>{{fileNameC}}</span>
+      <input type="file" #filePicker1 (change)="onChapterFileSelected($event)" accept=".csv,.xlsx,.xls,.json">
+    </div>
+    <div class="w-1-4">
+      <button mat-raised-button color="primary" (click)="FileChanged()">Save</button>
+    </div> -->
+
+  </div> 
+
+  <application-form-error [errors]="errors"></application-form-error>
+
+  <application-create-syllabus (commit)="onSubmit($event)" [courseList]="(courseList$ | async)?.response"
+    [data]="syllabusList" [mode]="mode" [syllabusByUuid]="(syllabusByUuid$ | async)?.response">
+  </application-create-syllabus>
+  <!-- [data]="(syllabus$ | async)?.response" -->
+
+</div>

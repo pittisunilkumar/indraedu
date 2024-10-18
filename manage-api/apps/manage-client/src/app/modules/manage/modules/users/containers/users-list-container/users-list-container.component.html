@@ -1,0 +1,29 @@
+<div class="users-list-container">
+  <!-- <div class="page-title"> -->
+    <div class="row">
+      <div class="col col-sm-8">
+        <div class="title">
+          <h2 [innerHTML]="'PAGE.USER_LIST.TITLE' | translate"></h2>
+        </div>
+      </div>
+      <div class="col col-sm-4" style="text-align: right;">
+        <div class="action-buttons">
+          <button
+          *ngIf="createEnable =='true'"
+          mat-raised-button color="primary" 
+            [translate]="'COMMON.CREATE_USER'"
+            [routerLink]="['../', 'create']">
+          Create User</button>
+        </div>
+      </div>
+    </div>
+    
+   
+  <!-- </div> -->
+  <application-manage-users-list
+    [students]="students"
+    [users]="users"
+    (delete)="delete($event)"
+    (resetPassword)="resetPassword($event)">
+  </application-manage-users-list>
+</div>

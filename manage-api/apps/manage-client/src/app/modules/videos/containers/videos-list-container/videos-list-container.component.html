@@ -1,0 +1,31 @@
+<div class="videos-list-container">
+  <div class="page-title">
+    <div class="title">
+      <b (click)="backToSubjects()">{{videoSubjectName}}</b>&nbsp;/
+      <span [innerHTML]="'COMMON.VIDEOS' | translate"></span>
+    </div>
+    <div class="action-buttons" *ngIf="addVideoVisible">
+      <button
+      mat-raised-button color="primary"
+        [translate]="'PAGE.VIDEOS.ADD_TITLE'"
+        [routerLink]="['../add']"
+      >Add Video</button>
+    </div>
+  </div>
+  <application-videos-list
+    *ngIf="chapters?.length"
+    [chapters]="chapters"
+    (delete)="delete($event)"
+    (edit)="edit($event)"
+    (chapterDelete)="chapterDelete($event)"
+    >
+  </application-videos-list>
+  <!-- <application-spinner *ngIf="!chapters?.length"></application-spinner> -->
+
+  <div *ngIf="!chapters?.length">
+    <!-- <h3 class="text-center h3" translate>
+      PAGE.VIDEOS.EMPTY
+    </h3> -->
+  </div>
+
+</div>

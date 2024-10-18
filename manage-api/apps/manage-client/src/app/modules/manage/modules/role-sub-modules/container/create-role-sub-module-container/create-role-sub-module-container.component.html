@@ -1,0 +1,15 @@
+<div class="create-user-container" >
+
+    <h2 *ngIf="mode === 'add'">
+        <span translate>COMMON.CREATE</span>
+        <span translate> COMMON.ROLE_SUB_MODULE</span>
+    </h2>
+    <h2 *ngIf="mode === 'edit'">
+        <span translate>COMMON.EDIT</span>
+        <span translate> COMMON.ROLE_SUB_MODULE</span>
+    </h2>
+
+    <application-form-error [errors]="errors"></application-form-error>
+    <application-create-role-sub-modules [mode]="mode" [roleSubModules]="(roleSubModules$ | async)?.response"
+        (commit)="submit($event)"></application-create-role-sub-modules>
+</div>

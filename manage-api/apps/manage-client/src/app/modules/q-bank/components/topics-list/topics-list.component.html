@@ -1,0 +1,101 @@
+<div class="tests-list" *ngIf="chapters">
+
+  <table>
+    <tr>
+      <td style="width: 85%;">
+        <mat-form-field class="full-width">
+          <mat-label translate>COMMON.SEARCH</mat-label>
+          <input type="search" matInput name="search" [placeholder]="'COMMON.FILTER.BY_TITLE' | translate"
+            (keyup)="filterList($event)" />
+        </mat-form-field>
+      </td>
+      <td>
+        <mat-form-field style="margin-top: -3px;">
+          <mat-label>Select&nbsp;Order&nbsp;Type</mat-label>
+          <mat-select>
+            <mat-option value="dragAndDrop" #dragAndDrop (click)="selectOrderType(dragAndDrop)">Drag And Drop
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </td>
+    </tr>
+  </table>
+  <div cdkDropListGroup>
+    <div cdkDropList [cdkDropListData]="filteredList" class="example-list" (cdkDropListDropped)="drop($event)">
+      <div class="exampleBox">
+        <table>
+          <tr>
+            <td style="width: 50px;">S.No</td>
+            <td style="width: 400px;">&nbsp;&nbsp;&nbsp;Title</td>
+            <td style="width: 80px;">&nbsp;&nbsp;&nbsp;Order</td>
+            <td style="width: 80px;">Topic&nbsp;Count</td>
+            <td style="width: 80px;">Action</td>
+            <td style="width: 80px;">
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <mat-checkbox class="example-margin"  [checked]="allComplete" [indeterminate]="Indeterminate"
+              (change)="setAll($event.checked)"></mat-checkbox>
+            </td>
+          </tr>
+        </table>
+      </div>
+     
+      <mat-accordion class="mat-elevation-z1" multi>
+        <mat-expansion-panel *ngFor="let test of filteredList;let i = index" cdkDrag [cdkDragDisabled]="test.disabled">
+          <mat-expansion-panel-header (click)="getChapterUUid(test)">
+            <table>
+              <tr>
+                <td style="width: 50px;">
+                  <label>{{i+1}}</label>
+                </td>
+                <td style="width: 400px;">
+                  <span>{{ test.title }}</span>
+                </td>
+                <td style="width: 80px;text-align: center;">
+                  <span>{{ test.order }}</span>
+                </td>
+                <td style="width: 80px;text-align: center;">
+                  <span class="px-1">{{ test.topics?.length }}</span>
+                </td>
+                <td style="width: 80px;text-align: left;">
+                  <!-- <mat-icon class="view" color="warn" *ngIf="isChapterVisible" matTooltip="Delete"
+                    (click)="chapterDelete.emit(test)"> delete </mat-icon> -->
+                    <i class="material-icons" style="color:#f22424;" *ngIf="isChapterVisible" matTooltip="Delete"
+                    (click)="chapterDelete.emit(test)"> delete </i>
+                </td>
+                <td style="width: 80px;">
+                  <mat-checkbox class="mat-checkbox" style="margin-left: 80px;" (click)="$event.stopPropagation()"
+                    (change)="toggleQuestion($event,test)" [checked]="allSelected">
+                  </mat-checkbox>
+                </td>
+              </tr>
+            </table>
+          </mat-expansion-panel-header>
+
+          <application-test-preview *ngIf="viewTopicEnable" (click)="getChapterUUid(test)" [chapteruuid]="test.uuid"
+            [topics]="test?.topics" [deleteTopivEnabled]="deleteTopivEnabled" [editTopicEnable]="editTopicEnable"
+            [viewTopicQueEnable]="viewTopicQueEnable" (viewQuestions)="viewQuestions.emit($event)"
+            (edit)="edit.emit($event)" (delete)="delete.emit($event)"
+            (multipletDelete)="multipletDeleteTopic.emit($event)">
+          </application-test-preview>
+
+        </mat-expansion-panel>
+
+      </mat-accordion><br>
+    </div>
+  </div>
+
+  <div class="copyAndMovebuttons" *ngIf="isBtnEnabled">
+    <span style="font-size: 20px;">Selected Chapters : {{selectedChapterCount}}</span>&nbsp;&nbsp;
+    <button mat-raised-button color="primary" translate (click)="onCopy()">Copy</button>
+    <button mat-raised-button color="primary" translate (click)="onMove()">Move</button>
+    <button mat-raised-button color="warn" translate class="danger" (click)="multipletDeleteChapters()">Delete</button>
+  </div>
+
+  <div class="copyAndMovebuttons">
+    <button mat-raised-button color="primary" (click)="updateShortName()">Update ShortName</button>
+    <button mat-raised-button color="primary" *ngIf="isChangeBtnEnabled" translate
+      (click)="updateChaptersOrder()">Change Order</button>
+  </div>
+
+
+</div>

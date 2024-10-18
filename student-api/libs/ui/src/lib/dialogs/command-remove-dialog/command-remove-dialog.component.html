@@ -1,0 +1,46 @@
+<div class="command-remove-dialog">
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+
+    <div *ngIf="type == undefined || type == 'videoSubject'">
+      <h1 mat-dialog-title>
+        <span [innerHTML]="'DIALOGS.REMOVE.TITLE' | translate: { entity: payload.title ||  payload.name  ||  payload.code }">
+        </span>
+      </h1>
+
+      <div mat-dialog-content>
+        <div
+          [innerHTML]="'DIALOGS.REMOVE.CONFIRMATION_MESSAGE' | translate: { entity: payload.title ||  payload.name ||  payload.code }">
+        </div>
+      </div>
+    </div>
+    <!-- <div *ngIf="type == 'videoSubject'">
+      <h1 mat-dialog-title>
+        <span [innerHTML]="'DIALOGS.REMOVE.TITLE' | translate: { entity: payload.syllabus.title ||  payload.name }">
+        </span>
+      </h1>
+      <div mat-dialog-content>
+        <div
+          [innerHTML]="'DIALOGS.REMOVE.CONFIRMATION_MESSAGE' | translate: { entity: payload.syllabus.title ||  payload.name }">
+        </div>
+      </div>
+    </div> -->
+
+    <div *ngIf="type == 'multiple'">
+      <h1 mat-dialog-title>
+        <div>Are you sure you want to delete {{payload.length}} items ?</div>
+      </h1>
+
+      <div mat-dialog-content *ngFor="let res of payload;let i = index">
+        <span [innerHTML]="res.title"></span>
+      </div>
+    </div>
+
+    <div mat-dialog-actions align="end">
+      <button mat-button mat-dialog-close translate>COMMON.CANCEL</button>
+      <button mat-button class="danger" [mat-dialog-close]="'confirm'" [disabled]="!form.valid"
+        translate>COMMON.REMOVE</button>
+    </div>
+
+  </form>
+</div>

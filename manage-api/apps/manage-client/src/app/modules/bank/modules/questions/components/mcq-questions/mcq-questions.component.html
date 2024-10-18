@@ -1,0 +1,29 @@
+<div class="command-remove-dialog"><br>
+    <h1 style="text-align: center;">MCQ Of The Day</h1>
+    <div>
+        <form [formGroup]="form" (ngSubmit)="submit()">
+
+            <mat-form-field>
+                <mat-label translate>Course</mat-label>
+                <mat-select formControlName="course">
+                    <mat-option *ngFor="let course of courses" (click)="getSubjects(course)" [value]="course">
+                        {{course.title}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label translate>Subject</mat-label>
+                <mat-select formControlName="subject">
+                    <mat-option *ngFor="let sub of subjects" [value]="sub">
+                        {{sub.title}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <!-- <div mat-dialog-actions align="end"> -->
+            <button mat-raised-button color="warn" mat-dialog-close translate>Cancel</button>&nbsp;
+            <button mat-raised-button color="primary" [disabled]="form.value?.course ==  '' || form.value?.subject == ''" class="primary" type="submit" translate
+                [mat-dialog-close]="'confirm'">Submit</button>
+            <!-- </div> -->
+        </form>
+    </div>
+
+
+</div>

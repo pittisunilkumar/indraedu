@@ -1,0 +1,120 @@
+<div class="tag-list">
+    <div class="page-title">
+        <div class="title">
+            <h2>Feedbacks</h2>
+        </div>
+        <div class="action-buttons">
+            <button *ngIf="isAddVisible" mat-raised-button color="primary" [routerLink]="['../', 'create']">Create
+                Feedback</button>
+        </div>
+    </div>
+    <div class="search full-width">
+        <mat-form-field class="example-full-width">
+            <mat-label translate>COMMON.SEARCH</mat-label>
+            <input type="search" matInput name="search" [placeholder]="'PAGE.ORGANIZATION_LIST.SEARCH' | translate"
+                (keyup)="filterDepartments($event)" />
+        </mat-form-field>
+    </div>
+
+    <div class="mat-elevation-z1">
+        <table mat-table [dataSource]="filteredFeedbacks">
+            <ng-container matColumnDef="sno">
+                <th mat-header-cell *matHeaderCellDef style="width: 20px;">
+                    S.No
+                </th>
+                <td mat-cell *matCellDef="let row">{{filteredFeedbacks.filteredData.indexOf(row)+1}}</td>
+            </ng-container>
+            <ng-container matColumnDef="title">
+                <th mat-header-cell *matHeaderCellDef>
+                    {{ 'COMMON.TITLE' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row?.title }}</td>
+            </ng-container>
+            <ng-container matColumnDef="feedback_type">
+                <th mat-header-cell *matHeaderCellDef>
+                   Feedback Type
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row?.feedback_type }}</td>
+            </ng-container>
+            <ng-container matColumnDef="batch">
+                <th mat-header-cell *matHeaderCellDef>
+                    Course
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <div *ngFor="let value of row?.course;let i = index">
+                        <span>{{value.title}}&nbsp;{{row?.course?.length != i+1 ? ',':''}}
+                        </span>
+                    </div>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="users">
+                <th mat-header-cell *matHeaderCellDef>
+                    User&nbsp;Count
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row?.users ? row?.users :'---' }}</td>
+            </ng-container>
+            <ng-container matColumnDef="repliesCount">
+                <th mat-header-cell *matHeaderCellDef>
+                    Replies&nbsp;Count
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row?.repliesCount }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="averageRating">
+                <th mat-header-cell *matHeaderCellDef>
+                    Avg&nbsp;Rating
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <strong>{{ row?.averageRating ? row?.averageRating.toFixed(1):'---' }}</strong>
+                </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef>
+                    {{ 'COMMON.ACTIVE' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <strong [style.color]="row?.flags.active?'green':'red'">{{ row.flags.active }}</strong>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>
+                    {{ 'COMMON.ACTIONS.TITLE' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <i class="material-icons"  [matMenuTriggerFor]="menu"> more_vert</i>
+                    <!-- <mat-icon class="view" [matMenuTriggerFor]="menu">more_vert</mat-icon> -->
+                    <mat-menu #menu="matMenu">
+                        <a [routerLink]="['../', row.uuid, 'edit']" *ngIf="isEditVisible"
+                            style="text-decoration: none;">
+                            <button mat-menu-item color="primary">
+                                Edit&nbsp;Feedback
+                            </button>
+                        </a>
+                        <button mat-menu-item *ngIf="isDeleteVisible" (click)="delete(row)">
+                            Delete&nbsp;Feedback
+                        </button>
+                        <button mat-menu-item (click)="feedbackGraph(row)" *ngIf="row?.averageRating">
+                            Feedback&nbsp;Graph
+                        </button>
+                    </mat-menu>
+
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            <tr class="mat-row" *matNoDataRow style="text-align: center;">
+                <td class="mat-cell" colspan="9">
+                    <h3 translate>COMMON.NO_DATA</h3>
+                </td>
+            </tr>
+        </table>
+
+        <mat-paginator [showFirstLastButtons]="true" [pageSizeOptions]="totalLength"></mat-paginator>
+
+    </div>
+
+</div>

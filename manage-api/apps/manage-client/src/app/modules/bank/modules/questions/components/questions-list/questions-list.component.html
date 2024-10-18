@@ -1,0 +1,129 @@
+<br><div class="questions-list"style="overflow:hidden ;">
+  <div class="row">
+    <div class="col-sm-4">
+      <mat-form-field style="width: 100%;">
+        <mat-label translate>Select Subject</mat-label>
+        <input matInput (keyup)="syllabusFilter($event)" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let item of subjects" [value]="item.title" (click)="questionsBySubject(item)">
+            {{item.title}} ({{item.shortcut}})
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div class="col-sm-8">
+      <mat-form-field style="width: 100%;">
+        <mat-label translate>COMMON.SEARCH</mat-label>
+        <input type="search" matInput name="search" #input
+          [placeholder]="'PAGE.ORGANIZATION_LIST.SEARCH' | translate" />
+        <button matSuffix mat-stroked-button color="primary" (click)="filterQuestions(input.value)">Search</button>
+      </mat-form-field>
+    </div>
+  </div>
+  <!-- <div class="search">
+    <div style="float: right;width: 74%;">
+      <mat-form-field class="full-width">
+        <mat-label translate>COMMON.SEARCH</mat-label>
+        <input type="search" matInput name="search" #input
+          [placeholder]="'PAGE.ORGANIZATION_LIST.SEARCH' | translate" />
+        <button matSuffix mat-stroked-button color="primary" (click)="filterQuestions(input.value)">Search</button>
+      </mat-form-field>
+    </div>
+    <div class="width:1%;"></div>
+    <div style="width: 25%;">
+      <mat-form-field class="full-width">
+        <mat-label translate>Select Subject</mat-label>
+        <input matInput (keyup)="syllabusFilter($event)" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let item of subjects" [value]="item.title" (click)="questionsBySubject(item)">
+            {{item.title}} ({{item.shortcut}})
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+  </div> -->
+  <div class="empty-list" *ngIf="questions?.length == 0">
+    <h3 class="text-center h3" translate>
+      PAGE.QUESTIONS_LIST.SELECT
+    </h3>
+  </div>
+
+  <div class="mat-elevation-z0">
+    <table mat-table [dataSource]="filteredQuestions" matSort>
+      <!-- <ng-container matColumnDef="sno">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="display:none">
+          S.No
+        </th>
+        <td mat-cell *matCellDef="let row;">
+         <h2 class="index">{{filteredQuestions.filteredData.indexOf(row)+1}}&nbsp;.</h2>
+        </td>
+      </ng-container> -->
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="display:none">
+          {{ 'COMMON.TITLE' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <application-question-preview [question]="row" [canSelect]="canSelect" (data)="buildSelectedList($event)"
+            (delete)="delete.emit($event)" (edit)="edit.emit($event)" [isEditVisible]="isEditVisible"
+            [index]="filteredQuestions.filteredData.indexOf(row)+1" [isDeleteVisible]="isDeleteVisible">
+          </application-question-preview>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <!-- <tr class="mat-row" *matNoDataRow style="text-align: center;">
+        <td class="mat-cell" colspan="4">
+          <h1 translate>COMMON.NO_DATA</h1>
+        </td>
+      </tr> -->
+    </table>
+    <div *ngIf="total == 0 && isEnabled" class="empty-list">
+      <h3 class="text-center h3" translate>
+        PAGE.QUESTIONS_LIST.EMPTY
+      </h3>
+    </div>
+    <!-- <mat-paginator [showFirstLastButtons]="true" [pageSizeOptions]="totalLength"></mat-paginator> -->
+    <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+      [showFirstLastButtons]="true" (page)="pageEvent = $event" (click)="lengthNumber()">
+    </mat-paginator>
+
+  </div>
+  <!-- <application-spinner *ngIf="!total"></application-spinner> -->
+
+
+
+
+
+
+
+  <!-- <mat-paginator #paginator (click)="lengthNumber(paginator)" [showFirstLastButtons]="true" [length]="total" [pageSize]="10" [pageSizeOptions]="totalLength">
+  </mat-paginator>
+  
+  <ng-container *ngIf="filteredQuestions?.length">
+    <application-question-preview *ngFor="let question of filteredQuestions" [question]="question"
+      [canSelect]="canSelect" (data)="buildSelectedList($event)" (delete)="delete.emit($event)"
+      (edit)="edit.emit($event)">
+    </application-question-preview>
+  </ng-container> -->
+
+
+  <!-- <pagination-controls class="float-right" (pageChange)="p = $event" *ngIf="total"></pagination-controls>
+
+  <ng-container *ngIf="filteredQuestions?.length">
+    <application-question-preview *ngFor="let question of filteredQuestions  | paginate:{itemsPerPage:20,currentPage:p}" [question]="question"
+      [canSelect]="canSelect" (data)="buildSelectedList($event)" (delete)="delete.emit($event)"
+      (edit)="edit.emit($event)">
+    </application-question-preview>
+  </ng-container> -->
+
+
+
+  <!--
+  <div *ngIf="!questions" class="empty-list">
+    <h3 class="text-center h3" translate>
+      PAGE.QUESTIONS_LIST.EMPTY
+    </h3>
+  </div> -->
+
+</div>

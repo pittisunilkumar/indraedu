@@ -1,0 +1,12 @@
+<div class="create-org-container">
+
+  <h2>
+    <span translate>COMMON.CREATE </span>
+    <span translate>COMMON.ORGANIZATION</span>
+  </h2>
+
+  <application-form-error [errors]="errors"></application-form-error>
+
+  <application-create-org (commit)="submit($event)"></application-create-org>
+  
+</div>

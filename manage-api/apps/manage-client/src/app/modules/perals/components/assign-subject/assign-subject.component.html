@@ -1,0 +1,63 @@
+<div class="users-list-container">
+    <div class="page-title">
+        <div class="title">
+            <h2>Assign Subjects</h2>
+        </div>
+    </div>
+
+    <mat-card>
+        <form [formGroup]="assignSubjectForm">
+            <mat-form-field style="width: 100%;">
+                <mat-label>Peral</mat-label>
+                <input matInput readonly [value]="this.perals$?.title" style="text-transform: capitalize;">
+            </mat-form-field>
+            <div style="margin-top: 10px;">
+                <button type="button" mat-raised-button color="primary" (click)="addNewOption()">Add Subject</button>
+            </div>
+            <div class="values form-element child" formArrayName="subjects">
+                <div *ngFor="
+                        let option of assignSubjectForm.get('subjects')['controls'];
+                        let i = index
+                      ">
+                    <div [formGroupName]="i">
+                        <div class="form-element">
+                            <div>
+                                <mat-form-field>
+                                    <mat-label translate>Subject</mat-label>
+                                    <mat-select formControlName="subject" [compareWith]="helper.compareFn">
+                                        <mat-option *ngFor="let item of qSubject" [value]="item">
+                                            {{ item?.syllabus.title }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                &nbsp;&nbsp;
+                                <mat-form-field>
+                                    <mat-label translate>Chapter</mat-label>
+                                    <mat-select formControlName="chapter" [compareWith]="helper.compareFn">
+                                        <mat-option
+                                            *ngFor="let item of assignSubjectForm?.value.subjects[i].subject.chapters"
+                                            [value]="item">
+                                            {{ item?.title }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                &nbsp;&nbsp;
+                                <mat-icon class="clearIcon" (click)="removeOption(i)"> restore_from_trash</mat-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" mat-raised-button color="warn" class="actionBtn" translate
+                [routerLink]="['/perals/list']" style="margin-left: 80%;">
+                Cancel
+            </button>&nbsp;
+            <button type="submit" mat-raised-button color="primary" class="actionBtn" (click)="submit()" translate
+                [disabled]="!assignSubjectForm.valid">
+                Submit
+            </button>
+        </form><br>
+
+    </mat-card>
+</div>

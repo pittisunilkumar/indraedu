@@ -1,0 +1,47 @@
+.form-element {
+  width: 48%;
+  margin-right: 1rem;
+  &:nth-child(-n+3) {
+    width: 31%;
+  }
+  .mat-form-field {
+    width: 100%;
+  }
+}
+
+.confirm-step {
+  &.flex-wrap {
+    .review {
+      width: 33.33%;
+    }
+    .w-1-1 {
+      width: 100%;
+    }
+  }
+}
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+}
+.submit-btn{
+  width: 101.16px;
+  height: 52px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+// spinner
+::ng-deep .white-spinner circle,
+.mat-spinner circle {
+  stroke: #fff !important;
+}
+.spacer{
+  flex: 8 auto;
+}
+.view{  
+  cursor: pointer;
+  margin: 2px;
+  border: 1px solid rgb(231, 230, 230);
+  border-radius: 7px;
+  padding: 1px;
+}

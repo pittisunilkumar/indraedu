@@ -1,0 +1,26 @@
+<div class="create-user">
+  <input
+    type="file"
+    #csvReader
+    name="Upload CSV"
+    id="txtFileUpload"
+    (change)="uploadListener($event)"
+    accept=".csv"
+  />
+  <form [formGroup]="createUserForm">
+    <div class="">
+      <div class="form-element">
+        <mat-form-field class="example-form-field">
+          <mat-label>{{ 'COMMON.TITLE' | translate }}</mat-label>
+          <input
+            matInput
+            type="text"
+            name="name"
+            formControlName="name"
+            [placeholder]="'PAGE.CREATE_COURSE.TITLE_PLACEHOLDER' | translate"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</div>

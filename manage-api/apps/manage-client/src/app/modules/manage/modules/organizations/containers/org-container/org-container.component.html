@@ -1,0 +1,76 @@
+<div class="org-container">
+  <div class="page-title">
+    <div class="title">
+      <h2 translate>PAGE.ORGANIZATION_DETAILS.TITLE</h2>
+    </div>
+
+    <div class="action-buttons">
+      <button class="link" translate>
+        COMMON.ACTIONS.CREATE_BATCHES
+      </button>
+      <button class="link" translate (click)="openCreateCourseDialog()">
+        COMMON.ACTIONS.ASSIGN_COURSES
+      </button>
+      <button class="link" translate (click)="openAssignUserDialog()">
+        COMMON.ACTIONS.ASSIGN_USERS
+      </button>
+    </div>
+  </div>
+  <application-org [org]="org"></application-org>
+  <mat-tab-group animationDuration="0ms">
+    <mat-tab label="Batches">
+      <div class="title-actions">
+        <div class="title">
+          <strong translate>COMMON.BATCHES</strong>
+        </div>
+        <div class="actions">
+          <button class="link" translate>
+            COMMON.ACTIONS.CREATE_BATCHES
+          </button>
+        </div>
+      </div>
+      <ul>
+        <li *ngFor="let item of org?.branches">
+          <span>{{ item.title }}</span>
+        </li>
+      </ul>
+    </mat-tab>
+    <mat-tab label="Courses">
+      <div class="title-actions">
+        <div class="title">
+          <strong translate>COMMON.COURSE</strong>
+        </div>
+        <div class="actions">
+          <button class="link" translate (click)="openCreateCourseDialog()">
+            COMMON.ACTIONS.ASSIGN_COURSES
+          </button>
+        </div>
+      </div>
+      <application-course-list
+        *ngIf="org?.courses.length"
+        [courses]="org?.courses"
+        (delete)="deleteCourse($event)"
+        (edit)="openEditCourseDialog($event)"
+      ></application-course-list>
+      <p *ngIf="!org?.courses?.length" translate class="text-center">
+        COMMON.NO_DATA
+      </p>
+    </mat-tab>
+    <mat-tab label="Users">
+      <div class="title-actions">
+        <div class="title">
+          <strong translate>COMMON.USERS</strong>
+        </div>
+        <div class="actions">
+          <button class="link" translate (click)="openAssignUserDialog()">
+            COMMON.ACTIONS.ASSIGN_USERS
+          </button>
+        </div>
+      </div>
+      <application-users-list
+        [users]="org?.users"
+        (delete)="deleteUser($event)"
+      ></application-users-list>
+    </mat-tab>
+  </mat-tab-group>
+</div>

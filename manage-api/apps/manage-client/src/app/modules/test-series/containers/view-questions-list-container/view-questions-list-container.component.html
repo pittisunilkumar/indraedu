@@ -1,0 +1,30 @@
+<br>
+<div class="questions-container">
+  <div class="page-title" style="width: 700px;">
+    <div class="title">
+      <b (click)="backToCategories()">{{courseName}}</b>&nbsp;/
+      <b (click)="backToCategories()">{{categoryName}}</b>&nbsp;/
+      <b (click)="backToCategories()">{{testName}}</b>&nbsp;/
+      <span [innerHTML]="'COMMON.QUESTIONS' | translate"></span>&nbsp;[{{(test$ | async)?.response.length}}]
+    </div>
+  </div>
+  <div class="action-buttons">
+    <button mat-raised-button color="primary" (click)="createQuestion()">
+      Create Questions
+    </button>
+  </div>
+  <!-- <application-spinner *ngIf="!(test$ | async)?.response"></application-spinner> -->
+
+  <application-view-questions *ngIf="(test$ | async)?.response" [mode]="mode" [test]="(test$ | async)?.response" (delete)="removeQuestion($event)"
+    (edit)="editQuestionPreview($event)" (multipletDelete)="multipleQuestionsDelete($event)">
+    </application-view-questions>
+
+
+
+    <!-- <div *ngIf="length === 0">
+      <h3 class="text-center h3" translate>
+        PAGE.QUESTIONS_LIST.EMPTY
+      </h3>
+    </div> -->
+
+</div>

@@ -1,0 +1,23 @@
+<div class="create-coupon-container" >
+
+  <h2 *ngIf="userName">
+    <b (click)="backToUsers()">{{userName}}&nbsp;/ </b>
+    <b (click)="backToSubscriptions()">{{subscriptionName}}</b>&nbsp;/
+    Payment
+  </h2>
+  <h2 *ngIf="!userName">
+    <b (click)="backToSubscriptions()">{{subscriptionName}}</b>&nbsp;/
+    Payment
+  </h2>
+
+  <application-form-error [errors]="errors"></application-form-error>
+  <application-add-user-payment [coupons]="platoCoupons" [agentCoupons]="agentCoupons" [user]="(user$ | async)?.response"
+     (commit)="submit($event)">
+  </application-add-user-payment>
+  <!--  <application-create-coupon
+      (commit)="submit($event)"
+      [mode]="mode"
+      [coupon]="coupon$ | async">
+    </application-create-coupon> -->
+
+</div>

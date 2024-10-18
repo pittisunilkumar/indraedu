@@ -1,0 +1,14 @@
+<div class="users-list-container" >
+    <div class="page-title">
+      <div class="title">
+        <h2>Peral List</h2>
+      </div>
+      <div class="action-buttons">
+        <button  mat-raised-button color="primary" [routerLink]="['../', 'create']">
+       Create Peral </button>
+      </div>
+    </div>
+    <application-perals-list [perals]="perals" (edit)="edit($event)" (delete)="delete($event)">
+    </application-perals-list>
+  
+  </div>

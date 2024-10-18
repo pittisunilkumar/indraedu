@@ -1,0 +1,18 @@
+<div class="create-syllabus-container">
+  <h2 *ngIf="mode === 'add'">
+    <span translate >COMMON.CREATE</span>
+    <span translate> COMMON.SYLLABUS</span>
+  </h2>
+  <h2 *ngIf="mode === 'edit'">
+    <span translate>COMMON.EDIT</span>
+    <span translate> COMMON.SYLLABUS</span>
+  </h2>
+
+  <application-form-error [errors]="errors"></application-form-error>
+
+  <application-create-syllabus (commit)="onSubmit($event)" [courseList]="(courseList$ | async)?.response"
+    [data]="syllabusList" [mode]="mode" [syllabusByUuid]="(syllabusByUuid$ | async)?.response">
+  </application-create-syllabus>
+  <!-- [data]="(syllabus$ | async)?.response" -->
+
+</div>

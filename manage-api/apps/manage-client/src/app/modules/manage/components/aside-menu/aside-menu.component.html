@@ -1,0 +1,45 @@
+<aside class="side-menu">
+ 
+  <a routerLink="/manage/coupons"  *ngIf="isCoupons" routerLinkActive="active" [title]="" translate>
+    COMMON.COUPONS
+  </a>
+  <a routerLink="/manage/courses"  *ngIf="isCourses" routerLinkActive="active" [title]="" translate>
+    COMMON.COURSES
+  </a>
+  <a routerLink="/manage/employee"  *ngIf="isEmployee" routerLinkActive="active" [title]="" translate>
+    COMMON.EMPLOYEE
+  </a>
+  <a routerLink="/manage/faculty"  *ngIf="isAgent" routerLinkActive="active"  [title]="" translate>
+    COMMON.AGENTS
+  </a>
+  <!-- <a routerLink="/manage/organizations"   *ngIf="isOrganization" routerLinkActive="active" [title]="" translate>
+    COMMON.ORGANIZATIONS
+  </a> -->
+  <a routerLink="/manage/role-sub-modules"  *ngIf="isRoleSubMOdule" routerLinkActive="active" [title]="" translate>
+    COMMON.ROLE_SUB_MODULES
+  </a>
+  <a routerLink="/manage/role-modules"  *ngIf="isRoleModule" routerLinkActive="active" [title]="" translate>
+    COMMON.ROLE_MODULES
+  </a>
+  <a routerLink="/manage/roles"  *ngIf="isRole" routerLinkActive="active" [title]="" translate>
+    COMMON.ROLES
+  </a>
+  <a routerLink="/manage/subscriptions"  *ngIf="isSubscription" routerLinkActive="active" [title]="" translate>
+    COMMON.SUBSCRIPTIONS
+  </a>
+  <a routerLink="/manage/users"  *ngIf="isUser" routerLinkActive="active" [title]="" translate>
+    COMMON.USERS
+  </a>
+  <a routerLink="/manage/user/payments"  *ngIf="isUserPayment" routerLinkActive="active" [title]="" translate>
+    COMMON.USER_PAYMENTS
+  </a>
+
+  
+  <!-- <a
+    routerLink="/manage/testing"
+    routerLinkActive="active"
+    [title]=""
+    translate>
+    Testing
+  </a> -->
+</aside>

@@ -1,0 +1,252 @@
+<mat-card>
+    <form [formGroup]="paymentsForm">
+        <div class="flex-wrap">
+            <div class="form-element child">
+                <mat-form-field class="example-form-field" appearance="outline">
+                    <mat-label>Subscrption Amount</mat-label>
+                    <input matInput name="subscriptionAmount" [value]="subscription?.actual" readonly />
+                </mat-form-field>
+            </div>&nbsp;&nbsp;
+            <div class="form-element child">
+                <mat-form-field class="example-form-field" appearance="outline">
+                    <mat-label>Coupons</mat-label>
+                    <mat-select >
+                        <mat-option *ngFor="let coupon of coupons" [value]="coupon"
+                            (click)="calculateTotalAMount(coupon)">
+                            {{coupon.code}}
+                            <span *ngIf="coupon.discountType ==='flat'">[ {{coupon.discount | currency:'INR'}} ]</span>
+                            <span *ngIf="coupon.discountType ==='percentage'">[ {{coupon.discount}}% ]</span>
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>&nbsp;&nbsp;
+            <div class="form-element child">
+                <mat-form-field class="example-form-field" appearance="outline" >
+                    <mat-label>Agent Coupons</mat-label>
+                    <input matInput   #Input />
+                    <button matSuffix mat-stroked-button color="primary" [disabled]="!Input.value" (click)="applyFilter(Input.value)">Apply</button>
+                    <!-- <button *ngIf="appliedEnable" matSuffix mat-stroked-button color="primary" [disabled]="!Input.value" >Applied</button>
+                    <button *ngIf="appliedEnable" matSuffix mat-stroked-button color="primary" [disabled]="!Input.value">Not Applied</button> -->
+                </mat-form-field>
+               
+            </div>&nbsp;&nbsp;
+          
+
+          
+        </div>
+        <div class="flex-wrap" style="margin-top: -50px;">
+            <div class="form-element child">
+
+            </div>
+            <div class="form-element child" >
+                <!-- <mat-icon *ngIf="appliedEnable" style="color: red;margin-top: -40px;">new_releases</mat-icon>
+                <span *ngIf="appliedEnable" style="color: red;margin-top: -38px;">
+                  <span> Failed to applied</span>
+                </span> -->
+               <table>
+                   <tr>
+                       <td style="width: 15px;">
+                        <mat-icon *ngIf="specialCouSuccess" style="color: green;">verified</mat-icon>
+                       </td>
+                       <td>
+                        <span *ngIf="specialCouSuccess" style="color: green;">
+                            Applied
+                        </span>
+                       </td>
+                   </tr>
+               </table>
+            </div>
+            <div class="form-element child">
+                <table>
+                    <tr>
+                        <td style="width: 15px;">
+                            <mat-icon *ngIf="appliedEnable" style="color: red;">new_releases</mat-icon>
+                        </td>
+                        <td>
+                            <span *ngIf="appliedEnable" style="color: red;">
+                                <span> Failed to applied</span>
+                              </span>
+                        </td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td style="width: 15px;">
+                            <mat-icon *ngIf="appliedSuccess" style="color: green;">verified</mat-icon>
+                        </td>
+                        <td>
+                            <span *ngIf="appliedSuccess" style="color: green;">
+                                Applied
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+       
+        <div class="flex-wrap">
+            <div class="form-element child">
+                <mat-form-field class="example-form-field" appearance="outline">
+                    <mat-label>Discount Amount</mat-label>
+                    <input matInput name="discountAmount" [value]="discountAmount" readonly />
+                </mat-form-field>
+            </div>&nbsp;&nbsp;
+            <div class="form-element child">
+                <mat-form-field class="example-form-field" appearance="outline">
+                    <mat-label>Total Amount</mat-label>
+                    <input matInput name="totalAmount" [value]="totalAmount" readonly />
+                </mat-form-field>
+            </div>&nbsp;&nbsp;
+            <div class="form-element child">
+                <mat-form-field appearance="outline">
+                    <mat-label>Date Of Payment</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="today" [value]="today" placeholder="MM/DD/YYYY" readonly>
+                    <!-- <mat-datepicker-toggle matSuffix [for]="picker" disabled></mat-datepicker-toggle> -->
+                    <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>&nbsp;&nbsp;
+            <div class="form-element child">
+                <mat-form-field appearance="outline">
+                    <mat-label>Expiry Date</mat-label>
+                    <input matInput [matDatepicker]="picker2" formControlName="expiryDate" [value]="expiryDate" placeholder="MM/DD/YYYY" readonly>
+                    <!-- <mat-datepicker-toggle matSuffix [for]="picker2" disabled></mat-datepicker-toggle> -->
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                </mat-form-field>
+            </div>&nbsp;&nbsp;
+            <!-- <div class="form-element child">
+                <mat-form-field class="example-form-field" appearance="outline">
+                    <mat-label>Payment&nbsp;Type</mat-label>
+                    <mat-select  formControlName="paymentType" >
+                        <mat-option value="OFFLINE">OFFLINE</mat-option>
+                        <mat-option value="STAFF">STAFF</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>&nbsp;&nbsp; -->
+        </div>
+        <label>Mode Of Payment</label>
+        <mat-button-toggle-group formControlName="modeOfPayment">
+            <mat-button-toggle value="cash" #cash (click)="getPaymentMode(cash)">Cash</mat-button-toggle>
+            <mat-button-toggle value="cheque" #cheque (click)="getPaymentMode(cheque)">Cheque</mat-button-toggle>
+            <mat-button-toggle value="posMachine" #posMachine (click)="getPaymentMode(posMachine)">POS Machine
+            </mat-button-toggle>
+            <mat-button-toggle value="online" #online (click)="getPaymentMode(online)">Online</mat-button-toggle>
+            <mat-button-toggle value="upi" #upi (click)="getPaymentMode(upi)">UPI</mat-button-toggle>
+        </mat-button-toggle-group>
+        <br>
+
+        <mat-card *ngIf="paymentMode" class="mat-elevation-z0">
+            <!-- //////////////////////// CASH /////////////////////////////// -->
+
+            <div class="form-element child" *ngIf="paymentMode">
+                <mat-form-field class="example-form-field">
+                    <mat-label>Payable Amount</mat-label>
+                    <input matInput name="amount" [value]="totalAmount" readonly />
+                </mat-form-field>
+            </div>
+            <div class="form-element child" *ngIf="paymentMode  == 'cash'">
+                <mat-form-field class="example-form-field">
+                    <mat-label>Bill Number</mat-label>
+                    <input matInput name="billNumber" formControlName="billNumber" />
+                </mat-form-field>
+            </div>
+
+            <!-- //////////////////////// CHEQUE /////////////////////////////// -->
+
+            <div *ngIf="paymentMode == 'cheque'">
+                <div class="form-element child">
+                    <mat-form-field class="example-form-field">
+                        <mat-label> Cheque Number</mat-label>
+                        <input matInput name="chequeNumber" formControlName="chequeNumber" />
+                    </mat-form-field>
+                </div>
+                <div class="form-element child">
+                    <mat-form-field>
+                        <mat-label>Cheque Date</mat-label>
+                        <input matInput [matDatepicker]="picker1" formControlName="chequeDate" placeholder="MM/DD/YYYY">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="form-element child">
+                    <mat-form-field class="example-form-field">
+                        <mat-label> Bank Name</mat-label>
+                        <input matInput name="bankName" formControlName="bankName" />
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <!-- ////////////////////// ONLINE ////////////////////////// -->
+
+            <div *ngIf="paymentMode == 'online'">
+                <div class="form-element child">
+                    <mat-form-field class="example-form-field">
+                        <mat-label>Transaction Number</mat-label>
+                        <input matInput name="transactionNumber" formControlName="transactionNumber" />
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <!-- ///////////////////////////// UPI ////////////////////////////////// -->
+
+            <div *ngIf="paymentMode == 'upi'">
+                <div class="form-element child">
+                    <mat-form-field class="example-form-field">
+                        <mat-label>UPI Id</mat-label>
+                        <input matInput name="upiId" formControlName="upiId" />
+                    </mat-form-field>
+                </div>
+                <div class="form-element child">
+                    <mat-form-field class="example-form-field">
+                        <mat-label>Transaction Number</mat-label>
+                        <input matInput name="upiTransactionNumber" formControlName="upiTransactionNumber" />
+                    </mat-form-field>
+                </div>
+            </div>
+
+
+            <!-- ///////////////////////////// POS MACHENE ////////////////////////////////// -->
+
+            <div *ngIf="paymentMode == 'posMachine'">
+                <div class="form-element child">
+                    <mat-form-field class="example-form-field">
+                        <mat-label>Referance Number</mat-label>
+                        <input matInput name="referanceNumber" formControlName="referanceNumber" />
+                    </mat-form-field>
+                </div>
+                <label>Credit/Debit Card</label>
+                <mat-button-toggle-group formControlName="card">
+                    <mat-button-toggle value="credit">Credit Card</mat-button-toggle>
+                    <mat-button-toggle value="debit">Debit Card</mat-button-toggle>
+                </mat-button-toggle-group><br><br>
+                <label>Card Type</label>
+                <mat-button-toggle-group formControlName="cardType">
+                    <mat-button-toggle value="visa">Visa</mat-button-toggle>
+                    <mat-button-toggle value="master">Master</mat-button-toggle>
+                    <mat-button-toggle value="maestro">Maestro</mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
+
+            <div *ngIf="paymentMode">
+                <!-- <application-upload-image class="child" [url]="imgUrl" (formData)="getImageUrl($event)">
+                </application-upload-image> -->
+                <application-upload-image class="child" [url]="paymentsForm.value.imgUrl.imgUrl"
+                    (formData)="getImageUrl($event)">
+                </application-upload-image>
+            </div>
+        </mat-card>
+    </form>
+
+
+    <div class="text-right my-1">
+        <button class="mx-1" mat-raised-button color="warn" translate (click)="backToSubscriptions()">
+            Cancel
+        </button>&nbsp;
+        <button type="button" mat-raised-button color="primary" translate (click)="submit()"
+            [disabled]="!paymentsForm.valid">
+            Submit
+        </button>
+    </div>
+
+</mat-card>

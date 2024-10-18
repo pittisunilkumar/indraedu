@@ -1,0 +1,110 @@
+<div class="users-list mat-table-wrapper">
+    <h2>Suggested&nbsp;Videos</h2>
+
+    <mat-form-field>
+      <mat-label translate>COMMON.SEARCH</mat-label>
+      <input
+        matInput
+        (keyup)="applyFilter($event)"
+        [placeholder]="'COMMON.FILTER.BY_TITLE' | translate"
+        #input
+      />
+    </mat-form-field>
+  
+    <div class="mat-elevation-z1">
+      <table mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="sno">
+          <th mat-header-cell *matHeaderCellDef>S.No</th>
+          <td mat-cell *matCellDef="let row;let i = index">{{dataSource.filteredData.indexOf(row)+1 }}</td>
+        </ng-container>
+        <ng-container matColumnDef="course">
+          <th mat-header-cell *matHeaderCellDef >Course</th>
+          <td mat-cell *matCellDef="let row">{{ row?.course?.title }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="subject">
+          <th mat-header-cell *matHeaderCellDef >Subject </th>
+          <td mat-cell *matCellDef="let row">
+            <strong> {{ row?.subject?.title }} </strong>
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="chapter">
+          <th mat-header-cell *matHeaderCellDef >Chapter </th>
+          <td mat-cell *matCellDef="let row">
+            <strong> {{ row?.chapter?.title }} </strong>
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="video">
+          <th mat-header-cell *matHeaderCellDef >Video</th>
+          <td mat-cell *matCellDef="let row">{{ row?.video?.title }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="active">
+          <th mat-header-cell *matHeaderCellDef >Status </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-slide-toggle matTooltipPosition="left" (click)="changeStatus(row._id, row?.status)"
+            [checked]="row?.status ===  true " class="primary">
+          </mat-slide-toggle>
+          </td>
+        </ng-container>
+  
+  
+        <ng-container matColumnDef="createdOn">
+          <th mat-header-cell *matHeaderCellDef >
+            {{ 'COMMON.CREATED_ON' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let row">{{row.createdOn | date:'mediumDate' }}</td>
+        </ng-container>
+  
+        <!-- <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef >
+            Actions
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-icon
+            *ngIf="deleteEnabled =='true'"
+              mat-icon-button
+              color="warn"
+              class="view"
+              aria-label="Example icon button with a delete icon"
+              matTooltip="Delete"
+              (click)="delete.emit(row)">
+              delete
+            </mat-icon>
+
+            <a  [routerLink]="['../', row.uuid, 'edit']" >
+              <mat-icon color="primary" class="view"  matTooltip="Edit">edit</mat-icon>
+            </a>
+  
+
+             <mat-icon
+            *ngIf="isResetVisible"
+            mat-icon-button
+            color="primary"
+            class="view"
+            aria-label="Example icon button with a delete icon"
+            matTooltip="Reset Password"
+            (click)="resetPassword.emit(row)">
+            vpn_key
+          </mat-icon>
+  
+          </td>
+        </ng-container> -->
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">
+            No data matching the filter "{{ input.value }}"
+          </td>
+        </tr>
+      </table>
+  
+      <mat-paginator [showFirstLastButtons]="true" [pageSizeOptions]="[10,25,50, 100]"></mat-paginator>
+  
+    </div>
+  </div>
+  

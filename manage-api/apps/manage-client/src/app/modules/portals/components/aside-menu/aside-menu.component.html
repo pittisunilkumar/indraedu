@@ -1,0 +1,24 @@
+<aside class="side-menu">
+  <a
+    routerLink="/portal/careers"
+    routerLinkActive="active"
+    [title]=""
+    translate>
+    PAGE.PORTAL.CAREERS.TITLE
+  </a>
+  <a
+    routerLink="/portal/aboutUs"
+    routerLinkActive="active"
+    [title]=""
+    translate>
+    PAGE.PORTAL.ABOUT
+  </a>
+  <a
+    *ngIf="isVisible"
+    routerLink="/portal/messages"
+    routerLinkActive="active"
+    [title]=""
+    translate>
+    PAGE.PORTAL.MESSAGES
+  </a>
+</aside>

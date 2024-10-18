@@ -1,0 +1,32 @@
+<div class="create-tests-container">
+
+  <h2 *ngIf="mode === 'add'">
+    <b (click)="backToSubjects()">{{subjectName}}</b>&nbsp;/
+    <span translate >COMMON.CREATE</span>
+    <span translate> COMMON.TOPIC</span>
+  </h2>
+  <h2 *ngIf="mode === 'edit'">
+    <b (click)="backToSubjects()">{{subjectName}}</b>&nbsp;/
+    <span translate>COMMON.EDIT</span>
+    <span translate> COMMON.TOPIC</span>
+  </h2>
+
+  <!-- <div class="flex-wrap">
+    <div class="w-1-4">
+      <button type="button" class="button" mat-raised-button (click)="filePicker.click()">
+        <mat-icon>image</mat-icon> Select Topics File
+      </button>&nbsp;<span>{{fileName}}</span>
+      <input type="file" #filePicker (change)="onFileSelected($event)" accept=".csv,.xlsx,.xls,.json">
+    </div>
+    <div class="w-1-4">
+      <button mat-raised-button color="primary" (click)="FileSubmited()">Save</button>
+    </div>
+  </div>  -->
+
+  <application-form-error [errors]="errors"></application-form-error>
+
+
+  <application-qbank-create-topics [data]="data" [total]="total" [isApiCalling]="isApiCalling" (commit)="submit($event)" [mode]="mode"
+    [topic]="(qbank$ | async)?.response">
+  </application-qbank-create-topics>
+</div>

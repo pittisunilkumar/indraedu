@@ -1,0 +1,73 @@
+<div class="coupon-list-container" >
+
+  <!-- <div class="page-title"> -->
+    <div class="row">
+      <div class="col col-sm-8">
+        <div class="title">
+          <h2 [innerHTML]="'PAGE.COUPONS.LIST' | translate"></h2>
+        </div>
+      </div>
+      <div class="col col-sm-4" style="text-align: right;">
+        <div class="action-buttons">
+          <button
+          *ngIf="createEnable =='true'"
+          mat-raised-button color="primary"
+            [translate]="'PAGE.COUPONS.ADD_TITLE'"
+            [routerLink]="['../', 'add']"
+          >Create Coupon</button>
+        </div>
+      </div>
+    </div>
+    
+    
+  <!-- </div> -->
+  <application-form-error [errors]="errors"></application-form-error>
+
+  <application-coupon-list
+  *ngIf="platoCoupons?.length"
+  [coupons]="platoCoupons"
+  (delete)="delete($event)"
+  (edit)="edit($event)">
+</application-coupon-list>
+
+<!-- <application-spinner *ngIf="!platoCoupons?.length"></application-spinner> -->
+
+  <!-- <mat-tab-group mat-align-tabs="center">
+
+    <mat-tab [label]="'COMMON.PLATO' | translate">
+
+      <application-coupon-list
+        *ngIf="platoCoupons?.length"
+        [coupons]="platoCoupons"
+        (delete)="delete($event)"
+        (edit)="edit($event)">
+      </application-coupon-list>
+
+      <div *ngIf="length === 0">
+        <h3 class="text-center h3" translate>
+          PAGE.COUPONS.EMPTY
+        </h3>
+      </div>
+
+    </mat-tab>
+
+    <mat-tab [label]="'COMMON.AFFILIATES' | translate">
+
+      <application-coupon-list
+        *ngIf="affiliateCoupons?.length"
+        [coupons]="affiliateCoupons"
+        (delete)="delete($event)"
+        (edit)="edit($event)">
+      </application-coupon-list>
+
+      <div *ngIf="!affiliateCoupons?.length">
+        <h3 class="text-center h3" translate>
+          PAGE.COUPONS.EMPTY
+        </h3>
+      </div>
+
+    </mat-tab>
+
+  </mat-tab-group> -->
+
+</div>

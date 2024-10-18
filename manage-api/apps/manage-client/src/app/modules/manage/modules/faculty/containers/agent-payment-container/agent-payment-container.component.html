@@ -1,0 +1,16 @@
+<div class="create-coupon-container" >
+  
+    <h2>
+        <b (click)="backToAgents()">{{facultyName}}</b>&nbsp;/
+        <b (click)="backToCoupons()">{{couponCode}}</b>&nbsp;/
+      Payment
+    </h2>
+  
+    <application-form-error [errors]="errors"></application-form-error>
+    <application-agent-payment
+    [agent]="(agent$ | async)?.response" (commit)="submit($event)">
+    </application-agent-payment>
+  
+  </div>
+  
+

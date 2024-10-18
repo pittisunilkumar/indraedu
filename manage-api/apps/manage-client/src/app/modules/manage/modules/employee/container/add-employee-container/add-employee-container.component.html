@@ -1,0 +1,24 @@
+<div class="create-user-container" >
+
+    <h2 *ngIf="mode === 'add'">
+        <span translate>COMMON.CREATE</span>
+        <span translate> COMMON.EMPLOYEE</span>
+    </h2>
+    <h2 *ngIf="mode === 'edit'">
+        <span *ngIf="!profile">Edit Employee</span>
+        <span *ngIf="profile">Edit Profile</span>
+        <!-- <span translate>COMMON.EDIT</span>
+        <span translate> COMMON.EMPLOYEE</span> -->
+    </h2>
+
+    <application-form-error [errors]="errors"></application-form-error>
+    <application-add-employee [roles]="roles" [mode]="mode" [data]="{ employee: (employee$ | async) }" (commit)="submit($event)">
+    </application-add-employee>
+
+    <!-- <application-create-user
+      [mode]="mode"
+      [data]="{ user: (user$ | async) }"
+      (commit)="submit($event)">
+    </application-create-user> -->
+
+</div>

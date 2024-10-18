@@ -1,0 +1,47 @@
+<div  style="overflow:hidden ;">
+<div class="row">
+  <div class="col-sm-12" *ngIf="banners?.length > 0">
+    <mat-form-field style="width:100%;">
+      <mat-label translate>COMMON.SEARCH</mat-label>
+      <input type="search" matInput name="search" [placeholder]="'PAGE.ORGANIZATION_LIST.SEARCH' | translate"
+        (keyup)="filterBanners($event)"/>
+    </mat-form-field>
+  </div>
+</div>
+  <div class="row">
+   <div class="col-sm-3" *ngFor="let item of filteredBanners" style="margin:0px 0px 20px 0px;">
+    <mat-card  style="width: 100%; height: 100%;" >
+        <div class="row">
+          <div class="col col-sm-8">{{ item?.title }}</div>
+          <div class="col col-sm-2">
+            <!-- <mat-icon mat-icon-button color="warn"  class="view"  matTooltip="Delete"
+              (click)="delete.emit(item)" *ngIf="deleteEnabled =='true'">
+              delete
+            </mat-icon> -->
+            <i class="material-icons" style="color:#f22424;margin-left: -8px;" matTooltip="Delete"
+            (click)="delete.emit(item)" *ngIf="deleteEnabled =='true'"> delete</i>
+          </div>
+          <div class="col col-sm-2">   
+            <a [routerLink]="['../', item.uuid, 'edit']"  *ngIf="editEnabled =='true'">
+              <!-- <mat-icon color="primary" class="view"  matTooltip="Edit">edit</mat-icon> -->
+              <i class="material-icons" style="color: #102f95;margin-left: -10px;"> edit</i>
+            </a>
+          </div>
+        </div>
+        <div >
+          <img style="width: 100%;" [src]="item.imgUrl" [alt]="item.title" />
+        </div>
+      
+          <div *ngIf="item?.courses?.length">
+            <strong translate>COMMON.COURSES</strong>
+            <div>
+              <span class="tag"  *ngFor="let it of item?.courses">
+                {{ it.title?.toUpperCase() }}
+              </span>
+            </div>
+          
+        </div>
+    </mat-card>
+  </div>
+  </div>
+</div>

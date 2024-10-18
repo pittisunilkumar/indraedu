@@ -1,0 +1,27 @@
+<div class="create-subjects-container">
+  <h2 *ngIf="mode === 'add'">
+    <span translate >COMMON.CREATE</span>
+    <span translate> COMMON.VIDEOS</span>
+  </h2>
+  <h2 *ngIf="mode === 'edit'">
+    <span translate>COMMON.EDIT</span>
+    <span translate> COMMON.VIDEOS</span>
+  </h2>
+  <!-- <div class="flex-wrap">
+    <div class="w-1-4">
+      <button type="button" class="button" mat-raised-button (click)="filePicker.click()">
+        <mat-icon>image</mat-icon> Select VideoSubjects File
+      </button>&nbsp;<span>{{fileName}}</span>
+      <input type="file" #filePicker (change)="onFileSelected($event)" accept=".csv,.xlsx,.xls,.json">
+    </div>
+    <div class="w-1-4">
+      <button mat-raised-button color="primary" (click)="FileSubmited()">Save</button>
+    </div>
+  </div>  -->
+  <application-create-video-subjects
+    [courses]="(videoCourses$ | async)?.response"
+    [videoSubject]="(videoSubject$ | async)?.response"
+    [mode]="mode"
+    (commit)="submit($event)">
+  </application-create-video-subjects>
+</div>

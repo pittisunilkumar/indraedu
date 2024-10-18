@@ -1,0 +1,31 @@
+<div class="about-us">
+  <div class="form-wrapper">
+    <form [formGroup]="aboutUsForm" (ngSubmit)="submit()">
+      <div class="form-element">
+        <mat-form-field class="example-form-field">
+          <mat-label>{{ 'COMMON.TITLE' | translate }}</mat-label>
+          <input matInput type="text" name="title" formControlName="title" [placeholder]="'COMMON.TITLE' | translate" />
+        </mat-form-field>
+      </div>
+      <div class="description form-element">
+        <div class="full-width">
+          <mat-label translate>COMMON.CONTENT</mat-label>
+          <!-- <ckeditor
+            name="content"
+            formControlName="content"
+          ></ckeditor> -->
+          <ckeditor [config]="config" [editor]="Editor" formControlName="content"></ckeditor>
+        </div>
+      </div>
+      <div class="text-right button-group">
+        <button mat-stroked-button color="warn" translate (click)="aboutUsForm.reset()">
+         Reset
+        </button>
+        <button mat-raised-button color="primary" type="submit" class="primary" translate
+          [disabled]="!aboutUsForm?.valid">
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

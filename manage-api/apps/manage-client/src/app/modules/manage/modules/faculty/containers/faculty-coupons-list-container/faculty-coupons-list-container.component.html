@@ -1,0 +1,19 @@
+<div class="coupon-list-container" >
+
+  <h2 *ngIf="facultyName">
+    <b (click)="backToAgents()">{{facultyName}}</b>&nbsp;/
+    <span> {{'PAGE.COUPONS.LIST' | translate}} </span>
+  </h2>
+  <h2 *ngIf="!facultyName">
+    <span> {{'PAGE.COUPONS.LIST' | translate}} </span>
+  </h2>
+
+  <application-form-error [errors]="errors"></application-form-error>
+  <application-faculty-coupons-list *ngIf="platoCoupons?.length" [coupons]="platoCoupons">
+  </application-faculty-coupons-list>
+
+  <h2 style="text-align: center;" *ngIf="length == 0">
+    This list is empty
+  </h2>
+
+</div>

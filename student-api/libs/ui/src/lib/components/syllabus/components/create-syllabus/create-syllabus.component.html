@@ -1,0 +1,147 @@
+<div class="create-syllabus">
+  <div class="form-wrapper">
+    <form class="create" [formGroup]="createSyllabusForm" (ngSubmit)="onSubmit()">
+      <div class="flex-wrap">
+        <div class="title form-element child">
+          <mat-form-field class="example-form-field display-block">
+            <mat-label>{{ 'COMMON.TITLE' | translate }}</mat-label>
+            <input matInput type="text" name="title" formControlName="title" />
+          </mat-form-field>
+        </div>
+        <div class="shortcut form-element child">
+          <mat-form-field class="example-form-field display-block">
+            <mat-label>{{ 'COMMON.SHORTCUT' | translate }}</mat-label>
+            <input matInput type="text" name="shortcut" formControlName="shortcut" />
+          </mat-form-field>
+        </div>
+        <div class="shortcut form-element child">
+          <mat-form-field class="example-form-field display-block">
+            <mat-label>{{ 'COMMON.ORDER' | translate }}</mat-label>
+            <input matInput type="number" name="order" formControlName="order" />
+          </mat-form-field>
+        </div>
+        <div class="form-element child type">
+          <mat-form-field appearance="fill">
+            <mat-label translate>COMMON.TYPE</mat-label>
+            <mat-select formControlName="type" name="type">
+              <mat-option value="">{{
+                'COMMON.SELECT_TYPE' | translate
+              }}</mat-option>
+              <mat-option [value]="key" *ngFor="let key of enumData?.types?.data" (click)="getType(key)">{{
+                (enumData?.types?.type)[key]
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="syllabus-assign-parent form-element child">
+          <mat-form-field appearance="fill">
+            <mat-label translate>
+              PAGE.CREATE_SYLLABUS.ASSIGN_TO_PARENT
+            </mat-label>
+            <mat-select formControlName="parents" [compareWith]="compareFn"
+              [disabled]="createSyllabusForm.value.type === 'SUBJECT'" multiple>
+              <mat-option disabled selected>-- None --</mat-option>
+              <mat-option *ngFor="let syllabus of parents" [value]="syllabus">
+                <span>{{ syllabus.title }}</span>
+                <span> ( {{ syllabus.type }} ) </span>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="syllabus-assign-children form-element child">
+          <mat-form-field appearance="fill">
+            <mat-label translate>
+              PAGE.CREATE_SYLLABUS.ASSIGN_CHILDREN
+            </mat-label>
+            <mat-select formControlName="children" [compareWith]="compareFn"
+              [disabled]="createSyllabusForm.value.type === 'CHAPTER'" multiple>
+              <mat-option>-- None --</mat-option>
+              <mat-option *ngFor="let syllabus of children" [value]="syllabus">
+                <span>{{ syllabus.title }}</span>
+                <span> ( {{ syllabus.type }} ) </span>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="child">
+          <application-upload-image class="child" [title]="'PAGE.CREATE_SYLLABUS.SYLLABUS_IMG_VIDEOS'"
+            [url]="syllabusByUuid?.imgUrlVideos" (formData)="getImageUrl($event, 'videos')"></application-upload-image>
+        </div>
+        <div class="child">
+          <application-upload-image class="child" [title]="'PAGE.CREATE_SYLLABUS.SYLLABUS_IMG_QBANK'"
+            [url]="syllabusByUuid?.imgUrlQBank" (formData)="getImageUrl($event, 'qbank')"></application-upload-image>
+        </div>
+        <div class="child">
+          <application-upload-image class="child" [title]="'PAGE.CREATE_SYLLABUS.SUGGESTED_BANNER'"
+            [url]="syllabusByUuid?.suggestedBanner" (formData)="getImageUrl($event, 'suggested')">
+          </application-upload-image>
+        </div>
+        <div class="form-element child flags" [formGroup]="createSyllabusForm.controls.flags">
+          <h3 translate>COMMON.FLAGS</h3>
+          <div class="flex-wrap">
+            <div class="form-element child">
+              <label for="active">
+                <mat-checkbox class="example-margin" name="active" formControlName="active">
+                  {{ 'COMMON.ACTIVE' | translate }}</mat-checkbox>
+              </label>
+            </div>
+            <div class="form-element child">
+              <label for="editable">
+                <mat-checkbox class="example-margin" name="editable" formControlName="editable">
+                  {{ 'COMMON.EDITABLE' | translate }}</mat-checkbox>
+              </label>
+            </div>
+            <div class="form-element child">
+              <label for="testSeries">
+                <mat-checkbox class="example-margin" name="testSeries" formControlName="testSeries">
+                  {{ 'COMMON.TEST_SERIES' | translate }}</mat-checkbox>
+              </label>
+            </div>
+            <div class="form-element child">
+              <label for="videos">
+                <mat-checkbox class="example-margin" name="videos" formControlName="videos">
+                  {{ 'COMMON.VIDEOS' | translate }}</mat-checkbox>
+              </label>
+            </div>
+            <div class="form-element child">
+              <label for="materials">
+                <mat-checkbox class="example-margin" name="materials" formControlName="materials">
+                  {{ 'COMMON.MATERIALS' | translate }}</mat-checkbox>
+              </label>
+            </div>
+            <div class="form-element child">
+              <label for="flashCards">
+                <mat-checkbox class="example-margin" name="flashCards" formControlName="flashCards">
+                  {{ 'COMMON.FLASH_CARDS' | translate }}</mat-checkbox>
+              </label>
+            </div>
+            <div class="form-element child">
+              <label for="questionBank">
+                <mat-checkbox class="example-margin" name="questionBank" formControlName="questionBank">
+                  {{ 'COMMON.QUESTION_BANK' | translate }}</mat-checkbox>
+              </label>
+            </div>
+            <div class="form-element child">
+              <label for="mcq">
+                <mat-checkbox class="example-margin" name="mcq" formControlName="mcq">{{ 'COMMON.MCQ' | translate }}
+                </mat-checkbox>
+              </label>
+            </div>
+            <div class="form-element child">
+              <label for="suggested">
+                <mat-checkbox class="example-margin" name="suggested" formControlName="suggested">
+                  {{ 'COMMON.SUGGESTED' | translate }}</mat-checkbox>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-right button-group">
+        <button mat-button translate routerLink="/bank/syllabus/list">COMMON.CANCEL</button>
+        <button type="submit" [disabled]="!createSyllabusForm.valid" class="primary">
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

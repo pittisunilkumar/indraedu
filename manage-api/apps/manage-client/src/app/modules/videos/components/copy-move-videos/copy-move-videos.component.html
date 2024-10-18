@@ -1,0 +1,25 @@
+<div class="command-remove-dialog"><br>
+  <h1 style="text-align: center;">{{type}}&nbsp;{{mode}}</h1>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+        <mat-form-field>
+            <mat-label translate>COMMON.TO_SUBJECT</mat-label>
+            <input type="text" matInput (keyup)="syllabusFilter($event)" formControlName="toSubject" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let subject of subjects" [value]="subject.syllabus.title" (click)="getChapters(subject)">
+                {{subject.syllabus.title}} ({{subject.courses.title}})
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        <mat-form-field *ngIf = "mode == 'videos' ">
+            <mat-label translate>COMMON.TO_CHAPTER</mat-label>
+            <mat-select formControlName="toChapter">
+                <mat-option *ngFor="let chapter of chaptersList" (click)="getVideos(chapter)" [value]="chapter">
+                    {{chapter.title}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <div mat-dialog-actions align="end">
+            <button  mat-raised-button color="warn" mat-dialog-close translate>Cancel</button>
+            <button  mat-raised-button color="primary" class="primary" type="submit" translate [mat-dialog-close]="'confirm'">Submit</button>
+        </div>
+    </form>
+</div>

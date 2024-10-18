@@ -1,0 +1,76 @@
+<mat-card>
+    <div style="margin: 2%;">
+        <div class="title">
+            <b (click)="back()">{{notificationData?.title}}</b>
+          </div>
+        <br>
+        <div>
+            <div class="mb-1">
+                <div class="flex-wrap">
+                    <div class="w-1-1">
+                        <h5 translate>Message</h5>
+                        <div>
+                            <span>
+                                {{ notificationData?.message }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="w-1-4">
+                        <h5 translate>Notification Type</h5>
+                        <div>
+                            <span>
+                                {{ notificationData?.notificationType }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="w-1-4">
+                        <h5 translate>Branch URL</h5>
+                        <div>
+                            <b [style.color]="notificationData?.branchUrl ?'green':'red'" > {{notificationData?.branchUrl ? 'YES':'NO'}}</b>
+
+                        </div>
+                    </div>
+                    <div class="w-1-4">
+                        <h5 translate>Created By</h5>
+                        <div>
+                            <span>
+                                {{ notificationData?.createdBy?.name }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="w-1-4">
+                        <h5 translate>Created On</h5>
+                        <div>
+                            <span>
+                                {{ notificationData?.createdOn | date:'short' }}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="w-1-1" *ngIf="notificationData?.batch?.length">
+                        <h5 translate>Batch</h5>
+                        <div>
+                            <span *ngFor="let batch of notificationData?.batch" class="tag">
+                                {{ batch?.title }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="w-1-1">
+                        <h5 translate>Users</h5>
+                        <div>
+                            <span *ngFor="let user of notificationData?.users" class="tag">
+                                {{ user?.name }}&nbsp;[ {{ user?.mobile }} ]
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+         <div mat-dialog-actions align="end" >
+            <button class="closeButton" style="padding: 5px 2px;" mat-raised-button color="primary"  (click)="back()" mat-dialog-close translate>Back</button>&nbsp;
+          
+        </div>
+        <!-- <application-spinner *ngIf="!subscriptionData"></application-spinner> -->
+    
+    </div>
+</mat-card>

@@ -1,0 +1,108 @@
+<div class="subscriptions-list">
+    <mat-form-field style="width : 100%">
+        <mat-label translate>COMMON.SEARCH</mat-label>
+        <input matInput (keyup)="applyFilter($event)" [placeholder]="'COMMON.FILTER.BY_TITLE' | translate" #input />
+    </mat-form-field>
+    <!-- <div class="example-action-buttons">
+        <button mat-stroked-button color="primary" (click)="accordion.openAll()">Expand All</button>&nbsp;&nbsp;
+        <button mat-stroked-button color="warn" (click)="accordion.closeAll()">Collapse All</button>
+    </div> -->
+    <br>
+
+    <div class="example-container">
+        <div class="exampleBox">
+          <table style="text-align: left;">
+            <tr>
+              <th style="width: 30px;">S.No</th>
+              <th style="width: 100px;">Title</th>
+              <th style="width: 150px;">&nbsp;&nbsp;&nbsp;Explanation</th>
+              <th style="width: 20px;"></th>
+              <th style="width: 50px;text-align: right;">Created&nbsp;On</th>
+              <th style="width: 50px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status</th>
+              <th style="width: 50px;">&nbsp;&nbsp;&nbsp;Actions</th>
+            </tr>
+          </table>
+        </div>
+        <div class="example-list">
+          <div class="example-box" *ngFor="let sub of filteredList;let i = index">
+            <table>
+              <tr>
+                <td style="width: 30px;">{{i+1}}</td>
+                <td style="width: 100px;">{{ sub?.title}}</td>
+                <td style="width: 150px;text-align: left;">
+                    <span [innerHTML]="sub?.explaination"></span>
+                </td>
+                <td style="width: 20px;"></td>
+                <td style="width: 50px;">{{ sub.createdOn | date:'mediumDate' }}</td>
+                <td style="width: 50px;">
+                    <b [style.color]="sub.flags?.active? 'green':'red'">{{sub.flags?.active}}</b>
+                </td>
+                <td style="width:50px;">
+                  <!-- <mat-icon class="view" [matMenuTriggerFor]="menu">more_vert</mat-icon> -->
+                  <i class="material-icons" [matMenuTriggerFor]="menu">more_vert</i>
+
+                  <mat-menu #menu="matMenu">
+                       <a [routerLink]="['../', sub.uuid, 'edit']" style="text-decoration: none;">
+                      <button mat-menu-item>
+                        Edit&nbsp;Peral
+                      </button>
+                    </a>
+                    <a [routerLink]="['../', sub.uuid, 'questions']" style="text-decoration: none;">
+                      <button mat-menu-item color="primary">
+                       View&nbsp;Questions
+                      </button>
+                    </a>
+                    <button mat-menu-item color="primary"  [routerLink]="['../', sub.uuid, 'assignSubject']">
+                     Assign&nbsp;Subject
+                    </button>
+                    <button mat-menu-item [routerLink]="['../', sub.uuid, 'assignSubject','edit']">
+                     Edit&nbsp;Assign&nbsp;Subject
+                    </button>
+                  </mat-menu>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+  
+      </div>
+
+    <!-- <mat-accordion class="example-headers-align" multi>
+        <mat-expansion-panel *ngFor="let sub of filteredList;let i = index">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <label>{{i+1}}</label>.&nbsp;{{ sub?.title }}
+                </mat-panel-title>
+                <mat-panel-description>
+                    <div style="width: 400px;">
+                        <div style="float: left;width: 500px;">
+                            <span translate>COMMON.CREATED_ON</span>
+                            <strong class="px-1">{{ sub.createdOn | date:'mediumDate'}}</strong>
+                        </div>
+                    </div>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div class="mb-1">
+                <div class="flex-wrap">
+                    <div class="w-1-1">
+                        <h3 translate>Explanation</h3>
+                        <span [innerHTML]="sub?.explaination"></span>
+                    </div>
+                </div>
+            </div>
+            <mat-action-row *ngIf="actionsVisible">
+                <a [routerLink]="['../', sub.uuid, 'questions']" style="text-decoration: none;">
+                    <mat-icon color="primary" class="view" matTooltip="View Questions">visibility</mat-icon>
+                </a>
+                <a [routerLink]="['../', sub.uuid, 'edit']" style="text-decoration: none;">
+                    <mat-icon color="primary" class="view" matTooltip="Edit">edit</mat-icon>
+                </a>
+                <mat-icon color="primary" [routerLink]="['../', sub.uuid, 'assignSubject']" class="view"
+                    matTooltip="Assign Subject"> check_circle_outline </mat-icon>
+                <mat-icon color="primary" [routerLink]="['../', sub.uuid, 'assignSubject','edit']" class="view"
+                    matTooltip="Edit Assign Subject"> edit_note </mat-icon>
+
+            </mat-action-row>
+        </mat-expansion-panel>
+    </mat-accordion> -->
+</div>

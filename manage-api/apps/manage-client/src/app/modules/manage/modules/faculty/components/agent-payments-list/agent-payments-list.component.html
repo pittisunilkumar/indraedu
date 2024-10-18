@@ -1,0 +1,164 @@
+<div class="users-list mat-table-wrapper">
+    <div class="page-title">
+        <div class="title">
+          <h2>Agent Transactions</h2>
+        </div>
+      </div>
+    <div class="flex-wrap">
+        <div style="width:52%">
+            <mat-form-field>
+                <mat-label translate>COMMON.SEARCH</mat-label>
+                <input matInput (keyup)="applyFilter($event)" [placeholder]="'COMMON.FILTER.BY_TITLE' | translate"
+                    #input />
+            </mat-form-field>
+        </div>
+        <form [formGroup]="form">
+            <div class="flex-wrap">
+                <div class="form-element child">
+                    <mat-form-field>
+                        <mat-label>From Date</mat-label>
+                        <input matInput [matDatepicker]="picker" formControlName="fromDate">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>&nbsp;&nbsp;
+                <div class="form-element child">
+                    <mat-form-field>
+                        <mat-label>To Date</mat-label>
+                        <input matInput [matDatepicker]="picker1" formControlName="toDate">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                </div>&nbsp;&nbsp;
+            </div>
+        </form>
+    </div>
+    <div style="margin-top:-70px ;margin-left: 89%;">
+        <button mat-raised-button color="primary" type="button" (click)="searchPayments()">Search</button>&nbsp;
+        <!-- <button class="Button" type="button">Export</button> -->
+    </div><br>
+    <div class="mat-elevation-z1">
+        <table mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="sno">
+                <th mat-header-cell *matHeaderCellDef>S.No</th>
+                <td mat-cell *matCellDef="let row;let i = index">{{dataSource.filteredData.indexOf(row)+1 }}</td>
+            </ng-container>
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>
+                    Agent&nbsp;Name
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.agent?.name }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="transactionId">
+                <th mat-header-cell *matHeaderCellDef>
+                    Transaction ID
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    {{ row.transactionId }}
+                </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="coupon">
+                <th mat-header-cell *matHeaderCellDef>
+                    Coupon
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    {{ row.couponId?.code ?row.couponId.code:'----' }}&nbsp;
+                    <span *ngIf="row.couponId?.discountType ==='flat'">[&nbsp;{{row.couponId?.discount |
+                        currency:'INR'}}&nbsp;]</span>
+                    <span
+                        *ngIf="row.couponId?.discountType ==='percentage'">[&nbsp;{{row.couponId?.discount}}%&nbsp;]</span>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="agentTotalAmount">
+                <th mat-header-cell *matHeaderCellDef>
+                    Total&nbsp;Amount
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <span> {{ row.couponId?.agentTotalAmount| currency:'INR' }}</span>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="agentDueAmount">
+                <th mat-header-cell *matHeaderCellDef>
+                    Due&nbsp;Amount
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <span> {{ row.couponId?.agentDueAmount| currency:'INR' }}</span>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="finalPaidAmount">
+                <th mat-header-cell *matHeaderCellDef>
+                    Paid&nbsp;Amount
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    {{ row.paidAmount| currency:'INR' }}
+                </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="modeOfPayment">
+                <th mat-header-cell *matHeaderCellDef>
+                    Mode Of Payment
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.modeOfPayment }}</td>
+            </ng-container>
+            <ng-container matColumnDef="paymentStatus">
+                <th mat-header-cell *matHeaderCellDef>
+                    Payment Status
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <span style="color: green;">{{ row.paymentStatus }}</span>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="dateOfPayment">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Date Of Payment
+                </th>
+                <td mat-cell *matCellDef="let row">{{row.dateOfPayment | date:'mediumDate' }}</td>
+            </ng-container>
+
+            <!-- <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>
+                    Actions
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <mat-icon class="view" [matMenuTriggerFor]="menu">more_vert</mat-icon>
+                    <mat-menu #menu="matMenu">
+                        <a [routerLink]="['../', row.uuid, 'transaction']">
+                            <button mat-menu-item>
+                                <mat-icon color="primary">visibility</mat-icon>
+                                <span class="btnSpan">View Payment</span>
+                            </button>
+                        </a>
+                        <a [routerLink]="['../', row.uuid, 'receipt']">
+                            <button mat-menu-item>
+                                <mat-icon color="primary">print</mat-icon>
+                                <span class="btnSpan">Print Receipt</span>
+                            </button>
+                        </a>
+                    </mat-menu>
+                </td>
+            </ng-container> -->
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="12">
+                    <img src="../../../../../../../assets/no_data_found.png" alt="No Data Found"
+                        style="height: 150px;width: 150px;">
+                    <h2>No Data Found</h2>
+                </td>
+            </tr>
+        </table>
+        <mat-paginator [showFirstLastButtons]="true" [pageSizeOptions]="[10,25,50, 100]"></mat-paginator>
+    </div>
+    <br>
+    <button class="backBtn" mat-stroked-button color="primary" (click)="back()">Back</button>
+</div>

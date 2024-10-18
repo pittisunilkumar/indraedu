@@ -1,0 +1,61 @@
+<div class="subscriptions-list">
+    <mat-form-field  style="width : 100%">
+      <mat-label translate>COMMON.SEARCH</mat-label>
+      <input matInput (keyup)="applyFilter($event)" [placeholder]="'COMMON.FILTER.BY_TITLE' | translate" #input/>
+    </mat-form-field>
+    
+    <mat-accordion class="example-headers-align" multi>
+      <mat-expansion-panel *ngFor="let course of filteredList">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ course?.title }}
+          </mat-panel-title>
+          <mat-panel-description>
+            <!-- <span translate>COMMON.CREATED_ON</span>
+            <strong class="px-1">{{ helper.formatDate(course.createdOn) }}</strong> -->
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+  
+        <div class="mb-1">
+          <div class="flex-wrap">
+            <div class="w-1-3">
+              <h3 translate>COMMON.TESTS</h3>
+              <div>
+                <span
+                  *ngFor="let test of course.tests"
+                  class="tag">
+                  {{ test?.title }}
+                </span>
+              </div>
+            </div>
+            <div class="w-1-3">
+              <h3 translate>COMMON.VIDEOS</h3>
+              <div>
+                <span
+                  *ngFor="let video of course.videos"
+                  class="tag">
+                  {{ video?.title }}
+                </span>
+              </div>
+            </div>
+  
+            <div class="w-1-3">
+              <h3 translate>COMMON.QBANK</h3>
+              <div>
+                <span
+                  *ngFor="let topic of course.qbanks"
+                  class="tag">
+                  {{ topic?.title }}
+                </span>
+              </div>
+            </div>
+  
+          </div>
+        </div>
+  
+  
+      </mat-expansion-panel>
+  
+    </mat-accordion>
+  </div>
+  

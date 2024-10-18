@@ -1,0 +1,26 @@
+<div class="messages-list">
+
+  <div class="search" *ngIf="messages?.length > 0">
+    <mat-form-field class="full-width">
+      <mat-label translate>COMMON.SEARCH</mat-label>
+      <input
+        type="search"
+        matInput
+        name="search"
+        [placeholder]="'COMMON.FILTER.BY' | translate : { prop: 'Name' }"
+        (keyup)="filterList($event)"
+      />
+    </mat-form-field>
+  </div>
+
+  <div class="flex-wrap">
+    <div class="card" *ngFor="let msg of messages">
+      <h3>{{ msg.name }}</h3>
+      <p>
+        <span> {{ msg.mobile }} </span>
+        <span> {{ msg.email }} </span>
+      </p>
+      <p><em>{{ msg.message }}</em></p>
+    </div>
+  </div>
+</div>

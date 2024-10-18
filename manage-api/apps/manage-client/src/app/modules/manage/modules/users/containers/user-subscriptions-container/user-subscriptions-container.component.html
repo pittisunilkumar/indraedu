@@ -1,0 +1,28 @@
+<div class="user-subscriptions-container">
+
+  <div class="page-title">
+    <div class="title">
+      <h2 *ngIf=" userName">
+        <b (click)="backToUsers()">{{userName}}&nbsp;/</b>
+        <span translate> COMMON.SUBSCRIPTIONS </span>
+      </h2>
+      <h2 *ngIf="!userName">
+        <span translate>COMMON.USER </span>
+        <span translate> COMMON.SUBSCRIPTIONS </span>
+      </h2>
+    </div>
+    <div class="action-buttons">
+      <button  mat-raised-button color="primary"[routerLink]="['./', 'assign']">
+        <span translate>COMMON.ASSIGN </span>
+        <span translate> COMMON.SUBSCRIPTIONS </span>
+      </button>
+    </div>
+  </div>
+
+  <application-user-subscriptions [subscriptions]="(user$ | async)?.response[0]?.subscription"></application-user-subscriptions>
+
+  <h2 style="text-align: center;" *ngIf="!(user$ | async)?.response[0]?.subscription">
+    {{userName}}&nbsp;has No Subscriptions
+  </h2>
+
+</div>

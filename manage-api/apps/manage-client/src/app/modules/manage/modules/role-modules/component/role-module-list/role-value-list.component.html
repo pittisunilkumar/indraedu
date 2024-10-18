@@ -1,0 +1,86 @@
+<div class="users-list mat-table-wrapper">
+
+  <mat-form-field>
+    <mat-label translate>COMMON.SEARCH</mat-label>
+    <input matInput (keyup)="applyFilter($event)" [placeholder]="'COMMON.FILTER.BY_TITLE' | translate" #input />
+  </mat-form-field>
+  <div class="mat-elevation-z1">
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="sno">
+        <th mat-header-cell *matHeaderCellDef>S.No</th>
+        <td mat-cell *matCellDef="let row;let i = index">{{dataSource.filteredData.indexOf(row)+1 }}</td>
+      </ng-container>
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef>
+          Module Title
+        </th>
+        <td mat-cell *matCellDef="let row">{{ row.title }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="value">
+        <th mat-header-cell *matHeaderCellDef>
+         Sub Modules
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <div *ngFor="let value of row?.subModules;let i = index" style="margin-left: -50px;">
+            <span style="float: left;margin: 3px;">{{value.title}}
+              {{row?.subModules.length != i+1 ? ',':''}}
+            </span>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="active">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ 'COMMON.ACTIVE' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <strong> {{ row?.flags?.active }} </strong>
+        </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="createdOn">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ 'COMMON.CREATED_ON' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row">{{row.createdOn | date:'mediumDate' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>
+          <span *ngIf="deleteEnabled=='true' || editEnabled=='true'">Actions</span>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <!-- <mat-icon  mat-icon-button color="warn" class="view" matTooltip="Delete" *ngIf="deleteEnabled=='true'"
+            (click)="delete.emit(row)">
+            delete
+          </mat-icon> -->
+
+          <i class="material-icons" style="color:#f22424;" matTooltip="Delete" *ngIf="deleteEnabled=='true'"
+          (click)="delete.emit(row)">
+          delete
+        </i>
+
+          <a [routerLink]="['../', row.uuid, 'edit']" *ngIf="editEnabled=='true'">
+            <!-- <mat-icon color="primary" class="view" matTooltip="Edit">edit</mat-icon> -->
+
+            <i class="material-icons" style="color: #102f95;" matTooltip="Edit">edit</i>
+
+          </a>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">
+          No data matching the filter "{{ input.value }}"
+        </td>
+      </tr>
+    </table>
+
+    <mat-paginator [showFirstLastButtons]="true" [pageSizeOptions]="[10,25,50, 100]"></mat-paginator>
+
+  </div>
+</div>

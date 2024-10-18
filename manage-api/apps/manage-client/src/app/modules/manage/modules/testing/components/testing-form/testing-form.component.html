@@ -1,0 +1,29 @@
+<div class="create-coupon">
+  <div class="form-wrapper">
+    <form [formGroup]="createCouponForm">
+      <div class="flex-wrap">
+        <div class="form-element child">
+          <mat-form-field class="example-form-field">
+            <mat-label>Title</mat-label>
+            <input matInput type="text" name="code" formControlName="title" placeholder="Title" />
+          </mat-form-field>
+        </div>
+        <div class="form-element child">
+          <mat-form-field class="example-form-field">
+            <mat-label>uuid</mat-label>
+            <input matInput type="text" name="discount" formControlName="uuid" />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="text-right button-group">
+        <button mat-button translate (click)="goToList()">COMMON.CANCEL</button>
+        <button mat-button translate (click)="resetForm()">
+          COMMON.RESET
+        </button>
+        <button mat-button type="submit" class="primary" (click)="submit()" translate>
+          COMMON.SUBMIT
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

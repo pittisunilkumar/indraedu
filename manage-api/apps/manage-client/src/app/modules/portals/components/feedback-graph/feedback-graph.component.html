@@ -1,0 +1,89 @@
+<div class="row">
+    <h2 *ngIf="feedback?.title" class="headTitle"><span (click)="goBack()">{{feedback?.title}}</span>&nbsp;/&nbsp;Graph
+    </h2>
+    <div class="col-sm-12">
+        <mat-card>
+            <div class="row">
+                <div class="col-sm-6">
+                    <!-- <google-chart [type]="type" [data]="data" [columns]="columnNames" [options]="columnOptions"></google-chart> -->
+                    <google-chart class="graph"  type="ColumnChart" [data]="data" [columns]="columnNames"
+                        [options]="columnOptions"></google-chart>
+                </div>
+                <div class="col-sm-6">
+                    <google-chart class="graph" type="PieChart" [data]="data" [columns]="columnNames" [options]="columnOptions">
+                    </google-chart>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+</div>
+<br>
+<!-- <br> -->
+<mat-card>
+    <div class="row">
+        <div class="col-sm-12">
+            <mat-form-field >
+                <mat-label translate>COMMON.SEARCH</mat-label>
+                <input matInput [placeholder]="'COMMON.FILTER.BY_TITLE' | translate" #input1
+                    (keyup)="filterReplies($event)" />
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div>
+        <table mat-table [dataSource]="dataSource" class="userTable">
+            <ng-container matColumnDef="sno">
+                <th mat-header-cell *matHeaderCellDef>S.No</th>
+                <td mat-cell *matCellDef="let row;let i = index">{{dataSource.filteredData.indexOf(row)+1 }}</td>
+            </ng-container>
+           <ng-container matColumnDef="name" >
+                <th mat-header-cell *matHeaderCellDef style="text-align: center;">
+                   Name
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row?.user_id?.name }}</td>
+            </ng-container>
+
+             <ng-container matColumnDef="mobile">
+                <th mat-header-cell *matHeaderCellDef style="text-align: center;">
+                    Mobile
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row?.user_id?.mobile }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="rating" >
+                <th mat-header-cell *matHeaderCellDef style="text-align: center;" >
+                 Rating
+                </th>
+                <td mat-cell *matCellDef="let row" >
+                    <strong [style.color]="colorCodes[row?.rating-1]" class="rating"> {{ row?.rating  }}</strong>
+                   </td>
+            </ng-container>
+            <ng-container matColumnDef="createdOn" >
+                <th mat-header-cell *matHeaderCellDef style="text-align: center;" >
+                  Created On
+                </th>
+                <td mat-cell *matCellDef="let row" >{{ row?.createdOn | date:'mediumDate'}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="message">
+                <th mat-header-cell *matHeaderCellDef style="text-align: center;width: 600px;">
+                  Message
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    {{ row?.message ? row?.message  :'---' }}
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="10">
+                    <!-- No data matching the filter "{{ input1.value }}" -->
+                </td>
+            </tr>
+        </table>
+        <mat-paginator [showFirstLastButtons]="true" [pageSizeOptions]="[10,25,50, 100]" [pageSize]="10">
+        </mat-paginator>
+
+    </div>
+</mat-card>

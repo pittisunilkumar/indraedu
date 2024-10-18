@@ -1,0 +1,21 @@
+<div class="roles-list-container" >
+  <!-- <div class="page-title"> -->
+    <div class="row">
+      <div class="col col-sm-8">
+        <div class="title">
+          <h2><span translate>COMMON.ROLE_VALUES_LIST</span></h2>
+        </div>
+      </div>
+      <div class="col col-sm-4" style="text-align: right;">
+        <div class="action-buttons">
+          <button  mat-raised-button color="primary"   *ngIf="createEnable =='true'"[translate]="'COMMON.CREATE_ROLE_MODULE'" [routerLink]="['../', 'create']">
+          Create Role Module</button>
+        </div>
+       </div>
+    </div>
+  
+    
+  <!-- </div> -->
+  <application-role-value-list [roleValues]="roleValues" (delete)="delete($event)"></application-role-value-list>
+
+</div>

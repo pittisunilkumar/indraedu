@@ -1,0 +1,23 @@
+<div class="users-list">
+  <application-users-list
+  [users]="students"
+  (delete)="delete.emit($event)"
+  (resetPassword)="resetPassword.emit($event)">
+</application-users-list>
+  <!-- <mat-tab-group>
+    <mat-tab [label]="'COMMON.STUDENT' | translate">
+      <application-users-list
+        [users]="students"
+        (delete)="delete.emit($event)"
+        (resetPassword)="resetPassword.emit($event)">
+      </application-users-list>
+    </mat-tab>
+    <mat-tab [label]="'COMMON.STAFF' | translate">
+      <application-users-list
+        [users]="users"
+        (delete)="delete.emit($event)"
+        (resetPassword)="resetPassword.emit($event)">
+      </application-users-list>
+    </mat-tab>
+  </mat-tab-group> -->
+</div>

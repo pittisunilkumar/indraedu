@@ -1,0 +1,285 @@
+@import './variables.less';
+
+/*------------------- BORDERS ---------------------*/
+
+.b-t-1 {
+  border-top: 1px solid #eee;
+}
+
+.b-b-1 {
+  border-bottom: 1px solid #eee;
+}
+
+.b-y-1 {
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+/*------------------- BUTTONS ---------------------*/
+
+button {
+  margin: 0 1rem;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  border: 1px solid @primary;
+  font-size: 1.2rem;
+  cursor: pointer;
+  outline: none;
+  color: @primary;
+  background: #fefefe;
+
+  &.primary, &[type="submit"] {
+    background: @primary 0% 0% no-repeat padding-box;
+    color: #fff;
+
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+
+  &.link {
+    color: @primary;
+    background-color: #fff;
+    padding: 0;
+  }
+
+  &.danger {
+
+    background: #e53935 0% 0% no-repeat padding-box;
+    border: 0;
+    color: #fff;
+
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+}
+
+.button-group {
+  button {
+    margin-right: 1rem;
+  }
+}
+
+.mat-icon {
+  cursor: pointer;
+  &.mat-primary {
+    padding: 1rem;
+  }
+}
+
+
+
+/* ----------- display -------- */
+
+.display-block {
+  display: block !important;
+}
+
+.display-inline-block {
+  display: inline-block;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+
+  .child {
+    flex-grow: 1;
+    align-self: flex-end;
+
+    &.flex-grow-none {
+      flex-grow: 0;
+      width: 25%;
+      margin-right: 2%;
+    }
+
+    .mat-form-field {
+      width: 100%;
+    }
+  }
+}
+
+/* ----------- text align -------- */
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+/* ---------------- font size ------------ */
+
+.h3 {
+  font-size: 1.5rem !important;
+  font-weight: 400 !important;
+}
+
+/* ---------------- padding ------------ */
+
+.p-1 {
+  padding: 1rem !important;
+}
+
+.py-1 {
+  padding: 1rem 0;
+}
+
+.pb-2 {
+  padding-bottom: 2rem;
+}
+
+.pb-0 {
+  padding-bottom: 0;
+}
+
+.py-0 {
+  padding: 0.5rem 0;
+}
+
+.px-1 {
+  padding: 0 1rem;
+}
+
+/*------------------- IMG WRAPS ------------------*/
+.icon {
+  img {
+    max-width: 100%;
+  }
+}
+
+/* ------------------ ANCHORS ---------------------*/
+a {
+  color: @primary;
+}
+
+/*-------------------- CURSORS -------------------*/
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/*-------------------- TAGS ---------------------*/
+.tag {
+  padding: 10px;
+  display: inline-block;
+  background: #eee;
+  margin: 4px;
+  margin-left: 0;
+  border-radius: 1rem;
+}
+
+/*--------------------- PAGE ----------------------*/
+.detail-item-title {
+  font-size: 1.3rem;
+  margin-top: 2rem;
+  margin-bottom: 0;
+  color: @primary;
+}
+
+.full-page-height {
+  min-height: 85.5vh;
+}
+
+.fixed {
+  width: 85%;
+  border-top: 1px dashed #bbb;
+  position: fixed;
+  bottom: 0px;
+  left: 13.8%;
+  padding: 1.5rem 2rem;
+  z-index: 10;
+  background-color: #fff;
+}
+
+/*---------------------- MARGIN --------------------*/
+.mt-1 {
+  margin-top: 1rem;
+}
+
+.my-1 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.mb-1 {
+  margin-bottom: 1rem;
+}
+
+.mt-0 {
+  margin-top: 0;
+}
+
+/*-------------------- VISIBLITY --------------------*/
+.hide {
+  display: none;
+}
+
+/*--------------------- TOAST MESSAGES --------------------*/
+
+.mat-snack-bar-container {
+  background: white;
+  padding: 0 !important;
+  min-height: 0 !important;
+  max-width: 60vw !important;
+}
+
+.toast-message {
+
+  font-family: monospace;
+  max-width: 100%;
+  min-width: 800px;
+
+  .flex-wrap {
+
+    .icon-wrapper{
+      min-height: 100%;
+      max-width: 40px;
+      height: auto;
+      padding: 1rem;
+      width: 10%;
+      &.error {
+        background-color: red;
+      }
+      &.success {
+        background-color: green;
+      }
+      .mat-icon {
+        color: white;
+        font-size: 2rem;
+      }
+    }
+
+    .msg-list {
+      margin: 0;
+      padding: 1rem;
+      width: 71%;
+      font-size: 1rem;
+      max-width: 800px;
+      ul {
+        margin: 0;
+        padding-left: 1.5rem;
+        li {
+          margin: 0 0 0.5rem;
+        }
+      }
+      &.error {
+        background-color: rgba(255, 0, 0, 0.2);
+        color: red;
+      }
+      &.success {
+        background-color: rgba(0, 255, 0, 0.2);
+        color: green;
+      }
+    }
+  }
+}

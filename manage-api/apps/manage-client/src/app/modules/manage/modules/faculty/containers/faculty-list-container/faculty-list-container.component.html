@@ -1,0 +1,27 @@
+<div class="faculty-list-container" >
+  <div class="page-title">
+    <div class="title">
+      <h2 [innerHTML]="'PAGE.AGENT_LIST' | translate"></h2>
+    </div>
+    <div class="action-buttons">
+      <button
+      *ngIf="createEnable =='true'"
+      mat-raised-button color="primary"
+        [translate]="'PAGE.CREATE_AGENT'"
+        [routerLink]="['../', 'create']"
+      >Create Agent</button>
+    </div>
+  </div>
+  <application-faculty-list
+    *ngIf="faculty?.length"
+    [faculty]="faculty"
+    (delete)="delete($event)">
+  </application-faculty-list>
+
+  <div *ngIf="length === 0">
+    <h3 class="text-center h3" translate>
+      PAGE.FACULTY.EMPTY
+    </h3>
+  </div>
+
+</div>

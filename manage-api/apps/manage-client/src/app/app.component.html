@@ -1,0 +1,53 @@
+<!-- To Stop right click => appNoRightClick -->
+<div class="plato-manage" >
+  <div *ngIf="userName">
+    <application-menu></application-menu>
+  </div>
+  <!-- <div *ngIf="!userName" style="overflow:hidden;background-image: url('../assets/images/plato1.jpg');background-size: cover;height: 685px;"> -->
+  <div *ngIf="!userName">
+    <!-- <div style=" background-color: rgba(0,0,0,0.3);height: 100%"> -->
+      <router-outlet></router-outlet>
+    <!-- </div> -->
+  </div>
+
+  <div id="pause" *ngIf="show" class="d-flex align-items-center justify-content-center">
+    <!-- <div id="spinner"></div> -->
+    <div class="lds-spinner">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+
+  <!-- <mat-progress-bar
+    *ngIf="show"
+    class="example-margin"
+    [color]="color"
+    [mode]="mode"
+    [value]="value"
+    [bufferValue]="bufferValue">
+  </mat-progress-bar> -->
+
+  <!-- <application-title
+    [title]="'PLATO'"
+    [userName]="userName"
+    [manageEnable]="manageEnable"
+    [bankEnable]="bankEnable"
+    [qbankEnable]="qbankEnable"
+    [videosEnable]="videosEnable"
+    [testSeriesEnable]="testSeriesEnable"
+    [portalEnable]="portalEnable"
+    >
+  </application-title>
+  
+  <router-outlet></router-outlet> -->
+</div>

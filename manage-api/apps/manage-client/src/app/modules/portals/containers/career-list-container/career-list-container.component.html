@@ -1,0 +1,29 @@
+<div class="career-list-container">
+
+  <div class="page-title">
+    <div class="title">
+      <h2 [innerHTML]="'PAGE.PORTAL.CAREERS.LIST' | translate"></h2>
+    </div>
+    <div class="action-buttons">
+      <button
+      *ngIf="createEnable=='true'"
+      mat-raised-button color="primary"
+        [translate]="'PAGE.PORTAL.CAREERS.ADD'"
+        [routerLink]="['../', 'add']"
+      >Add Career</button>
+    </div>
+  </div>
+
+  <application-career-list
+    *ngIf="(careers$ | async)?.response?.length > 0"
+    [careers]="(careers$ | async)?.response"
+    (delete)="delete($event)">
+  </application-career-list>
+
+  <div *ngIf="(careers$ | async)?.response?.length === 0">
+    <h3 class="text-center h3" translate>
+      COMMON.EMPTY
+    </h3>
+  </div>
+
+</div>

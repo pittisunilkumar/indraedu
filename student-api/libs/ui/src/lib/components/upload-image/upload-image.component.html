@@ -1,0 +1,35 @@
+<div class="form-element" [formGroup]="form">
+  <div class="add-img-type">
+    <label for="upload">
+      <mat-checkbox
+        class="example-margin"
+        name="upload"
+        formControlName="upload"
+        [checked]="upload">
+        <span *ngIf="isImage"> {{ 'COMMON.HAS_IMG_URL_LABEL' | translate }} </span>
+        <span *ngIf="!isImage"> {{ 'COMMON.HAS_FILE_URL_LABEL' | translate }} </span>
+        </mat-checkbox
+      >
+    </label>
+    <input
+      *ngIf="!form.value.upload"
+      type="file"
+      name="uploadFile"
+      formControlName="uploadFile"
+      (change)="upload($event.target.files)"
+    />
+    <mat-form-field
+      class="example-form-field display-block"
+      *ngIf="form.value.upload"
+    >
+      <input
+        matInput
+        type="url"
+        name="fileUrl"
+        formControlName="fileUrl"
+        [placeholder]="inputPlaceholder | translate"
+        (input)="formData.emit(form.value)"
+      />
+    </mat-form-field>
+  </div>
+</div>

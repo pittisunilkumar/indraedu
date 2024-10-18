@@ -1,0 +1,28 @@
+<div class="users-list-container" >
+  <!-- <div class="page-title"> -->
+    <div class="row">
+      <div class="col col-sm-8">
+        <div class="title">
+          <h2 [innerHTML]="'PAGE.EMPLOYEE_LIST.TITLE' | translate"></h2>
+        </div>
+      </div>
+      <div class="col col-sm-4" style="text-align: right;">
+        <div class="action-buttons">
+          <button  mat-raised-button color="primary"  *ngIf="createEnable =='true'" [translate]="'COMMON.CREATE_EMPLOYEE'" [routerLink]="['../', 'create']">
+         Create Employee </button>
+        </div>
+      </div>
+    </div>
+    
+    
+  <!-- </div> -->
+  <application-employee-list [employee]="employee" (delete)="delete($event)" (resetPassword)="resetPassword($event)">
+  </application-employee-list>
+
+  <!-- <application-manage-users-list
+      [students]="students"
+      [users]="users"
+      (delete)="delete($event)"
+      (resetPassword)="resetPassword($event)">
+    </application-manage-users-list> -->
+</div>

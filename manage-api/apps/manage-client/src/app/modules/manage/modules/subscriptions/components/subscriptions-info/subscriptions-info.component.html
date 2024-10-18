@@ -1,0 +1,41 @@
+<div style="margin: 2%;">
+    <h2 style="text-align: center;">{{payload.title}}</h2>
+    <div *ngFor="let sub of subscriptionData;let i = index">
+        <div class="mb-1">
+            <div class="flex-wrap">
+                <div class="w-1-1">
+                    <h3 translate>COMMON.TESTS</h3>
+                    <div>
+                        <span *ngFor="let test of sub.tests" class="tag">
+                            {{ test?.title }}
+                        </span>
+                    </div>
+                </div>
+                <div class="w-1-1">
+                    <h3 translate>COMMON.VIDEOS</h3>
+                    <div>
+                        <span *ngFor="let video of sub.videos" class="tag">
+                            {{ video?.title }}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="w-1-1">
+                    <h3 translate>COMMON.QBANK</h3>
+                    <div>
+                        <span *ngFor="let topic of sub.qbanks" class="tag">
+                            {{ topic?.title }}
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+     <div mat-dialog-actions align="end" *ngIf="subscriptionData">
+        <button class="closeButton" style="padding: 5px 2px;" mat-raised-button color="primary" mat-dialog-close translate>Back</button>&nbsp;
+      
+    </div>
+    <application-spinner *ngIf="!subscriptionData"></application-spinner>
+
+</div>

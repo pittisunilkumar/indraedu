@@ -1,0 +1,33 @@
+<div class="vdocipher-videos-list">
+
+  <div class="flex-wrap">
+    <mat-card class=" child"
+    *ngFor="let item of list; let index = index;">
+      
+      <div class="img-wrap">
+        <img [src]="item?.poster" [alt]="item.title" />
+        <div class="details">
+          <div class="title my-1">
+            <div translate="COMMON.TITLE"></div>
+            <span class="tag">{{ item?.title }}</span>
+          </div>
+          <div class="my-1">
+            <div translate="COMMON.VIDEO_LOCALE.VIDEO_ID"></div>
+            <code class="tag">{{ item?.id }}</code>
+          </div>
+          <div class="flex-wrap">
+            <div class="my-1">
+              <div translate="COMMON.VIDEO_LOCALE.UPLOAD_TIME"></div>
+              <span class="tag">{{ helper.vdoCipherEpochToDate(item.upload_time) }}</span>
+            </div>
+            <div class="my-1">
+              <div translate="COMMON.VIDEO_LOCALE.TOTAL_TIME"></div>
+              <span class="tag">{{ helper.convertSecondsToDuration(item.length) }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+
+</div>

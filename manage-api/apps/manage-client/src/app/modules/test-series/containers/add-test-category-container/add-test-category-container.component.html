@@ -1,0 +1,29 @@
+<div class="add-series-category-container">
+
+  <h2>
+    <span *ngIf="mode === 'add'" translate>COMMON.ADD </span>
+    <span *ngIf="mode === 'edit'" translate>COMMON.EDIT </span>
+    <span translate>PAGE.TEST_SERIES.CATEGORY</span>
+  </h2>
+
+  <!-- <div class="flex-wrap">
+    <div class="w-1-4">
+      <button type="button" class="button" mat-raised-button (click)="filePicker.click()">
+        <mat-icon>image</mat-icon> Select Category File
+      </button>&nbsp;<span>{{fileName}}</span>
+      <input type="file" #filePicker (change)="onFileSelected($event)" accept=".csv,.xlsx,.xls,.json">
+    </div>
+    <div class="w-1-4">
+      <button mat-raised-button color="primary" (click)="FileSubmited()">Save</button>
+    </div>
+  </div> -->
+
+  <application-form-error [errors]="errors"></application-form-error>
+
+  <application-add-test-category
+    [mode]="mode"
+    [courses]="(courses$ | async)?.response"
+    [category]="(category$ | async)?.response"
+    (commit)="submit($event)">
+  </application-add-test-category>
+</div>
